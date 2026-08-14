@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GyanAstra Master | Manage Content</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0f172a;
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+        .sidebar {
+            width: 260px;
+            background-color: #1e293b;
+            border-right: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+        .sidebar-brand {
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff9800;
+            border-bottom: 1px solid #334155;
+            text-align: center;
+        }
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+        .sidebar-menu li {
+            transition: 0.3s;
+        }
+        .sidebar-menu li a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 12px 20px;
+        }
+        .sidebar-menu li:hover, .sidebar-menu li.active {
+            background-color: #ff9800;
+        }
+        .sidebar-menu li:hover a, .sidebar-menu li.active a {
+            color: #0f172a;
+            font-weight: bold;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .header {
+            padding: 20px;
+            background-color: #1e293b;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-badge {
+            background-color: #ff9800;
+            color: #0f172a;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .dashboard-body {
+            padding: 30px;
+        }
+        .form-box, .table-section {
+            background-color: #1e293b;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            margin-bottom: 25px;
+        }
+        .form-box h2, .table-section h2 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #ff9800;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            color: #fff;
+            border-radius: 4px;
+            outline: none;
+        }
+        .btn {
+            background-color: #ff9800;
+            color: #0f172a;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #334155;
+            font-size: 14px;
+        }
+        th {
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-brand">GYAN ASTRA MASTER</div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="index.html">Manage QR Code</a></li>
+            <li class="active"><a href="content.html">Manage Content / Library</a></li>
+            <li><a href="settings.html">Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Digital Content & Library Manager</h1>
+            <div class="admin-badge">MASTER ADMIN</div>
+        </div>
+
+        <div class="dashboard-body">
+            <!-- Add New File Form -->
+            <div class="form-box">
+                <h2>➕ Add New Book, PDF or Video</h2>
+                <div class="form-grid">
+                    <input type="text" id="fileTitle" placeholder="Enter Title (e.g. UPSC Modern History PDF)">
+                    <select id="fileCategory">
+                        <option value="UPSC">UPSC / Civil Services</option>
+                        <option value="SSC">SSC & State Exams</option>
+                        <option value="Spoken English">Spoken English & Audio</option>
+                        <option value="E-Book">General E-Books</option>
+                    </select>
+                </div>
+                <div class="form-grid">
+                    <select id="fileType">
+                        <option value="PDF Document">PDF Document</option>
+                        <option value="Video Lecture">Video Lecture</option>
+                        <option value="Audio File">Audio File</option>
+                    </select>
+                    <input type="text" id="fileUrl" placeholder="Paste File Link / Google Drive Link">
+                </div>
+                <button class="btn" onclick="alert('Content Added to Library Successfully!')">Upload / Save Content</button>
+            </div>
+
+            <!-- Content List Table -->
+            <div class="table-section">
+                <h2>📚 Uploaded Files & Study Materials (5TB+ Library)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Indian Polity Laxmikanth Notes</td>
+                            <td>UPSC</td>
+                            <td>PDF Document</td>
+                            <td><button style="background: #ef4444; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td>Daily English Conversation Module 1</td>
+                            <td>Spoken English</td>
+                            <td>Video Lecture</td>
+                            <td><button style="background: #ef4444; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

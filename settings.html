@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GyanAstra Master | Settings</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0f172a; color: #ffffff; display: flex; height: 100vh; overflow: hidden; }
+        .sidebar { width: 260px; background-color: #1e293b; border-right: 1px solid #334155; display: flex; flex-direction: column; }
+        .sidebar-brand { padding: 20px; font-size: 20px; font-weight: bold; color: #ff9800; border-bottom: 1px solid #334155; text-align: center; }
+        .sidebar-menu { list-style: none; padding: 20px 0; }
+        .sidebar-menu li { padding: 12px 20px; cursor: pointer; transition: 0.3s; }
+        .sidebar-menu li a { color: #fff; text-decoration: none; display: block; }
+        .sidebar-menu li:hover, .sidebar-menu li.active { background-color: #ff9800; }
+        .sidebar-menu li:hover a, .sidebar-menu li.active a { color: #0f172a; font-weight: bold; }
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        .header { padding: 20px; background-color: #1e293b; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
+        .admin-badge { background-color: #ff9800; color: #0f172a; padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 14px; }
+        .dashboard-body { padding: 30px; }
+        .settings-box { background-color: #1e293b; padding: 25px; border-radius: 8px; border: 1px solid #334155; max-width: 600px; }
+        .settings-box h2 { margin-bottom: 15px; font-size: 18px; color: #ff9800; }
+        .settings-box label { display: block; margin-bottom: 5px; color: #94a3b8; font-size: 14px; }
+        .settings-box input { width: 100%; padding: 10px; background-color: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 4px; margin-bottom: 15px; outline: none; }
+        .btn { background-color: #ff9800; color: #0f172a; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-brand">GYAN ASTRA MASTER</div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="index.html">Manage QR Code</a></li>
+            <li><a href="index.html">User Access Logs</a></li>
+            <li><a href="index.html">Active Creators</a></li>
+            <li><a href="content.html">Manage Content / Library</a></li>
+            <li class="active"><a href="settings.html">Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Master Admin Settings</h1>
+            <div class="admin-badge">MASTER ADMIN</div>
+        </div>
+
+        <div class="dashboard-body">
+            <div class="settings-box">
+                <h2>🔐 Security & Admin PIN Settings</h2>
+                <label>Current Admin Username</label>
+                <input type="text" value="SumitStudyIQ Master" disabled style="color: #94a3b8;">
+                
+                <label>New Master PIN</label>
+                <input type="password" id="newPin" placeholder="Enter new 4-digit PIN">
+                
+                <button class="btn" onclick="alert('Admin PIN Updated Successfully!')">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
