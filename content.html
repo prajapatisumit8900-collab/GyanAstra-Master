@@ -3,206 +3,647 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GyanAstra Master | Manage Content</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: #0f172a;
-            color: #ffffff;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-        }
-        .sidebar {
-            width: 260px;
-            background-color: #1e293b;
-            border-right: 1px solid #334155;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-        }
-        .sidebar-brand {
-            padding: 20px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #ff9800;
-            border-bottom: 1px solid #334155;
-            text-align: center;
-        }
-        .sidebar-menu {
-            list-style: none;
-            padding: 20px 0;
-        }
-        .sidebar-menu li {
-            transition: 0.3s;
-        }
-        .sidebar-menu li a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            padding: 12px 20px;
-        }
-        .sidebar-menu li:hover, .sidebar-menu li.active {
-            background-color: #ff9800;
-        }
-        .sidebar-menu li:hover a, .sidebar-menu li.active a {
-            color: #0f172a;
-            font-weight: bold;
-        }
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-        .header {
-            padding: 20px;
-            background-color: #1e293b;
-            border-bottom: 1px solid #334155;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .admin-badge {
-            background-color: #ff9800;
-            color: #0f172a;
-            padding: 5px 12px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        .dashboard-body {
-            padding: 30px;
-        }
-        .form-box, .table-section {
-            background-color: #1e293b;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #334155;
-            margin-bottom: 25px;
-        }
-        .form-box h2, .table-section h2 {
-            margin-bottom: 15px;
-            font-size: 18px;
-            color: #ff9800;
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            background-color: #0f172a;
-            border: 1px solid #334155;
-            color: #fff;
-            border-radius: 4px;
-            outline: none;
-        }
-        .btn {
-            background-color: #ff9800;
-            color: #0f172a;
-            border: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            margin-top: 10px;
-        }
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #334155;
-            font-size: 14px;
-        }
-        th {
-            color: #94a3b8;
-        }
-    </style>
+
+    <meta
+        name="description"
+        content="GyanAstra Master - Content Management"
+    >
+
+    <title>Content Management | GyanAstra Master</title>
+
+    <link
+        rel="stylesheet"
+        href="./assets/css/content.css"
+    >
 </head>
+
 <body>
 
-    <div class="sidebar">
-        <div class="sidebar-brand">GYAN ASTRA MASTER</div>
-        <ul class="sidebar-menu">
-            <li><a href="index.html">Dashboard</a></li>
-            <li><a href="index.html">Manage QR Code</a></li>
-            <li class="active"><a href="content.html">Manage Content / Library</a></li>
-            <li><a href="settings.html">Settings</a></li>
-        </ul>
-    </div>
+<!-- =====================================================
+     TOPBAR
+===================================================== -->
 
-    <div class="main-content">
-        <div class="header">
-            <h1>Digital Content & Library Manager</h1>
-            <div class="admin-badge">MASTER ADMIN</div>
-        </div>
+<header class="topbar">
 
-        <div class="dashboard-body">
-            <!-- Add New File Form -->
-            <div class="form-box">
-                <h2>➕ Add New Book, PDF or Video</h2>
-                <div class="form-grid">
-                    <input type="text" id="fileTitle" placeholder="Enter Title (e.g. UPSC Modern History PDF)">
-                    <select id="fileCategory">
-                        <option value="UPSC">UPSC / Civil Services</option>
-                        <option value="SSC">SSC & State Exams</option>
-                        <option value="Spoken English">Spoken English & Audio</option>
-                        <option value="E-Book">General E-Books</option>
-                    </select>
-                </div>
-                <div class="form-grid">
-                    <select id="fileType">
-                        <option value="PDF Document">PDF Document</option>
-                        <option value="Video Lecture">Video Lecture</option>
-                        <option value="Audio File">Audio File</option>
-                    </select>
-                    <input type="text" id="fileUrl" placeholder="Paste File Link / Google Drive Link">
-                </div>
-                <button class="btn" onclick="alert('Content Added to Library Successfully!')">Upload / Save Content</button>
+    <div class="top-left">
+
+        <a
+            href="./dashboard.html"
+            class="back-btn"
+            title="Back to Dashboard"
+        >
+            ←
+        </a>
+
+        <div class="brand">
+
+            <span class="brand-icon">
+                🚀
+            </span>
+
+            <div>
+                <strong>
+                    GyanAstra Master
+                </strong>
+
+                <small>
+                    CONTENT MANAGEMENT
+                </small>
             </div>
 
-            <!-- Content List Table -->
-            <div class="table-section">
-                <h2>📚 Uploaded Files & Study Materials (5TB+ Library)</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Type</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Indian Polity Laxmikanth Notes</td>
-                            <td>UPSC</td>
-                            <td>PDF Document</td>
-                            <td><button style="background: #ef4444; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>Daily English Conversation Module 1</td>
-                            <td>Spoken English</td>
-                            <td>Video Lecture</td>
-                            <td><button style="background: #ef4444; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
+
     </div>
+
+
+    <div class="top-actions">
+
+        <span id="adminName">
+            Admin
+        </span>
+
+        <button
+            type="button"
+            id="logoutBtn"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="page">
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+
+        <div>
+
+            <span class="eyebrow">
+                STUDY MATERIAL
+            </span>
+
+            <h1>
+                Content Management
+            </h1>
+
+            <p>
+                Video, PDF, Notes aur Study Material manage karein.
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            class="primary-btn"
+            id="addContentBtn"
+        >
+            + Add Content
+        </button>
+
+    </section>
+
+
+    <!-- =================================================
+         CONTENT STATISTICS
+    ================================================== -->
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🎥
+            </div>
+
+            <div>
+                <span>
+                    Videos
+                </span>
+
+                <strong id="videoCount">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📄
+            </div>
+
+            <div>
+                <span>
+                    PDFs
+                </span>
+
+                <strong id="pdfCount">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📝
+            </div>
+
+            <div>
+                <span>
+                    Notes
+                </span>
+
+                <strong id="notesCount">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📚
+            </div>
+
+            <div>
+                <span>
+                    Total Content
+                </span>
+
+                <strong id="totalContent">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         FILTER TOOLBAR
+    ================================================== -->
+
+    <section class="toolbar">
+
+        <div class="search-box">
+
+            <span>
+                🔍
+            </span>
+
+            <input
+                type="search"
+                id="contentSearch"
+                placeholder="Search content..."
+            >
+
+        </div>
+
+
+        <select id="contentTypeFilter">
+
+            <option value="all">
+                All Content
+            </option>
+
+            <option value="video">
+                🎥 Videos
+            </option>
+
+            <option value="pdf">
+                📄 PDFs
+            </option>
+
+            <option value="notes">
+                📝 Notes
+            </option>
+
+            <option value="link">
+                🔗 Links
+            </option>
+
+        </select>
+
+
+        <select id="contentStatusFilter">
+
+            <option value="all">
+                All Status
+            </option>
+
+            <option value="published">
+                Published
+            </option>
+
+            <option value="draft">
+                Draft
+            </option>
+
+        </select>
+
+
+        <button
+            type="button"
+            class="refresh-btn"
+            id="refreshBtn"
+        >
+            ↻ Refresh
+        </button>
+
+    </section>
+
+
+    <!-- =================================================
+         CONTENT LIST
+    ================================================== -->
+
+    <section class="content-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <span class="section-label">
+                    CONTENT LIBRARY
+                </span>
+
+                <h2>
+                    All Study Material
+                </h2>
+
+            </div>
+
+            <span id="contentCount">
+                0 Items
+            </span>
+
+        </div>
+
+
+        <div
+            class="content-grid"
+            id="contentGrid"
+        >
+
+            <!-- Content JavaScript se load hoga -->
+
+        </div>
+
+
+        <!-- EMPTY -->
+
+        <div
+            class="empty-state hidden"
+            id="emptyState"
+        >
+
+            <div class="empty-icon">
+                📚
+            </div>
+
+            <h3>
+                No Content Found
+            </h3>
+
+            <p>
+                Abhi koi study material available nahi hai.
+            </p>
+
+            <button
+                type="button"
+                class="primary-btn"
+                id="emptyAddBtn"
+            >
+                + Add Content
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     ADD / EDIT CONTENT MODAL
+===================================================== -->
+
+<div
+    class="modal hidden"
+    id="contentModal"
+>
+
+    <div class="modal-card">
+
+        <button
+            type="button"
+            class="close-btn"
+            id="closeModalBtn"
+        >
+            ×
+        </button>
+
+
+        <div class="modal-header">
+
+            <span class="modal-icon">
+                📚
+            </span>
+
+            <div>
+
+                <h2 id="modalTitle">
+                    Add Content
+                </h2>
+
+                <p>
+                    Study material ki information enter karein.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form id="contentForm">
+
+            <input
+                type="hidden"
+                id="contentId"
+            >
+
+
+            <!-- CONTENT TYPE -->
+
+            <div class="form-group">
+
+                <label for="contentType">
+                    Content Type
+                </label>
+
+                <select
+                    id="contentType"
+                    required
+                >
+
+                    <option value="">
+                        Select Content Type
+                    </option>
+
+                    <option value="video">
+                        🎥 Video
+                    </option>
+
+                    <option value="pdf">
+                        📄 PDF
+                    </option>
+
+                    <option value="notes">
+                        📝 Notes
+                    </option>
+
+                    <option value="link">
+                        🔗 External Link
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- COURSE -->
+
+            <div class="form-group">
+
+                <label for="contentCourse">
+                    Course
+                </label>
+
+                <select
+                    id="contentCourse"
+                    required
+                >
+
+                    <option value="">
+                        Select Course
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- SUBJECT -->
+
+            <div class="form-group">
+
+                <label for="contentSubject">
+                    Subject
+                </label>
+
+                <select
+                    id="contentSubject"
+                    required
+                >
+
+                    <option value="">
+                        Select Subject
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- CHAPTER -->
+
+            <div class="form-group">
+
+                <label for="contentChapter">
+                    Chapter
+                </label>
+
+                <select
+                    id="contentChapter"
+                    required
+                >
+
+                    <option value="">
+                        Select Chapter
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- TITLE -->
+
+            <div class="form-group">
+
+                <label for="contentTitle">
+                    Content Title
+                </label>
+
+                <input
+                    type="text"
+                    id="contentTitle"
+                    placeholder="e.g. Indian Constitution Introduction"
+                    required
+                >
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="contentDescription">
+                    Description
+                </label>
+
+                <textarea
+                    id="contentDescription"
+                    rows="4"
+                    placeholder="Content ke baare mein short description..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- FILE -->
+
+            <div
+                class="form-group"
+                id="fileGroup"
+            >
+
+                <label for="contentFile">
+                    Upload File
+                </label>
+
+                <input
+                    type="file"
+                    id="contentFile"
+                >
+
+                <small>
+                    Video, PDF ya Notes file select karein.
+                </small>
+
+            </div>
+
+
+            <!-- EXTERNAL URL -->
+
+            <div
+                class="form-group hidden"
+                id="urlGroup"
+            >
+
+                <label for="contentUrl">
+                    Content URL
+                </label>
+
+                <input
+                    type="url"
+                    id="contentUrl"
+                    placeholder="https://example.com/video"
+                >
+
+            </div>
+
+
+            <!-- THUMBNAIL -->
+
+            <div class="form-group">
+
+                <label for="contentThumbnail">
+                    Thumbnail
+                </label>
+
+                <input
+                    type="file"
+                    id="contentThumbnail"
+                    accept="image/*"
+                >
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="form-group">
+
+                <label for="contentStatus">
+                    Status
+                </label>
+
+                <select id="contentStatus">
+
+                    <option value="published">
+                        Published
+                    </option>
+
+                    <option value="draft">
+                        Draft
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelBtn"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Save Content
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="./assets/js/content.js"></script>
 
 </body>
 </html>

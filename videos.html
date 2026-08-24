@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="GyanAstra Master - Video Management"
+    >
+
+    <title>Videos | GyanAstra Master</title>
+
+    <link
+        rel="stylesheet"
+        href="./assets/css/videos.css"
+    >
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="sidebar-brand">
+
+            <div class="brand-logo">
+                🚀
+            </div>
+
+            <div class="brand-text">
+
+                <strong>
+                    GyanAstra
+                </strong>
+
+                <span>
+                    MASTER ADMIN
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <div class="nav-title">
+                MAIN
+            </div>
+
+
+            <a
+                href="./dashboard.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">📊</span>
+                Dashboard
+            </a>
+
+
+            <a
+                href="./courses.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">📚</span>
+                Courses
+            </a>
+
+
+            <a
+                href="./subjects.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">📖</span>
+                Subjects
+            </a>
+
+
+            <a
+                href="./chapters.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">📑</span>
+                Chapters
+            </a>
+
+
+            <a
+                href="./videos.html"
+                class="nav-item active"
+            >
+                <span class="nav-icon">🎥</span>
+                Videos
+            </a>
+
+
+            <a
+                href="./materials.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">📂</span>
+                Study Materials
+            </a>
+
+
+            <div class="nav-title">
+                MANAGEMENT
+            </div>
+
+
+            <a
+                href="./students.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">👨‍🎓</span>
+                Students
+            </a>
+
+
+            <a
+                href="./settings.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">⚙️</span>
+                Settings
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <button
+                class="logout-btn"
+                id="logoutBtn"
+            >
+                🚪 Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="menu-btn"
+                    id="menuBtn"
+                >
+                    ☰
+                </button>
+
+
+                <div class="topbar-title">
+
+                    <span>
+                        CONTENT MANAGEMENT
+                    </span>
+
+                    <h1>
+                        Video Lectures
+                    </h1>
+
+                </div>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="admin-info">
+
+                    <strong id="adminName">
+                        Master Admin
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+                <div
+                    class="admin-avatar"
+                    id="adminAvatar"
+                >
+                    M
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE -->
+
+        <div class="page">
+
+
+            <!-- PAGE HEADER -->
+
+            <section class="page-header">
+
+                <div>
+
+                    <span class="page-label">
+                        VIDEO LIBRARY
+                    </span>
+
+                    <h2>
+                        Manage Video Lectures
+                    </h2>
+
+                    <p>
+                        Courses और chapters के video lectures यहाँ manage करें।
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="primary-btn"
+                    id="addVideoBtn"
+                >
+                    + Add Video
+                </button>
+
+            </section>
+
+
+            <!-- =================================================
+                 SUMMARY
+            ================================================== -->
+
+            <section class="video-summary">
+
+
+                <div class="summary-card">
+
+                    <div>
+
+                        <span>
+                            TOTAL VIDEOS
+                        </span>
+
+                        <strong id="videoCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-icon">
+                        🎥
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div>
+
+                        <span>
+                            FREE VIDEOS
+                        </span>
+
+                        <strong id="freeVideoCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-icon">
+                        🆓
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div>
+
+                        <span>
+                            PREMIUM VIDEOS
+                        </span>
+
+                        <strong id="premiumVideoCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-icon">
+                        🔐
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div>
+
+                        <span>
+                            ACTIVE VIDEOS
+                        </span>
+
+                        <strong id="activeVideoCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-icon">
+                        ✅
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 TOOLBAR
+            ================================================== -->
+
+            <section class="toolbar">
+
+
+                <div class="search-box">
+
+                    <span>
+                        🔍
+                    </span>
+
+                    <input
+                        type="search"
+                        id="videoSearch"
+                        placeholder="Search video lectures..."
+                    >
+
+                </div>
+
+
+                <select id="courseFilter">
+
+                    <option value="all">
+                        All Courses
+                    </option>
+
+                </select>
+
+
+                <select id="subjectFilter">
+
+                    <option value="all">
+                        All Subjects
+                    </option>
+
+                </select>
+
+
+                <select id="chapterFilter">
+
+                    <option value="all">
+                        All Chapters
+                    </option>
+
+                </select>
+
+
+                <select id="typeFilter">
+
+                    <option value="all">
+                        All Types
+                    </option>
+
+                    <option value="free">
+                        Free
+                    </option>
+
+                    <option value="premium">
+                        Premium
+                    </option>
+
+                </select>
+
+
+                <select id="statusFilter">
+
+                    <option value="all">
+                        All Status
+                    </option>
+
+                    <option value="active">
+                        Active
+                    </option>
+
+                    <option value="inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </section>
+
+
+            <!-- =================================================
+                 VIDEO LIST
+            ================================================== -->
+
+            <section class="video-section">
+
+
+                <div class="section-title">
+
+                    <div>
+
+                        <span>
+                            LECTURES
+                        </span>
+
+                        <h2>
+                            Video Library
+                        </h2>
+
+                    </div>
+
+
+                    <span id="resultCount">
+                        0 Videos
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="video-list"
+                    id="videoList"
+                ></div>
+
+
+                <!-- EMPTY -->
+
+                <div
+                    class="empty-state"
+                    id="emptyState"
+                >
+
+                    <div class="empty-icon">
+                        🎥
+                    </div>
+
+                    <h3>
+                        अभी कोई video नहीं है
+                    </h3>
+
+                    <p>
+                        पहला lecture add करने के लिए नीचे button दबाएँ।
+                    </p>
+
+                    <button
+                        class="primary-btn"
+                        id="emptyAddBtn"
+                    >
+                        + Add First Video
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     ADD / EDIT VIDEO MODAL
+========================================================= -->
+
+<div
+    class="modal-overlay"
+    id="videoModal"
+>
+
+    <div class="modal">
+
+
+        <div class="modal-header">
+
+            <div>
+
+                <span>
+                    VIDEO MANAGEMENT
+                </span>
+
+                <h2 id="modalTitle">
+                    Add New Video
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="close-btn"
+                id="closeModalBtn"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <form id="videoForm">
+
+            <input
+                type="hidden"
+                id="videoId"
+            >
+
+
+            <!-- COURSE -->
+
+            <div class="form-group">
+
+                <label for="videoCourse">
+                    Course
+                </label>
+
+                <select
+                    id="videoCourse"
+                    required
+                >
+
+                    <option value="">
+                        Select Course
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- SUBJECT -->
+
+            <div class="form-group">
+
+                <label for="videoSubject">
+                    Subject
+                </label>
+
+                <select
+                    id="videoSubject"
+                    required
+                >
+
+                    <option value="">
+                        Select Subject
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- CHAPTER -->
+
+            <div class="form-group">
+
+                <label for="videoChapter">
+                    Chapter
+                </label>
+
+                <select
+                    id="videoChapter"
+                    required
+                >
+
+                    <option value="">
+                        Select Chapter
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- VIDEO TITLE -->
+
+            <div class="form-group">
+
+                <label for="videoTitle">
+                    Video Title
+                </label>
+
+                <input
+                    type="text"
+                    id="videoTitle"
+                    placeholder="e.g. Introduction to Indian Constitution"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ROW -->
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="videoOrder">
+                        Lecture Number
+                    </label>
+
+                    <input
+                        type="number"
+                        id="videoOrder"
+                        min="1"
+                        value="1"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="videoDuration">
+                        Duration
+                    </label>
+
+                    <input
+                        type="text"
+                        id="videoDuration"
+                        placeholder="e.g. 45:30"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- VIDEO TYPE -->
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="videoType">
+                        Access Type
+                    </label>
+
+                    <select id="videoType">
+
+                        <option value="free">
+                            Free
+                        </option>
+
+                        <option value="premium">
+                            Premium
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="videoStatus">
+                        Status
+                    </label>
+
+                    <select id="videoStatus">
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- VIDEO SOURCE -->
+
+            <div class="form-group">
+
+                <label for="videoUrl">
+                    Video URL
+                </label>
+
+                <input
+                    type="url"
+                    id="videoUrl"
+                    placeholder="https://..."
+                >
+
+                <small>
+                    अभी YouTube / server / storage URL रख सकते हैं।
+                </small>
+
+            </div>
+
+
+            <!-- THUMBNAIL -->
+
+            <div class="form-group">
+
+                <label for="videoThumbnail">
+                    Thumbnail URL
+                </label>
+
+                <input
+                    type="url"
+                    id="videoThumbnail"
+                    placeholder="https://..."
+                >
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="videoDescription">
+                    Description
+                </label>
+
+                <textarea
+                    id="videoDescription"
+                    placeholder="Video lecture के बारे में जानकारी..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    id="cancelBtn"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Save Video
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="./assets/js/videos.js"></script>
+
+</body>
+</html>

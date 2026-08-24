@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="GyanAstra Master Subject Management"
+    >
+
+    <title>Subjects | GyanAstra Master</title>
+
+    <link
+        rel="stylesheet"
+        href="./assets/css/subjects.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =====================================
+         SIDEBAR
+    ====================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="sidebar-brand">
+
+            <div class="brand-logo">
+                🚀
+            </div>
+
+            <div class="brand-text">
+
+                <strong>
+                    GyanAstra
+                </strong>
+
+                <span>
+                    MASTER ADMIN
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="admin-nav">
+
+
+            <div class="nav-title">
+                MAIN
+            </div>
+
+
+            <a
+                href="./dashboard.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    📊
+                </span>
+
+                Dashboard
+
+            </a>
+
+
+            <a
+                href="./courses.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    📚
+                </span>
+
+                Courses
+
+            </a>
+
+
+            <a
+                href="./subjects.html"
+                class="nav-item active"
+            >
+
+                <span class="nav-icon">
+                    📖
+                </span>
+
+                Subjects
+
+            </a>
+
+
+            <a
+                href="./chapters.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    📑
+                </span>
+
+                Chapters
+
+            </a>
+
+
+            <a
+                href="./lessons.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    🎓
+                </span>
+
+                Lessons
+
+            </a>
+
+
+            <div class="nav-title">
+                CONTENT
+            </div>
+
+
+            <a
+                href="./upload.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    📤
+                </span>
+
+                Upload Manager
+
+            </a>
+
+
+            <a
+                href="./students.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    👨‍🎓
+                </span>
+
+                Students
+
+            </a>
+
+
+            <a
+                href="./settings.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    ⚙️
+                </span>
+
+                Settings
+
+            </a>
+
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <button
+                type="button"
+                class="logout-btn"
+                id="logoutBtn"
+            >
+                🚪 Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================
+         MOBILE OVERLAY
+    ====================================== -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+
+
+    <!-- =====================================
+         MAIN CONTENT
+    ====================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="menu-btn"
+                    id="menuBtn"
+                >
+                    ☰
+                </button>
+
+
+                <div class="topbar-title">
+
+                    <span>
+                        COURSE CONTENT
+                    </span>
+
+                    <h1>
+                        Subject Management
+                    </h1>
+
+                </div>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div
+                    class="admin-avatar"
+                    id="adminAvatar"
+                >
+                    A
+                </div>
+
+                <div class="admin-info">
+
+                    <strong id="adminName">
+                        Master Admin
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- PAGE -->
+
+        <section class="page">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+
+                <div>
+
+                    <span class="page-label">
+                        SUBJECT LIBRARY
+                    </span>
+
+                    <h2>
+                        Manage Subjects
+                    </h2>
+
+                    <p>
+                        Courses के अंदर subjects बनाएँ और manage करें।
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    id="addSubjectBtn"
+                >
+                    ＋ Add Subject
+                </button>
+
+
+            </div>
+
+
+
+            <!-- FILTER -->
+
+            <div class="toolbar">
+
+
+                <div class="search-box">
+
+                    <span>
+                        🔍
+                    </span>
+
+                    <input
+                        type="search"
+                        id="subjectSearch"
+                        placeholder="Search subjects..."
+                    >
+
+                </div>
+
+
+                <select id="courseFilter">
+
+                    <option value="all">
+                        All Courses
+                    </option>
+
+                </select>
+
+
+                <select id="statusFilter">
+
+                    <option value="all">
+                        All Status
+                    </option>
+
+                    <option value="active">
+                        Active
+                    </option>
+
+                    <option value="inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+
+            </div>
+
+
+
+            <!-- SUMMARY -->
+
+            <div class="subject-summary">
+
+
+                <div>
+
+                    <div>
+
+                        <span>
+                            TOTAL SUBJECTS
+                        </span>
+
+                        <strong id="subjectCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-icon">
+                        📖
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div>
+
+                        <span>
+                            ACTIVE
+                        </span>
+
+                        <strong id="activeCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-icon">
+                        🟢
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div>
+
+                        <span>
+                            COURSES
+                        </span>
+
+                        <strong id="courseCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-icon">
+                        📚
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- SUBJECT SECTION -->
+
+            <section class="subject-section">
+
+
+                <div class="section-title">
+
+                    <div>
+
+                        <span>
+                            CONTENT STRUCTURE
+                        </span>
+
+                        <h2>
+                            Available Subjects
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- SUBJECT LIST -->
+
+                <div
+                    class="subject-list"
+                    id="subjectList"
+                ></div>
+
+
+
+                <!-- EMPTY -->
+
+                <div
+                    class="empty-state"
+                    id="emptyState"
+                    style="display:none;"
+                >
+
+                    <div class="empty-icon">
+                        📖
+                    </div>
+
+                    <h3>
+                        No Subjects Found
+                    </h3>
+
+                    <p>
+                        अभी कोई subject नहीं है।
+                    </p>
+
+                    <button
+                        type="button"
+                        class="primary-btn"
+                        id="emptyAddBtn"
+                    >
+                        ＋ Create First Subject
+                    </button>
+
+                </div>
+
+
+            </section>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =====================================
+     ADD / EDIT MODAL
+====================================== -->
+
+<div
+    class="modal-overlay"
+    id="subjectModal"
+>
+
+
+    <div class="modal">
+
+
+        <div class="modal-header">
+
+
+            <div>
+
+                <span>
+                    SUBJECT MANAGEMENT
+                </span>
+
+                <h2 id="modalTitle">
+                    Add New Subject
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="close-btn"
+                id="closeModalBtn"
+            >
+                ✕
+            </button>
+
+
+        </div>
+
+
+
+        <form id="subjectForm">
+
+
+            <input
+                type="hidden"
+                id="subjectId"
+            >
+
+
+            <div class="form-group">
+
+                <label for="subjectName">
+                    Subject Name *
+                </label>
+
+                <input
+                    type="text"
+                    id="subjectName"
+                    placeholder="e.g. Indian Polity"
+                    required
+                >
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="subjectCourse">
+                    Select Course *
+                </label>
+
+                <select
+                    id="subjectCourse"
+                    required
+                >
+
+                    <option value="">
+                        Select Course
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="subjectLevel">
+                        Level
+                    </label>
+
+                    <select id="subjectLevel">
+
+                        <option value="beginner">
+                            Beginner
+                        </option>
+
+                        <option value="intermediate">
+                            Intermediate
+                        </option>
+
+                        <option value="advanced">
+                            Advanced
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="subjectStatus">
+                        Status
+                    </label>
+
+                    <select id="subjectStatus">
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="subjectDescription">
+                    Description
+                </label>
+
+                <textarea
+                    id="subjectDescription"
+                    placeholder="Subject के बारे में short description..."
+                ></textarea>
+
+            </div>
+
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    id="cancelBtn"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    💾 Save Subject
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script
+    src="./assets/js/subjects.js"
+></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="GyanAstra Master - PDF and Notes Management">
+
+    <title>PDF & Notes | GyanAstra Master</title>
+
+    <link rel="stylesheet" href="./assets/css/pdfs.css">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="topbar">
+
+    <div class="top-left">
+
+        <button class="back-btn" onclick="goBack()">
+            ←
+        </button>
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🚀
+            </div>
+
+            <div>
+                <strong>GyanAstra Master</strong>
+                <small>ADMIN PANEL</small>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="top-actions">
+
+        <span class="admin-status">
+            🟢 Admin
+        </span>
+
+        <button
+            class="logout-btn"
+            onclick="adminLogout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">
+        MASTER PANEL
+    </div>
+
+    <nav>
+
+        <a href="./dashboard.html">
+            📊
+            <span>Dashboard</span>
+        </a>
+
+        <a href="./courses.html">
+            📚
+            <span>Courses</span>
+        </a>
+
+        <a href="./subjects.html">
+            📖
+            <span>Subjects</span>
+        </a>
+
+        <a href="./chapters.html">
+            📑
+            <span>Chapters</span>
+        </a>
+
+        <a href="./videos.html">
+            🎬
+            <span>Videos</span>
+        </a>
+
+        <a
+            href="./pdfs.html"
+            class="active"
+        >
+            📄
+            <span>PDF / Notes</span>
+        </a>
+
+        <a href="./content.html">
+            📝
+            <span>Content</span>
+        </a>
+
+        <a href="./settings.html">
+            ⚙️
+            <span>Settings</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main-content">
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+
+        <div>
+
+            <span class="eyebrow">
+                STUDY MATERIAL MANAGEMENT
+            </span>
+
+            <h1>
+                PDF & Notes
+            </h1>
+
+            <p>
+                Students के लिए PDF, Notes और Study Material manage करें।
+            </p>
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="openUploadModal()"
+        >
+            ＋ Upload Material
+        </button>
+
+    </section>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📄
+            </div>
+
+            <div>
+                <span>Total Files</span>
+
+                <strong id="totalFiles">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📚
+            </div>
+
+            <div>
+                <span>PDF Files</span>
+
+                <strong id="pdfFiles">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📝
+            </div>
+
+            <div>
+                <span>Notes</span>
+
+                <strong id="notesFiles">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                💾
+            </div>
+
+            <div>
+                <span>Storage</span>
+
+                <strong id="fileStorage">
+                    0 MB
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FILTER ================= -->
+
+    <section class="filter-card">
+
+        <div class="search-box">
+
+            <span>
+                🔍
+            </span>
+
+            <input
+                type="search"
+                id="materialSearch"
+                placeholder="Search PDF or notes..."
+            >
+
+        </div>
+
+
+        <select id="courseFilter">
+
+            <option value="all">
+                All Courses
+            </option>
+
+        </select>
+
+
+        <select id="subjectFilter">
+
+            <option value="all">
+                All Subjects
+            </option>
+
+        </select>
+
+
+        <select id="materialTypeFilter">
+
+            <option value="all">
+                All Types
+            </option>
+
+            <option value="pdf">
+                PDF
+            </option>
+
+            <option value="notes">
+                Notes
+            </option>
+
+            <option value="document">
+                Document
+            </option>
+
+        </select>
+
+
+        <select id="statusFilter">
+
+            <option value="all">
+                All Status
+            </option>
+
+            <option value="published">
+                Published
+            </option>
+
+            <option value="draft">
+                Draft
+            </option>
+
+        </select>
+
+    </section>
+
+
+    <!-- ================= MATERIAL LIST ================= -->
+
+    <section class="content-card">
+
+        <div class="content-header">
+
+            <div>
+
+                <span class="section-label">
+                    STUDY MATERIAL LIBRARY
+                </span>
+
+                <h2>
+                    All PDFs & Notes
+                </h2>
+
+            </div>
+
+
+            <span id="materialCount">
+                0 Files
+            </span>
+
+        </div>
+
+
+        <!-- MATERIAL GRID -->
+
+        <div
+            id="materialGrid"
+            class="material-grid"
+        >
+        </div>
+
+
+        <!-- LOADING -->
+
+        <div
+            id="loading"
+            class="loading"
+        >
+
+            <div class="spinner"></div>
+
+            <p>
+                Study material loading...
+            </p>
+
+        </div>
+
+
+        <!-- EMPTY -->
+
+        <div
+            id="emptyState"
+            class="empty-state hidden"
+        >
+
+            <div class="empty-icon">
+                📄
+            </div>
+
+            <h3>
+                No study material found
+            </h3>
+
+            <p>
+                अभी कोई PDF या Notes upload नहीं किया गया है।
+            </p>
+
+            <button
+                class="primary-btn"
+                onclick="openUploadModal()"
+            >
+                ＋ Upload First Material
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================================================= -->
+<!-- UPLOAD MATERIAL MODAL -->
+<!-- ================================================= -->
+
+<div
+    id="uploadModal"
+    class="modal hidden"
+>
+
+    <div
+        class="modal-overlay"
+        onclick="closeUploadModal()"
+    ></div>
+
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    STUDY MATERIAL
+                </span>
+
+                <h2>
+                    Upload New Material
+                </h2>
+
+            </div>
+
+
+            <button
+                class="close-btn"
+                onclick="closeUploadModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            id="materialForm"
+            class="material-form"
+        >
+
+            <!-- TITLE -->
+
+            <div class="form-group">
+
+                <label for="materialTitle">
+                    Material Title
+                </label>
+
+                <input
+                    type="text"
+                    id="materialTitle"
+                    placeholder="e.g. Indian Polity Complete Notes"
+                    required
+                >
+
+            </div>
+
+
+            <!-- COURSE -->
+
+            <div class="form-group">
+
+                <label for="materialCourse">
+                    Course
+                </label>
+
+                <select
+                    id="materialCourse"
+                    required
+                >
+
+                    <option value="">
+                        Select Course
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- SUBJECT -->
+
+            <div class="form-group">
+
+                <label for="materialSubject">
+                    Subject
+                </label>
+
+                <select
+                    id="materialSubject"
+                    required
+                >
+
+                    <option value="">
+                        Select Subject
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- CHAPTER -->
+
+            <div class="form-group">
+
+                <label for="materialChapter">
+                    Chapter
+                </label>
+
+                <select id="materialChapter">
+
+                    <option value="">
+                        Select Chapter
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- TYPE -->
+
+            <div class="form-group">
+
+                <label for="materialType">
+                    Material Type
+                </label>
+
+                <select
+                    id="materialType"
+                    required
+                >
+
+                    <option value="pdf">
+                        PDF
+                    </option>
+
+                    <option value="notes">
+                        Notes
+                    </option>
+
+                    <option value="document">
+                        Document
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="materialDescription">
+                    Description
+                </label>
+
+                <textarea
+                    id="materialDescription"
+                    rows="4"
+                    placeholder="Material के बारे में जानकारी..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- FILE -->
+
+            <div class="form-group">
+
+                <label for="materialFile">
+                    Select File
+                </label>
+
+                <input
+                    type="file"
+                    id="materialFile"
+                    accept=".pdf,.doc,.docx,.txt"
+                    required
+                >
+
+                <small>
+                    PDF, DOC, DOCX और TXT files
+                </small>
+
+            </div>
+
+
+            <!-- THUMBNAIL -->
+
+            <div class="form-group">
+
+                <label for="materialThumbnail">
+                    Thumbnail / Cover
+                </label>
+
+                <input
+                    type="file"
+                    id="materialThumbnail"
+                    accept="image/*"
+                >
+
+            </div>
+
+
+            <!-- ACCESS -->
+
+            <div class="form-group">
+
+                <label for="materialAccess">
+                    Access
+                </label>
+
+                <select id="materialAccess">
+
+                    <option value="free">
+                        Free
+                    </option>
+
+                    <option value="premium">
+                        Premium
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="form-group">
+
+                <label for="materialStatus">
+                    Status
+                </label>
+
+                <select id="materialStatus">
+
+                    <option value="published">
+                        Published
+                    </option>
+
+                    <option value="draft">
+                        Draft
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="closeUploadModal()"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Upload Material
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="./assets/js/pdfs.js"></script>
+
+</body>
+</html>
