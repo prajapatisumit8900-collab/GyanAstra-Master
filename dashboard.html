@@ -1,778 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="GyanAstra Master Admin Dashboard"
-    >
-
-    <title>Dashboard | GyanAstra Master</title>
-
-    <link
-        rel="stylesheet"
-        href="./assets/css/dashboard.css"
-    >
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | GyanAstra Master</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/dashboard.css">
 </head>
-
-
 <body>
 
-    <!-- =====================================
-         MOBILE OVERLAY
-    ====================================== -->
+  <div class="admin-layout">
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <div
-        class="sidebar-overlay"
-        id="sidebarOverlay"
-    ></div>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-logo">🚀</span>
+        <div class="brand-text">
+          <strong>GyanAstra</strong>
+          <span>MASTER ADMIN</span>
+        </div>
+      </div>
 
+      <nav class="admin-nav">
+        <div class="nav-title">MAIN</div>
+        <a href="./dashboard.html" class="nav-item active">📊 Dashboard</a>
 
-    <!-- =====================================
-         ADMIN LAYOUT
-    ====================================== -->
+        <div class="nav-title">ACADEMIC MANAGEMENT</div>
+        <a href="./courses.html" class="nav-item">📚 Courses</a>
+        <a href="./subjects.html" class="nav-item">📖 Subjects</a>
+        <a href="./chapters.html" class="nav-item">📑 Chapters</a>
+        <a href="./lessons.html" class="nav-item">🎥 Lessons & Videos</a>
+        <a href="./uploads.html" class="nav-item">📂 Study Materials (PDFs)</a>
 
-    <div class="admin-layout">
+        <div class="nav-title">USERS & SETTINGS</div>
+        <a href="./students.html" class="nav-item">👥 Students</a>
+        <a href="./settings.html" class="nav-item">⚙️ Settings</a>
+      </nav>
 
+      <div class="sidebar-footer">
+        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
+      </div>
+    </aside>
 
-        <!-- =================================
-             SIDEBAR
-        ================================== -->
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-btn" id="menuBtn">☰</button>
+          <div class="topbar-title">
+            <span>OVERVIEW</span>
+            <h1>Dashboard</h1>
+          </div>
+        </div>
+        <div class="admin-profile">
+          <div class="admin-avatar">A</div>
+          <div class="admin-info">
+            <strong>GyanAstra Admin</strong>
+            <span>Master Controller</span>
+          </div>
+        </div>
+      </header>
 
-        <aside
-            class="sidebar"
-            id="sidebar"
-        >
-
-            <!-- BRAND -->
-
-            <div class="sidebar-brand">
-
-                <div class="brand-logo">
-                    🚀
-                </div>
-
-                <div class="brand-text">
-
-                    <strong>
-                        GyanAstra
-                    </strong>
-
-                    <span>
-                        MASTER
-                    </span>
-
-                </div>
-
+      <!-- Dashboard Content -->
+      <div class="page">
+        <!-- Quick Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span>TOTAL COURSES</span>
+              <div class="stat-icon icon-blue">📚</div>
             </div>
+            <h2 id="totalCoursesCount">0</h2>
+            <p><a href="./courses.html">Manage Courses →</a></p>
+          </div>
 
-
-            <!-- NAVIGATION -->
-
-            <nav class="admin-nav">
-
-                <p class="nav-title">
-                    MAIN MENU
-                </p>
-
-
-                <a
-                    href="./dashboard.html"
-                    class="nav-item active"
-                >
-
-                    <span class="nav-icon">
-                        🏠
-                    </span>
-
-                    <span>
-                        Dashboard
-                    </span>
-
-                </a>
-
-
-                <p class="nav-title">
-                    CONTENT
-                </p>
-
-
-                <a
-                    href="./courses.html"
-                    class="nav-item"
-                >
-
-                    <span class="nav-icon">
-                        📚
-                    </span>
-
-                    <span>
-                        Courses
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="./subjects.html"
-                    class="nav-item"
-                >
-
-                    <span class="nav-icon">
-                        📖
-                    </span>
-
-                    <span>
-                        Subjects
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="./chapters.html"
-                    class="nav-item"
-                >
-
-                    <span class="nav-icon">
-                        📑
-                    </span>
-
-                    <span>
-                        Chapters
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="./lessons.html"
-                    class="nav-item"
-                >
-
-                    <span class="nav-icon">
-                        🎬
-                    </span>
-
-                    <span>
-                        Lessons
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="./uploads.html"
-                    class="nav-item"
-                >
-
-                    <span class="nav-icon">
-                        📤
-                    </span>
-
-                    <span>
-                        Upload Material
-                    </span>
-
-                </a>
-
-
-                <p class="nav-title">
-                    MANAGEMENT
-                </p>
-
-
-                <a
-                    href="./students.html"
-                    class="nav-item"
-                >
-
-                    <span class="nav-icon">
-                        👨‍🎓
-                    </span>
-
-                    <span>
-                        Students
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="./content.html"
-                    class="nav-item"
-                >
-
-                    <span class="nav-icon">
-                        📝
-                    </span>
-
-                    <span>
-                        Content Manager
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="./settings.html"
-                    class="nav-item"
-                >
-
-                    <span class="nav-icon">
-                        ⚙️
-                    </span>
-
-                    <span>
-                        Settings
-                    </span>
-
-                </a>
-
-            </nav>
-
-
-            <!-- SIDEBAR FOOTER -->
-
-            <div class="sidebar-footer">
-
-                <button
-                    type="button"
-                    class="logout-btn"
-                    id="logoutBtn"
-                >
-
-                    <span>
-                        🚪
-                    </span>
-
-                    Logout
-
-                </button>
-
+          <div class="stat-card">
+            <div class="stat-header">
+              <span>TOTAL SUBJECTS</span>
+              <div class="stat-icon icon-purple">📖</div>
             </div>
-
-        </aside>
-
-
-
-        <!-- =================================
-             MAIN CONTENT
-        ================================== -->
-
-        <main class="main-content">
-
-
-            <!-- TOPBAR -->
-
-            <header class="topbar">
-
-                <button
-                    type="button"
-                    class="menu-btn"
-                    id="menuBtn"
-                    aria-label="Open menu"
-                >
-                    ☰
-                </button>
-
-
-                <div class="topbar-title">
-
-                    <span>
-                        ADMIN PANEL
-                    </span>
-
-                    <h1>
-                        Dashboard
-                    </h1>
-
-                </div>
-
-
-                <div class="admin-profile">
-
-                    <div class="admin-avatar">
-                        A
-                    </div>
-
-                    <div class="admin-info">
-
-                        <strong id="adminName">
-                            Administrator
-                        </strong>
-
-                        <span>
-                            Super Admin
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </header>
-
-
-
-            <!-- PAGE -->
-
-            <div class="dashboard-page">
-
-
-                <!-- WELCOME -->
-
-                <section class="welcome-card">
-
-                    <div>
-
-                        <span class="welcome-label">
-                            GYANASTRA MASTER
-                        </span>
-
-                        <h2>
-                            Welcome back, Admin 👋
-                        </h2>
-
-                        <p>
-                            Manage your courses, videos,
-                            PDFs, notes and students from
-                            one place.
-                        </p>
-
-                    </div>
-
-
-                    <div class="welcome-icon">
-                        🚀
-                    </div>
-
-                </section>
-
-
-
-                <!-- STATISTICS -->
-
-                <section class="stats-grid">
-
-
-                    <div class="stat-card">
-
-                        <div class="stat-icon orange">
-                            📚
-                        </div>
-
-                        <div class="stat-content">
-
-                            <span>
-                                Total Courses
-                            </span>
-
-                            <strong id="totalCourses">
-                                0
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat-card">
-
-                        <div class="stat-icon blue">
-                            🎬
-                        </div>
-
-                        <div class="stat-content">
-
-                            <span>
-                                Total Videos
-                            </span>
-
-                            <strong id="totalVideos">
-                                0
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat-card">
-
-                        <div class="stat-icon green">
-                            📄
-                        </div>
-
-                        <div class="stat-content">
-
-                            <span>
-                                Study Materials
-                            </span>
-
-                            <strong id="totalMaterials">
-                                0
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat-card">
-
-                        <div class="stat-icon purple">
-                            👨‍🎓
-                        </div>
-
-                        <div class="stat-content">
-
-                            <span>
-                                Students
-                            </span>
-
-                            <strong id="totalStudents">
-                                0
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-
-                <!-- QUICK ACTIONS -->
-
-                <section class="section-block">
-
-                    <div class="section-heading">
-
-                        <div>
-
-                            <span>
-                                QUICK ACTIONS
-                            </span>
-
-                            <h2>
-                                Manage Content
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="quick-grid">
-
-
-                        <a
-                            href="./courses.html"
-                            class="quick-card"
-                        >
-
-                            <div class="quick-icon">
-                                📚
-                            </div>
-
-                            <div>
-
-                                <h3>
-                                    Add Course
-                                </h3>
-
-                                <p>
-                                    Create a new course
-                                </p>
-
-                            </div>
-
-                            <span class="arrow">
-                                →
-                            </span>
-
-                        </a>
-
-
-                        <a
-                            href="./subjects.html"
-                            class="quick-card"
-                        >
-
-                            <div class="quick-icon">
-                                📖
-                            </div>
-
-                            <div>
-
-                                <h3>
-                                    Add Subject
-                                </h3>
-
-                                <p>
-                                    Create course subjects
-                                </p>
-
-                            </div>
-
-                            <span class="arrow">
-                                →
-                            </span>
-
-                        </a>
-
-
-                        <a
-                            href="./lessons.html"
-                            class="quick-card"
-                        >
-
-                            <div class="quick-icon">
-                                🎬
-                            </div>
-
-                            <div>
-
-                                <h3>
-                                    Add Video
-                                </h3>
-
-                                <p>
-                                    Add video lessons
-                                </p>
-
-                            </div>
-
-                            <span class="arrow">
-                                →
-                            </span>
-
-                        </a>
-
-
-                        <a
-                            href="./uploads.html"
-                            class="quick-card"
-                        >
-
-                            <div class="quick-icon">
-                                📤
-                            </div>
-
-                            <div>
-
-                                <h3>
-                                    Upload Material
-                                </h3>
-
-                                <p>
-                                    Video, PDF, Notes & more
-                                </p>
-
-                            </div>
-
-                            <span class="arrow">
-                                →
-                            </span>
-
-                        </a>
-
-                    </div>
-
-                </section>
-
-
-
-                <!-- CONTENT OVERVIEW -->
-
-                <section class="section-block">
-
-                    <div class="section-heading">
-
-                        <div>
-
-                            <span>
-                                CONTENT OVERVIEW
-                            </span>
-
-                            <h2>
-                                Learning Platform
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="overview-grid">
-
-
-                        <div class="overview-card">
-
-                            <div class="overview-top">
-
-                                <span>
-                                    Courses
-                                </span>
-
-                                <span>
-                                    📚
-                                </span>
-
-                            </div>
-
-                            <strong>
-                                Manage Courses
-                            </strong>
-
-                            <p>
-                                Create, edit and organize
-                                your courses.
-                            </p>
-
-                            <a href="./courses.html">
-                                Open →
-                            </a>
-
-                        </div>
-
-
-                        <div class="overview-card">
-
-                            <div class="overview-top">
-
-                                <span>
-                                    Video Lessons
-                                </span>
-
-                                <span>
-                                    🎥
-                                </span>
-
-                            </div>
-
-                            <strong>
-                                Manage Videos
-                            </strong>
-
-                            <p>
-                                Add and organize video
-                                lectures.
-                            </p>
-
-                            <a href="./lessons.html">
-                                Open →
-                            </a>
-
-                        </div>
-
-
-                        <div class="overview-card">
-
-                            <div class="overview-top">
-
-                                <span>
-                                    Documents
-                                </span>
-
-                                <span>
-                                    📄
-                                </span>
-
-                            </div>
-
-                            <strong>
-                                PDFs & Notes
-                            </strong>
-
-                            <p>
-                                Manage study PDFs,
-                                notes and documents.
-                            </p>
-
-                            <a href="./uploads.html">
-                                Open →
-                            </a>
-
-                        </div>
-
-
-                        <div class="overview-card">
-
-                            <div class="overview-top">
-
-                                <span>
-                                    Students
-                                </span>
-
-                                <span>
-                                    👨‍🎓
-                                </span>
-
-                            </div>
-
-                            <strong>
-                                Student Management
-                            </strong>
-
-                            <p>
-                                View and manage registered
-                                students.
-                            </p>
-
-                            <a href="./students.html">
-                                Open →
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-
-                <!-- SYSTEM STATUS -->
-
-                <section class="system-card">
-
-                    <div>
-
-                        <span class="status-dot"></span>
-
-                        <strong>
-                            System Status
-                        </strong>
-
-                    </div>
-
-                    <span class="status-text">
-                        Admin Panel Ready
-                    </span>
-
-                </section>
-
-
+            <h2 id="totalSubjectsCount">0</h2>
+            <p><a href="./subjects.html">Manage Subjects →</a></p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span>VIDEO LESSONS</span>
+              <div class="stat-icon icon-amber">🎥</div>
             </div>
+            <h2 id="totalLessonsCount">0</h2>
+            <p><a href="./lessons.html">View Lessons →</a></p>
+          </div>
 
-        </main>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span>REGISTERED STUDENTS</span>
+              <div class="stat-icon icon-emerald">👥</div>
+            </div>
+            <h2 id="totalStudentsCount">0</h2>
+            <p><a href="./students.html">View Students →</a></p>
+          </div>
+        </div>
 
-    </div>
+        <!-- Quick Action Shortcuts -->
+        <div class="section-card" style="margin-top: 24px;">
+          <h3 style="margin-bottom: 16px;">Quick Actions</h3>
+          <div class="action-buttons-wrapper">
+            <a href="./courses.html" class="primary-btn">➕ Add New Course</a>
+            <a href="./lessons.html" class="primary-btn">🎥 Add Video Lesson</a>
+            <a href="./uploads.html" class="primary-btn">📄 Upload Study PDF</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 
-
-    <!-- DASHBOARD JS -->
-
-    <script src="./assets/js/dashboard.js"></script>
-
+  <!-- Firebase & Config Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="./assets/js/firebase-config.js"></script>
+  <script src="./assets/js/dashboard.js"></script>
 </body>
-
 </html>

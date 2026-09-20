@@ -1,357 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="GyanAstra Master - Student Management">
-
-    <title>Students | GyanAstra Master</title>
-
-    <link rel="stylesheet" href="./assets/css/students.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Students | GyanAstra Master</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/students.css">
 </head>
-
 <body>
 
-<header class="topbar">
+  <div class="admin-layout">
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <div class="top-left">
-
-        <a href="./dashboard.html" class="back-btn">
-            ←
-        </a>
-
-        <div class="brand">
-
-            <span class="brand-icon">
-                🚀
-            </span>
-
-            <div>
-                <strong>GyanAstra Master</strong>
-                <small>ADMIN PANEL</small>
-            </div>
-
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-logo">🚀</span>
+        <div class="brand-text">
+          <strong>GyanAstra</strong>
+          <span>MASTER ADMIN</span>
         </div>
+      </div>
 
-    </div>
+      <nav class="admin-nav">
+        <div class="nav-title">MAIN</div>
+        <a href="./dashboard.html" class="nav-item">📊 Dashboard</a>
 
+        <div class="nav-title">ACADEMIC MANAGEMENT</div>
+        <a href="./courses.html" class="nav-item">📚 Courses</a>
+        <a href="./subjects.html" class="nav-item">📖 Subjects</a>
+        <a href="./chapters.html" class="nav-item">📑 Chapters</a>
+        <a href="./lessons.html" class="nav-item">🎥 Lessons & Videos</a>
+        <a href="./uploads.html" class="nav-item">📂 Study Materials (PDFs)</a>
 
-    <div class="top-actions">
+        <div class="nav-title">USERS & SETTINGS</div>
+        <a href="./students.html" class="nav-item active">👥 Students</a>
+        <a href="./settings.html" class="nav-item">⚙️ Settings</a>
+      </nav>
 
-        <span id="adminName">
-            Admin
-        </span>
+      <div class="sidebar-footer">
+        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
+      </div>
+    </aside>
 
-        <button id="logoutBtn">
-            Logout
-        </button>
-
-    </div>
-
-</header>
-
-
-<main class="page">
-
-    <!-- PAGE HEADER -->
-
-    <section class="page-header">
-
-        <div>
-
-            <span class="eyebrow">
-                USER MANAGEMENT
-            </span>
-
-            <h1>
-                Students
-            </h1>
-
-            <p>
-                Registered students ko manage karein.
-            </p>
-
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-btn" id="menuBtn">☰</button>
+          <div class="topbar-title">
+            <span>USER DIRECTORY</span>
+            <h1>Students</h1>
+          </div>
         </div>
-
-        <div class="student-summary">
-
-            <div class="summary-card">
-
-                <span>
-                    Total Students
-                </span>
-
-                <strong id="totalStudents">
-                    0
-                </strong>
-
-            </div>
-
-            <div class="summary-card">
-
-                <span>
-                    Active
-                </span>
-
-                <strong id="activeStudents">
-                    0
-                </strong>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- TOOLBAR -->
-
-    <section class="toolbar">
-
         <div class="search-box">
+          <input type="text" id="studentSearch" placeholder="Search by name or email...">
+        </div>
+      </header>
 
-            <span>
-                🔍
-            </span>
-
-            <input
-                type="search"
-                id="studentSearch"
-                placeholder="Search student name or email..."
-            >
-
+      <!-- Page Body -->
+      <div class="page">
+        <!-- Students Summary Stats -->
+        <div class="summary-cards">
+          <div class="summary-card">
+            <span>TOTAL ENROLLED</span>
+            <h3 id="totalEnrolledCount">0</h3>
+          </div>
+          <div class="summary-card">
+            <span>ACTIVE ACCOUNTS</span>
+            <h3 id="activeStudentsCount">0</h3>
+          </div>
         </div>
 
-
-        <select id="statusFilter">
-
-            <option value="all">
-                All Students
-            </option>
-
-            <option value="active">
-                Active
-            </option>
-
-            <option value="blocked">
-                Blocked
-            </option>
-
-        </select>
-
-
-        <button
-            class="refresh-btn"
-            id="refreshBtn"
-        >
-            ↻ Refresh
-        </button>
-
-    </section>
-
-
-    <!-- STUDENT TABLE -->
-
-    <section class="student-section">
-
-        <div class="table-header">
-
-            <div>
-
-                <span class="section-label">
-                    STUDENT DATABASE
-                </span>
-
-                <h2>
-                    Registered Students
-                </h2>
-
-            </div>
-
-            <span id="studentCount">
-                0 Students
-            </span>
-
+        <!-- Students Table -->
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 60px;">#</th>
+                <th>Student Name</th>
+                <th>Email Address</th>
+                <th>Registered Date</th>
+                <th>Enrolled Courses</th>
+                <th style="width: 120px; text-align: center;">Status</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTableBody">
+              <tr>
+                <td colspan="6" class="empty-state">Loading registered students...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
+    </main>
+  </div>
 
-
-        <div class="table-wrapper">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            #
-                        </th>
-
-                        <th>
-                            Student
-                        </th>
-
-                        <th>
-                            Email
-                        </th>
-
-                        <th>
-                            Course
-                        </th>
-
-                        <th>
-                            Source
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
-                        <th>
-                            Action
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody id="studentTableBody">
-
-                    <!-- Students JavaScript se load honge -->
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-        <!-- EMPTY STATE -->
-
-        <div
-            class="empty-state hidden"
-            id="emptyState"
-        >
-
-            <div class="empty-icon">
-                👨‍🎓
-            </div>
-
-            <h3>
-                No Students Found
-            </h3>
-
-            <p>
-                Abhi koi registered student nahi mila.
-            </p>
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<!-- STUDENT DETAILS MODAL -->
-
-<div
-    class="modal hidden"
-    id="studentModal"
->
-
-    <div class="modal-card">
-
-        <button
-            class="close-btn"
-            id="closeModalBtn"
-        >
-            ×
-        </button>
-
-
-        <div class="student-profile">
-
-            <div
-                class="profile-avatar"
-                id="profileAvatar"
-            >
-                S
-            </div>
-
-            <h2 id="profileName">
-                Student Name
-            </h2>
-
-            <p id="profileEmail">
-                student@gmail.com
-            </p>
-
-        </div>
-
-
-        <div class="profile-info">
-
-            <div>
-                <span>
-                    Course
-                </span>
-
-                <strong id="profileCourse">
-                    General
-                </strong>
-            </div>
-
-
-            <div>
-                <span>
-                    Source
-                </span>
-
-                <strong id="profileSource">
-                    Website
-                </strong>
-            </div>
-
-
-            <div>
-                <span>
-                    Status
-                </span>
-
-                <strong id="profileStatus">
-                    Active
-                </strong>
-            </div>
-
-        </div>
-
-
-        <div class="modal-actions">
-
-            <button
-                class="danger-btn"
-                id="blockStudentBtn"
-            >
-                Block Student
-            </button>
-
-            <button
-                class="primary-btn"
-                id="closeStudentBtn"
-            >
-                Close
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<script src="./assets/js/students.js"></script>
-
+  <!-- Firebase & App Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="./assets/js/firebase-config.js"></script>
+  <script src="./assets/js/students.js"></script>
 </body>
 </html>

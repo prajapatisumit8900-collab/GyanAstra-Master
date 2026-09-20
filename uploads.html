@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Subjects | GyanAstra Master</title>
+  <title>Manage Study Material & PDFs | GyanAstra Master</title>
   <link rel="stylesheet" href="./assets/css/style.css">
-  <link rel="stylesheet" href="./assets/css/subjects.css">
+  <link rel="stylesheet" href="./assets/css/uploads.css">
 </head>
 <body>
 
@@ -29,10 +29,10 @@
 
         <div class="nav-title">ACADEMIC MANAGEMENT</div>
         <a href="./courses.html" class="nav-item">📚 Courses</a>
-        <a href="./subjects.html" class="nav-item active">📖 Subjects</a>
+        <a href="./subjects.html" class="nav-item">📖 Subjects</a>
         <a href="./chapters.html" class="nav-item">📑 Chapters</a>
         <a href="./lessons.html" class="nav-item">🎥 Lessons & Videos</a>
-        <a href="./uploads.html" class="nav-item">📂 Study Materials (PDFs)</a>
+        <a href="./uploads.html" class="nav-item active">📂 Study Materials (PDFs)</a>
 
         <div class="nav-title">USERS & SETTINGS</div>
         <a href="./students.html" class="nav-item">👥 Students</a>
@@ -52,60 +52,87 @@
           <button class="menu-btn" id="menuBtn">☰</button>
           <div class="topbar-title">
             <span>MANAGEMENT</span>
-            <h1>Subjects</h1>
+            <h1>Study Materials & Notes</h1>
           </div>
         </div>
-        <button class="primary-btn" id="openModalBtn">➕ Add New Subject</button>
+        <button class="primary-btn" id="openModalBtn">➕ Add New PDF / Material</button>
       </header>
 
       <!-- Page Body -->
       <div class="page">
         <!-- Filter Toolbar -->
         <div class="filter-toolbar">
-          <label for="filterCourse">Filter by Course:</label>
-          <select id="filterCourse">
-            <option value="all">All Courses</option>
-          </select>
+          <div class="filter-item">
+            <label for="filterSubject">Filter by Subject:</label>
+            <select id="filterSubject">
+              <option value="all">All Subjects</option>
+            </select>
+          </div>
         </div>
 
-        <!-- Subjects Grid -->
-        <div class="subjects-grid" id="subjectsGrid">
-          <div class="empty-state" id="loadingState">Loading subjects...</div>
+        <!-- Materials Table Container -->
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">#</th>
+                <th>Title / Description</th>
+                <th>Subject / Chapter</th>
+                <th>File Format</th>
+                <th>Resource Link</th>
+                <th style="width: 140px; text-align: center;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="materialsTableBody">
+              <tr>
+                <td colspan="6" class="empty-state">Loading study materials...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </main>
   </div>
 
-  <!-- Add/Edit Subject Modal -->
-  <div class="modal-overlay" id="subjectModal">
+  <!-- Add/Edit Material Modal -->
+  <div class="modal-overlay" id="materialModal">
     <div class="modal-box">
       <div class="modal-header">
-        <h3 id="modalTitle">Add New Subject</h3>
+        <h3 id="modalTitle">Add PDF / Study Notes</h3>
         <button class="close-btn" id="closeModalBtn">&times;</button>
       </div>
-      <form id="subjectForm">
-        <input type="hidden" id="subjectId">
+      <form id="materialForm">
+        <input type="hidden" id="materialId">
 
         <div class="form-group">
-          <label for="courseSelect">Select Course</label>
-          <select id="courseSelect" required>
-            <option value="">-- Choose Course --</option>
+          <label for="subjectSelect">Select Subject</label>
+          <select id="subjectSelect" required>
+            <option value="">-- Choose Subject --</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="subjectTitle">Subject Name</label>
-          <input type="text" id="subjectTitle" placeholder="e.g. Modern Indian History, Indian Polity" required>
+          <label for="materialTitle">Document Title</label>
+          <input type="text" id="materialTitle" placeholder="e.g. Modern History Complete Handwritten Notes" required>
         </div>
 
         <div class="form-group">
-          <label for="subjectIcon">Icon / Emoji</label>
-          <input type="text" id="subjectIcon" placeholder="e.g. 📜, ⚖️, 🔬" value="📖">
+          <label for="fileUrl">PDF / Google Drive Direct Link</label>
+          <input type="url" id="fileUrl" placeholder="https://drive.google.com/file/d/..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="fileType">Category / Type</label>
+          <select id="fileType">
+            <option value="PDF Notes">PDF Notes</option>
+            <option value="Question Paper">Practice Test / MCQ Set</option>
+            <option value="Reference Book">Reference Book</option>
+          </select>
         </div>
 
         <div class="modal-actions">
           <button type="button" class="secondary-btn" id="cancelModalBtn">Cancel</button>
-          <button type="submit" class="primary-btn" id="saveSubjectBtn">Save Subject</button>
+          <button type="submit" class="primary-btn" id="saveMaterialBtn">Save Resource</button>
         </div>
       </form>
     </div>
@@ -115,6 +142,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="./assets/js/firebase-config.js"></script>
-  <script src="./assets/js/subjects.js"></script>
+  <script src="./assets/js/uploads.js"></script>
 </body>
 </html>

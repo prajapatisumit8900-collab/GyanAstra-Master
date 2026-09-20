@@ -1,727 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="GyanAstra Master - Chapter Management"
-    >
-
-    <title>Chapters | GyanAstra Master</title>
-
-    <link
-        rel="stylesheet"
-        href="./assets/css/chapters.css"
-    >
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Chapters | GyanAstra Master</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/chapters.css">
 </head>
-
-
 <body>
 
-<div class="admin-layout">
+  <div class="admin-layout">
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-
-    <!-- =====================================
-         SIDEBAR
-    ====================================== -->
-
-    <aside
-        class="sidebar"
-        id="sidebar"
-    >
-
-        <div class="sidebar-brand">
-
-            <div class="brand-logo">
-                🚀
-            </div>
-
-            <div class="brand-text">
-
-                <strong>
-                    GyanAstra
-                </strong>
-
-                <span>
-                    MASTER ADMIN
-                </span>
-
-            </div>
-
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-logo">🚀</span>
+        <div class="brand-text">
+          <strong>GyanAstra</strong>
+          <span>MASTER ADMIN</span>
         </div>
+      </div>
 
+      <nav class="admin-nav">
+        <div class="nav-title">MAIN</div>
+        <a href="./dashboard.html" class="nav-item">📊 Dashboard</a>
 
-        <nav class="admin-nav">
+        <div class="nav-title">ACADEMIC MANAGEMENT</div>
+        <a href="./courses.html" class="nav-item">📚 Courses</a>
+        <a href="./subjects.html" class="nav-item">📖 Subjects</a>
+        <a href="./chapters.html" class="nav-item active">📑 Chapters</a>
+        <a href="./lessons.html" class="nav-item">🎥 Lessons & Videos</a>
+        <a href="./uploads.html" class="nav-item">📂 Study Materials (PDFs)</a>
 
-            <div class="nav-title">
-                MAIN
-            </div>
+        <div class="nav-title">USERS & SETTINGS</div>
+        <a href="./students.html" class="nav-item">👥 Students</a>
+        <a href="./settings.html" class="nav-item">⚙️ Settings</a>
+      </nav>
 
-
-            <a
-                href="./dashboard.html"
-                class="nav-item"
-            >
-
-                <span class="nav-icon">
-                    📊
-                </span>
-
-                Dashboard
-
-            </a>
-
-
-            <a
-                href="./courses.html"
-                class="nav-item"
-            >
-
-                <span class="nav-icon">
-                    📚
-                </span>
-
-                Courses
-
-            </a>
-
-
-            <a
-                href="./subjects.html"
-                class="nav-item"
-            >
-
-                <span class="nav-icon">
-                    📖
-                </span>
-
-                Subjects
-
-            </a>
-
-
-            <a
-                href="./chapters.html"
-                class="nav-item active"
-            >
-
-                <span class="nav-icon">
-                    🗂️
-                </span>
-
-                Chapters
-
-            </a>
-
-
-            <div class="nav-title">
-                CONTENT
-            </div>
-
-
-            <a
-                href="./lessons.html"
-                class="nav-item"
-            >
-
-                <span class="nav-icon">
-                    🎬
-                </span>
-
-                Lessons
-
-            </a>
-
-
-            <a
-                href="./materials.html"
-                class="nav-item"
-            >
-
-                <span class="nav-icon">
-                    📁
-                </span>
-
-                Materials
-
-            </a>
-
-
-            <a
-                href="./students.html"
-                class="nav-item"
-            >
-
-                <span class="nav-icon">
-                    👨‍🎓
-                </span>
-
-                Students
-
-            </a>
-
-
-        </nav>
-
-
-        <div class="sidebar-footer">
-
-            <button
-                class="logout-btn"
-                id="logoutBtn"
-            >
-                🚪 Logout
-            </button>
-
-        </div>
-
+      <div class="sidebar-footer">
+        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
+      </div>
     </aside>
 
-
-    <!-- MOBILE OVERLAY -->
-
-    <div
-        class="sidebar-overlay"
-        id="sidebarOverlay"
-    ></div>
-
-
-    <!-- =====================================
-         MAIN
-    ====================================== -->
-
+    <!-- Main Content Area -->
     <main class="main-content">
-
-
-        <!-- TOPBAR -->
-
-        <header class="topbar">
-
-
-            <div class="topbar-left">
-
-                <button
-                    class="menu-btn"
-                    id="menuBtn"
-                >
-                    ☰
-                </button>
-
-
-                <div class="topbar-title">
-
-                    <span>
-                        CONTENT MANAGEMENT
-                    </span>
-
-                    <h1>
-                        Chapter Management
-                    </h1>
-
-                </div>
-
-            </div>
-
-
-            <div class="admin-profile">
-
-                <div
-                    class="admin-avatar"
-                    id="adminAvatar"
-                >
-                    A
-                </div>
-
-                <div class="admin-info">
-
-                    <strong id="adminName">
-                        Master Admin
-                    </strong>
-
-                    <span>
-                        Administrator
-                    </span>
-
-                </div>
-
-            </div>
-
-
-        </header>
-
-
-        <!-- =====================================
-             PAGE
-        ====================================== -->
-
-        <div class="page">
-
-
-            <!-- HEADER -->
-
-            <section class="page-header">
-
-                <div>
-
-                    <span class="page-label">
-                        COURSE CONTENT
-                    </span>
-
-                    <h2>
-                        Manage Chapters
-                    </h2>
-
-                    <p>
-                        Subject के अंदर chapters बनाएं और
-                        learning content को व्यवस्थित करें।
-                    </p>
-
-                </div>
-
-
-                <button
-                    class="primary-btn"
-                    id="addChapterBtn"
-                >
-                    + Add Chapter
-                </button>
-
-            </section>
-
-
-            <!-- =====================================
-                 FILTER
-            ====================================== -->
-
-            <section class="toolbar">
-
-
-                <div class="search-box">
-
-                    <span>
-                        🔍
-                    </span>
-
-                    <input
-                        type="search"
-                        id="chapterSearch"
-                        placeholder="Search chapters..."
-                    >
-
-                </div>
-
-
-                <select
-                    id="courseFilter"
-                >
-
-                    <option value="all">
-                        All Courses
-                    </option>
-
-                </select>
-
-
-                <select
-                    id="subjectFilter"
-                >
-
-                    <option value="all">
-                        All Subjects
-                    </option>
-
-                </select>
-
-
-                <select
-                    id="statusFilter"
-                >
-
-                    <option value="all">
-                        All Status
-                    </option>
-
-                    <option value="active">
-                        Active
-                    </option>
-
-                    <option value="inactive">
-                        Inactive
-                    </option>
-
-                </select>
-
-
-            </section>
-
-
-            <!-- =====================================
-                 SUMMARY
-            ====================================== -->
-
-            <section class="chapter-summary">
-
-
-                <div>
-
-                    <div>
-
-                        <span>
-                            TOTAL CHAPTERS
-                        </span>
-
-                        <strong id="chapterCount">
-                            0
-                        </strong>
-
-                    </div>
-
-                    <div class="summary-icon">
-                        🗂️
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <div>
-
-                        <span>
-                            ACTIVE
-                        </span>
-
-                        <strong id="activeCount">
-                            0
-                        </strong>
-
-                    </div>
-
-                    <div class="summary-icon">
-                        ✅
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <div>
-
-                        <span>
-                            SUBJECTS
-                        </span>
-
-                        <strong id="subjectCount">
-                            0
-                        </strong>
-
-                    </div>
-
-                    <div class="summary-icon">
-                        📖
-                    </div>
-
-                </div>
-
-
-            </section>
-
-
-            <!-- =====================================
-                 CHAPTER LIST
-            ====================================== -->
-
-            <section class="chapter-section">
-
-
-                <div class="section-title">
-
-                    <div>
-
-                        <span>
-                            CHAPTER LIBRARY
-                        </span>
-
-                        <h2>
-                            Available Chapters
-                        </h2>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="chapter-list"
-                    id="chapterList"
-                ></div>
-
-
-                <!-- EMPTY -->
-
-                <div
-                    class="empty-state"
-                    id="emptyState"
-                    style="display:none;"
-                >
-
-                    <div class="empty-icon">
-                        🗂️
-                    </div>
-
-                    <h3>
-                        No Chapter Found
-                    </h3>
-
-                    <p>
-                        नया chapter बनाने के लिए
-                        नीचे दिए button पर क्लिक करें।
-                    </p>
-
-                    <button
-                        class="primary-btn"
-                        id="emptyAddBtn"
-                    >
-                        + Add Chapter
-                    </button>
-
-                </div>
-
-
-            </section>
-
-
+      <!-- Topbar -->
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-btn" id="menuBtn">☰</button>
+          <div class="topbar-title">
+            <span>MANAGEMENT</span>
+            <h1>Chapters</h1>
+          </div>
+        </div>
+        <button class="primary-btn" id="openModalBtn">➕ Add New Chapter</button>
+      </header>
+
+      <!-- Page Body -->
+      <div class="page">
+        <!-- Filter Toolbar -->
+        <div class="filter-toolbar">
+          <div class="filter-item">
+            <label for="filterSubject">Filter by Subject:</label>
+            <select id="filterSubject">
+              <option value="all">All Subjects</option>
+            </select>
+          </div>
         </div>
 
-
+        <!-- Chapters List Container -->
+        <div class="chapters-container" id="chaptersContainer">
+          <div class="empty-state" id="loadingState">Loading chapters...</div>
+        </div>
+      </div>
     </main>
+  </div>
 
-</div>
+  <!-- Add/Edit Chapter Modal -->
+  <div class="modal-overlay" id="chapterModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add New Chapter</h3>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+      </div>
+      <form id="chapterForm">
+        <input type="hidden" id="chapterId">
 
-
-<!-- =====================================
-     ADD / EDIT MODAL
-====================================== -->
-
-<div
-    class="modal-overlay"
-    id="chapterModal"
->
-
-
-    <div class="modal">
-
-
-        <div class="modal-header">
-
-            <div>
-
-                <span>
-                    CHAPTER
-                </span>
-
-                <h2 id="modalTitle">
-                    Add New Chapter
-                </h2>
-
-            </div>
-
-
-            <button
-                class="close-btn"
-                id="closeModalBtn"
-                type="button"
-            >
-                ✕
-            </button>
-
+        <div class="form-group">
+          <label for="subjectSelect">Select Subject</label>
+          <select id="subjectSelect" required>
+            <option value="">-- Choose Subject --</option>
+          </select>
         </div>
 
+        <div class="form-group">
+          <label for="chapterNumber">Chapter Number / Sequence</label>
+          <input type="number" id="chapterNumber" placeholder="e.g. 1, 2, 3" min="1" required>
+        </div>
 
-        <!-- FORM -->
+        <div class="form-group">
+          <label for="chapterTitle">Chapter Title</label>
+          <input type="text" id="chapterTitle" placeholder="e.g. 1857 Revolt, Indian Preamble" required>
+        </div>
 
-        <form id="chapterForm">
+        <div class="form-group">
+          <label for="chapterDescription">Description (Optional)</label>
+          <textarea id="chapterDescription" rows="2" placeholder="Brief outline of chapter topics..."></textarea>
+        </div>
 
-
-            <input
-                type="hidden"
-                id="chapterId"
-            >
-
-
-            <!-- COURSE -->
-
-            <div class="form-group">
-
-                <label for="chapterCourse">
-                    Select Course
-                </label>
-
-                <select
-                    id="chapterCourse"
-                    required
-                >
-
-                    <option value="">
-                        Select Course
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- SUBJECT -->
-
-            <div class="form-group">
-
-                <label for="chapterSubject">
-                    Select Subject
-                </label>
-
-                <select
-                    id="chapterSubject"
-                    required
-                >
-
-                    <option value="">
-                        Select Subject
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- CHAPTER NAME -->
-
-            <div class="form-group">
-
-                <label for="chapterName">
-                    Chapter Name
-                </label>
-
-                <input
-                    type="text"
-                    id="chapterName"
-                    placeholder="e.g. Fundamental Rights"
-                    required
-                >
-
-            </div>
-
-
-            <!-- ORDER + STATUS -->
-
-            <div class="form-row">
-
-
-                <div class="form-group">
-
-                    <label for="chapterOrder">
-                        Chapter Number
-                    </label>
-
-                    <input
-                        type="number"
-                        id="chapterOrder"
-                        min="1"
-                        value="1"
-                        placeholder="1"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="chapterStatus">
-                        Status
-                    </label>
-
-                    <select
-                        id="chapterStatus"
-                    >
-
-                        <option value="active">
-                            Active
-                        </option>
-
-                        <option value="inactive">
-                            Inactive
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-            </div>
-
-
-            <!-- DESCRIPTION -->
-
-            <div class="form-group">
-
-                <label for="chapterDescription">
-                    Description
-                </label>
-
-                <textarea
-                    id="chapterDescription"
-                    placeholder="Chapter के बारे में short description..."
-                ></textarea>
-
-            </div>
-
-
-            <!-- ACTIONS -->
-
-            <div class="modal-actions">
-
-                <button
-                    type="button"
-                    class="secondary-btn"
-                    id="cancelBtn"
-                >
-                    Cancel
-                </button>
-
-
-                <button
-                    type="submit"
-                    class="primary-btn"
-                >
-                    Save Chapter
-                </button>
-
-            </div>
-
-
-        </form>
-
-
+        <div class="modal-actions">
+          <button type="button" class="secondary-btn" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="primary-btn" id="saveChapterBtn">Save Chapter</button>
+        </div>
+      </form>
     </div>
+  </div>
 
-</div>
-
-
-<script
-    src="./assets/js/chapters.js"
-></script>
-
-
+  <!-- Firebase & App Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="./assets/js/firebase-config.js"></script>
+  <script src="./assets/js/chapters.js"></script>
 </body>
-
 </html>

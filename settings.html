@@ -1,800 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="GyanAstra Master Admin Settings"
-    >
-
-    <title>Settings | GyanAstra Master</title>
-
-    <link
-        rel="stylesheet"
-        href="./assets/css/settings.css"
-    >
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Settings | GyanAstra Master</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/settings.css">
 </head>
-
-
 <body>
 
+  <div class="admin-layout">
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<!-- =====================================================
-     TOPBAR
-===================================================== -->
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-logo">🚀</span>
+        <div class="brand-text">
+          <strong>GyanAstra</strong>
+          <span>MASTER ADMIN</span>
+        </div>
+      </div>
 
-<header class="topbar">
+      <nav class="admin-nav">
+        <div class="nav-title">MAIN</div>
+        <a href="./dashboard.html" class="nav-item">📊 Dashboard</a>
 
-    <div class="top-left">
+        <div class="nav-title">ACADEMIC MANAGEMENT</div>
+        <a href="./courses.html" class="nav-item">📚 Courses</a>
+        <a href="./subjects.html" class="nav-item">📖 Subjects</a>
+        <a href="./chapters.html" class="nav-item">📑 Chapters</a>
+        <a href="./lessons.html" class="nav-item">🎥 Lessons & Videos</a>
+        <a href="./uploads.html" class="nav-item">📂 Study Materials (PDFs)</a>
 
-        <a
-            href="./dashboard.html"
-            class="back-btn"
-        >
-            ←
-        </a>
+        <div class="nav-title">USERS & SETTINGS</div>
+        <a href="./students.html" class="nav-item">👥 Students</a>
+        <a href="./settings.html" class="nav-item active">⚙️ Settings</a>
+      </nav>
 
+      <div class="sidebar-footer">
+        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
+      </div>
+    </aside>
 
-        <div class="brand">
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-btn" id="menuBtn">☰</button>
+          <div class="topbar-title">
+            <span>PREFERENCES</span>
+            <h1>Settings</h1>
+          </div>
+        </div>
+      </header>
 
-            <span class="brand-icon">
-                🚀
-            </span>
-
-            <div>
-
-                <strong>
-                    GyanAstra Master
-                </strong>
-
-                <small>
-                    ADMIN SETTINGS
-                </small>
-
+      <!-- Page Body -->
+      <div class="page">
+        <div class="settings-grid">
+          <!-- Admin Credentials Card -->
+          <div class="settings-card">
+            <div class="settings-card-header">
+              <h3>Admin Credentials</h3>
+              <p>View current master login details</p>
             </div>
+            <div class="info-row">
+              <span class="label">Admin Email:</span>
+              <span class="val">admin@gyanastra.com</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Default Password:</span>
+              <span class="val">admin123</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Role:</span>
+              <span class="badge">Master Super Admin</span>
+            </div>
+          </div>
 
+          <!-- Firebase & Database Health Card -->
+          <div class="settings-card">
+            <div class="settings-card-header">
+              <h3>Database Connection</h3>
+              <p>Firebase Firestore synchronization status</p>
+            </div>
+            <div class="info-row">
+              <span class="label">Project ID:</span>
+              <span class="val">gyanastra-30557</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Database Status:</span>
+              <span class="badge success" id="dbStatusBadge">Connected</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Hosting:</span>
+              <span class="val">GitHub Pages (Frontend)</span>
+            </div>
+          </div>
         </div>
-
-    </div>
-
-
-    <div class="top-actions">
-
-        <span id="adminName">
-            Admin
-        </span>
-
-        <button
-            type="button"
-            id="logoutBtn"
-        >
-            Logout
-        </button>
-
-    </div>
-
-</header>
-
-
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main class="page">
-
-
-    <!-- PAGE HEADER -->
-
-    <section class="page-header">
-
-        <div>
-
-            <span class="eyebrow">
-                CONTROL CENTER
-            </span>
-
-            <h1>
-                Settings
-            </h1>
-
-            <p>
-                GyanAstra Master की basic settings manage करें।
-            </p>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =================================================
-         SETTINGS LAYOUT
-    ================================================== -->
-
-    <section class="settings-layout">
-
-
-        <!-- SIDEBAR -->
-
-        <aside class="settings-sidebar">
-
-            <button
-                type="button"
-                class="settings-tab active"
-                data-tab="general"
-            >
-                ⚙️
-                <span>
-                    General
-                </span>
-            </button>
-
-
-            <button
-                type="button"
-                class="settings-tab"
-                data-tab="admin"
-            >
-                👤
-                <span>
-                    Admin Profile
-                </span>
-            </button>
-
-
-            <button
-                type="button"
-                class="settings-tab"
-                data-tab="website"
-            >
-                🌐
-                <span>
-                    Website
-                </span>
-            </button>
-
-
-            <button
-                type="button"
-                class="settings-tab"
-                data-tab="notifications"
-            >
-                🔔
-                <span>
-                    Notifications
-                </span>
-            </button>
-
-
-            <button
-                type="button"
-                class="settings-tab"
-                data-tab="security"
-            >
-                🔐
-                <span>
-                    Security
-                </span>
-            </button>
-
-
-            <button
-                type="button"
-                class="settings-tab"
-                data-tab="danger"
-            >
-                ⚠️
-                <span>
-                    Danger Zone
-                </span>
-            </button>
-
-        </aside>
-
-
-
-        <!-- =================================================
-             SETTINGS CONTENT
-        ================================================== -->
-
-        <div class="settings-content">
-
-
-            <!-- GENERAL -->
-
-            <section
-                class="settings-panel active"
-                id="general"
-            >
-
-                <div class="panel-header">
-
-                    <h2>
-                        General Settings
-                    </h2>
-
-                    <p>
-                        Admin Panel की सामान्य settings।
-                    </p>
-
-                </div>
-
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label for="siteName">
-                            Website Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="siteName"
-                            value="GyanAstra"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="siteTagline">
-                            Tagline
-                        </label>
-
-                        <input
-                            type="text"
-                            id="siteTagline"
-                            value="SUMITSTUDYIQ"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group full">
-
-                        <label for="siteDescription">
-                            Website Description
-                        </label>
-
-                        <textarea
-                            id="siteDescription"
-                            rows="4"
-                        >GyanAstra - आपकी online learning platform</textarea>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel-actions">
-
-                    <button
-                        type="button"
-                        class="primary-btn"
-                        id="saveGeneralBtn"
-                    >
-                        Save Changes
-                    </button>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- ADMIN PROFILE -->
-
-            <section
-                class="settings-panel"
-                id="admin"
-            >
-
-                <div class="panel-header">
-
-                    <h2>
-                        Admin Profile
-                    </h2>
-
-                    <p>
-                        Admin account की information।
-                    </p>
-
-                </div>
-
-
-                <div class="profile-box">
-
-                    <div
-                        class="profile-avatar"
-                        id="profileAvatar"
-                    >
-                        A
-                    </div>
-
-                    <div>
-
-                        <strong id="profileName">
-                            Admin
-                        </strong>
-
-                        <span>
-                            Administrator
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label for="adminDisplayName">
-                            Admin Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="adminDisplayName"
-                            placeholder="Admin Name"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="adminEmail">
-                            Email
-                        </label>
-
-                        <input
-                            type="email"
-                            id="adminEmail"
-                            placeholder="admin@example.com"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel-actions">
-
-                    <button
-                        type="button"
-                        class="primary-btn"
-                        id="saveAdminBtn"
-                    >
-                        Save Profile
-                    </button>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- WEBSITE -->
-
-            <section
-                class="settings-panel"
-                id="website"
-            >
-
-                <div class="panel-header">
-
-                    <h2>
-                        Website Settings
-                    </h2>
-
-                    <p>
-                        User website की basic configuration।
-                    </p>
-
-                </div>
-
-
-                <div class="setting-row">
-
-                    <div>
-
-                        <strong>
-                            Website Status
-                        </strong>
-
-                        <p>
-                            User website को online/offline करें।
-                        </p>
-
-                    </div>
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            id="websiteStatus"
-                            checked
-                        >
-
-                        <span></span>
-
-                    </label>
-
-                </div>
-
-
-                <div class="setting-row">
-
-                    <div>
-
-                        <strong>
-                            New Registration
-                        </strong>
-
-                        <p>
-                            नए students को signup करने दें।
-                        </p>
-
-                    </div>
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            id="registrationStatus"
-                            checked
-                        >
-
-                        <span></span>
-
-                    </label>
-
-                </div>
-
-
-                <div class="setting-row">
-
-                    <div>
-
-                        <strong>
-                            Maintenance Mode
-                        </strong>
-
-                        <p>
-                            Website को maintenance mode में रखें।
-                        </p>
-
-                    </div>
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            id="maintenanceMode"
-                        >
-
-                        <span></span>
-
-                    </label>
-
-                </div>
-
-
-                <div class="panel-actions">
-
-                    <button
-                        type="button"
-                        class="primary-btn"
-                        id="saveWebsiteBtn"
-                    >
-                        Save Website Settings
-                    </button>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- NOTIFICATIONS -->
-
-            <section
-                class="settings-panel"
-                id="notifications"
-            >
-
-                <div class="panel-header">
-
-                    <h2>
-                        Notifications
-                    </h2>
-
-                    <p>
-                        Admin notifications control करें।
-                    </p>
-
-                </div>
-
-
-                <div class="setting-row">
-
-                    <div>
-
-                        <strong>
-                            New Student
-                        </strong>
-
-                        <p>
-                            नया student register होने पर notification।
-                        </p>
-
-                    </div>
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            id="newStudentNotification"
-                            checked
-                        >
-
-                        <span></span>
-
-                    </label>
-
-                </div>
-
-
-                <div class="setting-row">
-
-                    <div>
-
-                        <strong>
-                            New Content
-                        </strong>
-
-                        <p>
-                            नया content add होने पर notification।
-                        </p>
-
-                    </div>
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            id="newContentNotification"
-                            checked
-                        >
-
-                        <span></span>
-
-                    </label>
-
-                </div>
-
-
-                <div class="setting-row">
-
-                    <div>
-
-                        <strong>
-                            System Alerts
-                        </strong>
-
-                        <p>
-                            Important system alerts प्राप्त करें।
-                        </p>
-
-                    </div>
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            id="systemNotification"
-                            checked
-                        >
-
-                        <span></span>
-
-                    </label>
-
-                </div>
-
-
-                <div class="panel-actions">
-
-                    <button
-                        type="button"
-                        class="primary-btn"
-                        id="saveNotificationBtn"
-                    >
-                        Save Notifications
-                    </button>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- SECURITY -->
-
-            <section
-                class="settings-panel"
-                id="security"
-            >
-
-                <div class="panel-header">
-
-                    <h2>
-                        Security
-                    </h2>
-
-                    <p>
-                        Admin account security settings।
-                    </p>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="currentPassword">
-                        Current Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="currentPassword"
-                        placeholder="Current password"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="newPassword">
-                        New Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="newPassword"
-                        placeholder="New password"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="confirmPassword">
-                        Confirm Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        placeholder="Confirm new password"
-                    >
-
-                </div>
-
-
-                <div class="panel-actions">
-
-                    <button
-                        type="button"
-                        class="primary-btn"
-                        id="changePasswordBtn"
-                    >
-                        Change Password
-                    </button>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- DANGER ZONE -->
-
-            <section
-                class="settings-panel"
-                id="danger"
-            >
-
-                <div class="panel-header danger-header">
-
-                    <h2>
-                        Danger Zone
-                    </h2>
-
-                    <p>
-                        इन actions को carefully use करें।
-                    </p>
-
-                </div>
-
-
-                <div class="danger-box">
-
-                    <div>
-
-                        <strong>
-                            Reset Local Data
-                        </strong>
-
-                        <p>
-                            Admin Panel का local demo data delete होगा।
-                        </p>
-
-                    </div>
-
-                    <button
-                        type="button"
-                        class="danger-btn"
-                        id="resetDataBtn"
-                    >
-                        Reset Data
-                    </button>
-
-                </div>
-
-
-                <div class="danger-box">
-
-                    <div>
-
-                        <strong>
-                            Admin Logout
-                        </strong>
-
-                        <p>
-                            Current Admin session समाप्त करें।
-                        </p>
-
-                    </div>
-
-                    <button
-                        type="button"
-                        class="danger-btn"
-                        id="dangerLogoutBtn"
-                    >
-                        Logout
-                    </button>
-
-                </div>
-
-            </section>
-
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<script src="./assets/js/settings.js"></script>
-
+      </div>
+    </main>
+  </div>
+
+  <!-- Firebase & App Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="./assets/js/firebase-config.js"></script>
+  <script src="./assets/js/settings.js"></script>
 </body>
-
 </html>

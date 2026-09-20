@@ -1,194 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="GyanAstra Master Admin Panel"
-    >
-
-    <title>Admin Login | GyanAstra Master</title>
-
-    <link
-        rel="stylesheet"
-        href="./assets/css/login.css"
-    >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | GyanAstra Master</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/login.css">
 </head>
-
 <body>
 
-    <!-- ==============================
-         ADMIN LOGIN PAGE
-    =============================== -->
+  <div class="login-card">
+    <div class="brand-header">
+      <span class="brand-icon">🚀</span>
+      <h1>GyanAstra</h1>
+      <span>MASTER CONTROL</span>
+      <p>Authorized Admin Access Only</p>
+    </div>
 
-    <main class="login-page">
+    <div class="error-msg" id="errorMsg" style="display: none; color: #dc2626; background: #fee2e2; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; text-align: center;"></div>
 
-        <section class="login-card">
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="adminEmail">Admin Email</label>
+        <div class="input-wrapper">
+          <input type="email" id="adminEmail" placeholder="Enter admin email" required>
+        </div>
+      </div>
 
-            <!-- LOGO -->
-            <div class="brand">
+      <div class="form-group">
+        <label for="adminPassword">Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="adminPassword" placeholder="Enter password" required>
+          <button type="button" class="toggle-pwd" id="togglePwd" title="Show/Hide">👁️</button>
+        </div>
+      </div>
 
-                <div class="brand-icon">
-                    🚀
-                </div>
+      <div class="remember-group" style="margin-bottom: 16px;">
+        <input type="checkbox" id="rememberMe">
+        <label for="rememberMe" style="font-size: 13px; color: #64748b;">Remember me</label>
+      </div>
 
-                <h1>
-                    GyanAstra
-                </h1>
+      <button type="submit" class="login-btn" style="width: 100%; cursor: pointer;">🔐 Login to Admin Panel</button>
+    </form>
 
-                <span>
-                    MASTER
-                </span>
+    <div class="card-footer" style="margin-top: 20px; text-align: center;">
+      <small style="color: #94a3b8; font-weight: 600; font-size: 11px;">GYANASTRA BY SUMITSTUDYIQ</small>
+    </div>
+  </div>
 
-            </div>
-
-
-            <!-- TITLE -->
-
-            <div class="login-heading">
-
-                <h2>
-                    Admin Login
-                </h2>
-
-                <p>
-                    GyanAstra Master Control Panel
-                </p>
-
-            </div>
-
-
-            <!-- LOGIN FORM -->
-
-            <form id="adminLoginForm">
-
-                <!-- EMAIL / USERNAME -->
-
-                <div class="input-group">
-
-                    <label for="adminEmail">
-                        Admin Email
-                    </label>
-
-                    <input
-                        type="email"
-                        id="adminEmail"
-                        name="adminEmail"
-                        placeholder="Enter admin email"
-                        autocomplete="username"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- PASSWORD -->
-
-                <div class="input-group">
-
-                    <label for="adminPassword">
-                        Password
-                    </label>
-
-                    <div class="password-box">
-
-                        <input
-                            type="password"
-                            id="adminPassword"
-                            name="adminPassword"
-                            placeholder="Enter admin password"
-                            autocomplete="current-password"
-                            required
-                        >
-
-                        <button
-                            type="button"
-                            id="togglePassword"
-                            class="password-toggle"
-                            aria-label="Show password"
-                        >
-                            👁️
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- REMEMBER -->
-
-                <div class="login-options">
-
-                    <label class="remember">
-
-                        <input
-                            type="checkbox"
-                            id="rememberAdmin"
-                        >
-
-                        <span>
-                            Remember me
-                        </span>
-
-                    </label>
-
-                </div>
-
-
-                <!-- ERROR / SUCCESS MESSAGE -->
-
-                <div
-                    id="loginMessage"
-                    class="login-message"
-                    aria-live="polite"
-                ></div>
-
-
-                <!-- LOGIN BUTTON -->
-
-                <button
-                    type="submit"
-                    id="loginButton"
-                    class="login-button"
-                >
-
-                    <span id="loginButtonText">
-                        🔐 Login to Admin Panel
-                    </span>
-
-                </button>
-
-            </form>
-
-
-            <!-- FOOTER -->
-
-            <div class="login-footer">
-
-                <p>
-                    GyanAstra Master
-                </p>
-
-                <span>
-                    Authorized Admin Access Only
-                </span>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- AUTH JAVASCRIPT -->
-
-    <script src="./assets/js/auth.js"></script>
-
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="./assets/js/firebase-config.js"></script>
+  <script src="./assets/js/login.js"></script>
 </body>
 </html>

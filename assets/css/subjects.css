@@ -1,64 +1,82 @@
 /* ===================================================
-   GyanAstra Master - Courses Page Styles
+   GyanAstra Master - Subjects Page Styles
    =================================================== */
 
-.courses-grid {
+.filter-toolbar {
+  background: #ffffff;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter-toolbar label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.filter-toolbar select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  min-width: 200px;
+}
+
+.subjects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
 }
 
-.course-card {
+.subject-card {
   background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.course-thumb {
-  height: 140px;
-  background: #e2e8f0;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: flex-end;
-  padding: 12px;
-}
-
-.course-category-tag {
-  background: rgba(15, 23, 42, 0.75);
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-
-.course-body {
-  padding: 16px;
-  flex-grow: 1;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.course-body h3 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: var(--text-main);
-}
-
-.course-body p {
-  font-size: 13px;
-  color: var(--text-muted);
+.subject-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
   margin-bottom: 16px;
 }
 
-.course-actions {
+.subject-icon-box {
+  width: 44px;
+  height: 44px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.subject-info h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.subject-info span {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.subject-actions {
   display: flex;
   gap: 8px;
   border-top: 1px solid var(--border-color);
@@ -85,7 +103,7 @@
   background: #ffffff;
   border-radius: 16px;
   width: 100%;
-  max-width: 480px;
+  max-width: 460px;
   padding: 24px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
@@ -123,7 +141,6 @@
 }
 
 .form-group input,
-.form-group textarea,
 .form-group select {
   width: 100%;
   padding: 10px 12px;
@@ -134,7 +151,6 @@
 }
 
 .form-group input:focus,
-.form-group textarea:focus,
 .form-group select:focus {
   border-color: var(--primary);
 }
