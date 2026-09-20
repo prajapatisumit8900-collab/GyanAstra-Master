@@ -1,114 +1,99 @@
-// ==========================================
-// GyanAstra Master - Students Directory Script
-// ==========================================
+"use strict";
+
+/* =========================================
+   GyanAstra Admin - Students Management
+   ========================================= */
 
 let allStudents = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-  checkAdminAuth();
+    loadStudents();
 
-  const searchInput = document.getElementById("studentSearch");
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      const term = e.target.value.toLowerCase().trim();
-      filterStudents(term);
-    });
-  }
+    const refreshBtn = document.getElementById("refreshStudentsBtn");
+    if (refreshBtn) {
+        refreshBtn.addEventListener("click", () => loadStudents());
+    }
 
-  loadStudents();
+    const searchInput = document.getElementById("searchStudentInput");
+    if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allStudents.filter(s => 
+                (s.name && s.name.toLowerCase().includes(query)) ||
+                (s.email && s.email.toLowerCase().includes(query)) ||
+                (s.exam && s.exam.toLowerCase().includes(query))
+            );
+            renderStudentsTable(filtered);
+        });
+    }
 });
 
-// Fetch Students from Firestore (users collection)
 async function loadStudents() {
-  const tbody = document.getElementById("studentsTableBody");
-  const totalEnrolledCount = document.getElementById("totalEnrolledCount");
-  const activeStudentsCount = document.getElementById("activeStudentsCount");
+    const tbody = document.getElementById("studentsTableBody");
+    if (!tbody) return;
 
-  tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Loading registered students...</td></tr>';
+    tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Students load ho rahe hain...</td></tr>`;
 
-  try {
-    const snapshot = await db.collection("users").get();
+    try {
+        const snap = await db.collection("students").get();
 
-    if (snapshot.empty) {
-      tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No students found in the database.</td></tr>';
-      if (totalEnrolledCount) totalEnrolledCount.textContent = "0";
-      if (activeStudentsCount) activeStudentsCount.textContent = "0";
-      return;
+        if (snap.empty) {
+            tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Abhi koi student register nahi hua hai.</td></tr>`;
+            return;
+        }
+
+        allStudents = [];
+        snap.forEach(doc => {
+            allStudents.push({ id: doc.id, ...doc.data() });
+        });
+
+        renderStudentsTable(allStudents);
+
+    } catch (err) {
+        console.error("Students load error:", err);
+        tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #ef4444;">Students load nahi ho paye.</td></tr>`;
     }
-
-    allStudents = [];
-    snapshot.forEach((doc) => {
-      allStudents.push({ id: doc.id, ...doc.data() });
-    });
-
-    if (totalEnrolledCount) totalEnrolledCount.textContent = allStudents.length;
-    if (activeStudentsCount) {
-      const activeCount = allStudents.filter(s => s.status !== "inactive").length;
-      activeStudentsCount.textContent = activeCount;
-    }
-
-    renderStudentsTable(allStudents);
-  } catch (error) {
-    console.error("Students loading error:", error);
-    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Failed to fetch students. Verify Firestore rules.</td></tr>';
-  }
 }
 
-// Render Table Rows
 function renderStudentsTable(students) {
-  const tbody = document.getElementById("studentsTableBody");
+    const tbody = document.getElementById("studentsTableBody");
+    if (!tbody) return;
 
-  if (!students.length) {
-    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No matching students found.</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = "";
-  let idx = 1;
-
-  students.forEach((student) => {
-    const tr = document.createElement("tr");
-
-    let regDate = "N/A";
-    if (student.createdAt && typeof student.createdAt.toDate === "function") {
-      regDate = student.createdAt.toDate().toLocaleDateString();
-    } else if (student.createdAt) {
-      regDate = new Date(student.createdAt).toLocaleDateString();
+    if (!students.length) {
+        tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Koi match nahi mila.</td></tr>`;
+        return;
     }
 
-    const enrolledList = Array.isArray(student.enrolledCourses)
-      ? student.enrolledCourses.join(", ")
-      : (student.enrolledCourses || "None");
+    tbody.innerHTML = "";
+    students.forEach((data) => {
+        let dateStr = "Recent";
+        if (data.createdAt && data.createdAt.toDate) {
+            dateStr = data.createdAt.toDate().toLocaleDateString();
+        }
 
-    const status = student.status === "inactive" ? "pending" : "active";
-    const statusText = student.status === "inactive" ? "Inactive" : "Active";
-
-    tr.innerHTML = `
-      <td>${idx++}</td>
-      <td><strong>${student.name || student.displayName || "Unknown"}</strong></td>
-      <td>${student.email || "No Email"}</td>
-      <td>${regDate}</td>
-      <td>${enrolledList}</td>
-      <td style="text-align: center;">
-        <span class="status-badge ${status}">${statusText}</span>
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
+        const tr = document.createElement("tr");
+        tr.style = "border-bottom: 1px solid #334155;";
+        tr.innerHTML = `
+            <td style="padding: 12px; font-weight: bold; color: #f8fafc;">👤 ${data.name || data.fullName || "Student"}</td>
+            <td style="padding: 12px; color: #38bdf8;">${data.email || "No Email"}</td>
+            <td style="padding: 12px; color: #94a3b8;">${data.targetExam || data.exam || "UPSC / General"}</td>
+            <td style="padding: 12px; color: #64748b;">${dateStr}</td>
+            <td style="padding: 12px;">
+                <button onclick="removeStudent('${data.id}')" style="background: #ef4444; border: none; padding: 4px 10px; border-radius: 4px; color: #fff; cursor: pointer;">Delete</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
 }
 
-// Search Filter
-function filterStudents(searchTerm) {
-  if (!searchTerm) {
-    renderStudentsTable(allStudents);
-    return;
-  }
-
-  const filtered = allStudents.filter((student) => {
-    const name = (student.name || student.displayName || "").toLowerCase();
-    const email = (student.email || "").toLowerCase();
-    return name.includes(searchTerm) || email.includes(searchTerm);
-  });
-
-  renderStudentsTable(filtered);
+async function removeStudent(id) {
+    if (confirm("Kya aap sach me is student record ko delete karna chahte hain?")) {
+        try {
+            await db.collection("students").doc(id).delete();
+            loadStudents();
+        } catch (err) {
+            console.error("Delete Error:", err);
+            alert("Delete nahi ho paya.");
+        }
+    }
 }

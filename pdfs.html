@@ -3,680 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="GyanAstra Master - PDF and Notes Management">
-
-    <title>PDF & Notes | GyanAstra Master</title>
-
-    <link rel="stylesheet" href="./assets/css/pdfs.css">
+    <title>E-Library & PDFs | GyanAstra Admin</title>
+    <link rel="stylesheet" href="./assets/css/dashboard.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/uploads.css">
 </head>
-
 <body>
 
-<!-- ================= HEADER ================= -->
-
-<header class="topbar">
-
-    <div class="top-left">
-
-        <button class="back-btn" onclick="goBack()">
-            ←
-        </button>
-
+<div class="admin-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
         <div class="brand">
-
-            <div class="brand-icon">
-                🚀
-            </div>
-
+            <span class="brand-icon">🚀</span>
             <div>
-                <strong>GyanAstra Master</strong>
-                <small>ADMIN PANEL</small>
+                <h2>GyanAstra</h2>
+                <small>MASTER ADMIN</small>
             </div>
-
         </div>
 
-    </div>
+        <nav class="nav-menu">
+            <span class="nav-label">MAIN</span>
+            <a href="./dashboard.html" class="nav-link">📊 Dashboard</a>
 
+            <span class="nav-label">ACADEMIC CONTENT</span>
+            <a href="./courses.html" class="nav-link">📚 Courses & GS</a>
+            <a href="./subjects.html" class="nav-link">📑 Subjects</a>
+            <a href="./chapters.html" class="nav-link">📖 Chapters</a>
+            <a href="./lessons.html" class="nav-link">🎥 Video Lessons</a>
+            <a href="./pdfs.html" class="nav-link active">📁 E-Library (PDFs)</a>
 
-    <div class="top-actions">
+            <span class="nav-label">USERS & SETTINGS</span>
+            <a href="./students.html" class="nav-link">👥 Students</a>
+            <a href="./settings.html" class="nav-link">⚙️ Settings</a>
+        </nav>
+    </aside>
 
-        <span class="admin-status">
-            🟢 Admin
-        </span>
-
-        <button
-            class="logout-btn"
-            onclick="adminLogout()"
-        >
-            Logout
-        </button>
-
-    </div>
-
-</header>
-
-
-<!-- ================= SIDEBAR ================= -->
-
-<aside class="sidebar">
-
-    <div class="sidebar-title">
-        MASTER PANEL
-    </div>
-
-    <nav>
-
-        <a href="./dashboard.html">
-            📊
-            <span>Dashboard</span>
-        </a>
-
-        <a href="./courses.html">
-            📚
-            <span>Courses</span>
-        </a>
-
-        <a href="./subjects.html">
-            📖
-            <span>Subjects</span>
-        </a>
-
-        <a href="./chapters.html">
-            📑
-            <span>Chapters</span>
-        </a>
-
-        <a href="./videos.html">
-            🎬
-            <span>Videos</span>
-        </a>
-
-        <a
-            href="./pdfs.html"
-            class="active"
-        >
-            📄
-            <span>PDF / Notes</span>
-        </a>
-
-        <a href="./content.html">
-            📝
-            <span>Content</span>
-        </a>
-
-        <a href="./settings.html">
-            ⚙️
-            <span>Settings</span>
-        </a>
-
-    </nav>
-
-</aside>
-
-
-<!-- ================= MAIN ================= -->
-
-<main class="main-content">
-
-    <!-- PAGE HEADER -->
-
-    <section class="page-header">
-
-        <div>
-
-            <span class="eyebrow">
-                STUDY MATERIAL MANAGEMENT
-            </span>
-
-            <h1>
-                PDF & Notes
-            </h1>
-
-            <p>
-                Students के लिए PDF, Notes और Study Material manage करें।
-            </p>
-
-        </div>
-
-
-        <button
-            class="primary-btn"
-            onclick="openUploadModal()"
-        >
-            ＋ Upload Material
-        </button>
-
-    </section>
-
-
-    <!-- ================= STATS ================= -->
-
-    <section class="stats-grid">
-
-        <div class="stat-card">
-
-            <div class="stat-icon">
-                📄
-            </div>
-
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <header class="topbar">
             <div>
-                <span>Total Files</span>
-
-                <strong id="totalFiles">
-                    0
-                </strong>
+                <span class="section-label">E-LIBRARY MANAGEMENT</span>
+                <h1>Study Materials & PDFs</h1>
             </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-icon">
-                📚
-            </div>
-
-            <div>
-                <span>PDF Files</span>
-
-                <strong id="pdfFiles">
-                    0
-                </strong>
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-icon">
-                📝
-            </div>
-
-            <div>
-                <span>Notes</span>
-
-                <strong id="notesFiles">
-                    0
-                </strong>
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-icon">
-                💾
-            </div>
-
-            <div>
-                <span>Storage</span>
-
-                <strong id="fileStorage">
-                    0 MB
-                </strong>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= FILTER ================= -->
-
-    <section class="filter-card">
-
-        <div class="search-box">
-
-            <span>
-                🔍
-            </span>
-
-            <input
-                type="search"
-                id="materialSearch"
-                placeholder="Search PDF or notes..."
-            >
-
-        </div>
-
-
-        <select id="courseFilter">
-
-            <option value="all">
-                All Courses
-            </option>
-
-        </select>
-
-
-        <select id="subjectFilter">
-
-            <option value="all">
-                All Subjects
-            </option>
-
-        </select>
-
-
-        <select id="materialTypeFilter">
-
-            <option value="all">
-                All Types
-            </option>
-
-            <option value="pdf">
-                PDF
-            </option>
-
-            <option value="notes">
-                Notes
-            </option>
-
-            <option value="document">
-                Document
-            </option>
-
-        </select>
-
-
-        <select id="statusFilter">
-
-            <option value="all">
-                All Status
-            </option>
-
-            <option value="published">
-                Published
-            </option>
-
-            <option value="draft">
-                Draft
-            </option>
-
-        </select>
-
-    </section>
-
-
-    <!-- ================= MATERIAL LIST ================= -->
-
-    <section class="content-card">
-
-        <div class="content-header">
-
-            <div>
-
-                <span class="section-label">
-                    STUDY MATERIAL LIBRARY
-                </span>
-
-                <h2>
-                    All PDFs & Notes
-                </h2>
-
-            </div>
-
-
-            <span id="materialCount">
-                0 Files
-            </span>
-
-        </div>
-
-
-        <!-- MATERIAL GRID -->
-
-        <div
-            id="materialGrid"
-            class="material-grid"
-        >
-        </div>
-
-
-        <!-- LOADING -->
-
-        <div
-            id="loading"
-            class="loading"
-        >
-
-            <div class="spinner"></div>
-
-            <p>
-                Study material loading...
-            </p>
-
-        </div>
-
-
-        <!-- EMPTY -->
-
-        <div
-            id="emptyState"
-            class="empty-state hidden"
-        >
-
-            <div class="empty-icon">
-                📄
-            </div>
-
-            <h3>
-                No study material found
-            </h3>
-
-            <p>
-                अभी कोई PDF या Notes upload नहीं किया गया है।
-            </p>
-
-            <button
-                class="primary-btn"
-                onclick="openUploadModal()"
-            >
-                ＋ Upload First Material
-            </button>
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<!-- ================================================= -->
-<!-- UPLOAD MATERIAL MODAL -->
-<!-- ================================================= -->
-
-<div
-    id="uploadModal"
-    class="modal hidden"
->
-
-    <div
-        class="modal-overlay"
-        onclick="closeUploadModal()"
-    ></div>
-
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <div>
-
-                <span class="section-label">
-                    STUDY MATERIAL
-                </span>
-
-                <h2>
-                    Upload New Material
-                </h2>
-
-            </div>
-
-
-            <button
-                class="close-btn"
-                onclick="closeUploadModal()"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <form
-            id="materialForm"
-            class="material-form"
-        >
-
-            <!-- TITLE -->
-
-            <div class="form-group">
-
-                <label for="materialTitle">
-                    Material Title
-                </label>
-
-                <input
-                    type="text"
-                    id="materialTitle"
-                    placeholder="e.g. Indian Polity Complete Notes"
-                    required
-                >
-
-            </div>
-
-
-            <!-- COURSE -->
-
-            <div class="form-group">
-
-                <label for="materialCourse">
-                    Course
-                </label>
-
-                <select
-                    id="materialCourse"
-                    required
-                >
-
-                    <option value="">
-                        Select Course
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- SUBJECT -->
-
-            <div class="form-group">
-
-                <label for="materialSubject">
-                    Subject
-                </label>
-
-                <select
-                    id="materialSubject"
-                    required
-                >
-
-                    <option value="">
-                        Select Subject
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- CHAPTER -->
-
-            <div class="form-group">
-
-                <label for="materialChapter">
-                    Chapter
-                </label>
-
-                <select id="materialChapter">
-
-                    <option value="">
-                        Select Chapter
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- TYPE -->
-
-            <div class="form-group">
-
-                <label for="materialType">
-                    Material Type
-                </label>
-
-                <select
-                    id="materialType"
-                    required
-                >
-
-                    <option value="pdf">
-                        PDF
-                    </option>
-
-                    <option value="notes">
-                        Notes
-                    </option>
-
-                    <option value="document">
-                        Document
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- DESCRIPTION -->
-
-            <div class="form-group">
-
-                <label for="materialDescription">
-                    Description
-                </label>
-
-                <textarea
-                    id="materialDescription"
-                    rows="4"
-                    placeholder="Material के बारे में जानकारी..."
-                ></textarea>
-
-            </div>
-
-
-            <!-- FILE -->
-
-            <div class="form-group">
-
-                <label for="materialFile">
-                    Select File
-                </label>
-
-                <input
-                    type="file"
-                    id="materialFile"
-                    accept=".pdf,.doc,.docx,.txt"
-                    required
-                >
-
-                <small>
-                    PDF, DOC, DOCX और TXT files
-                </small>
-
-            </div>
-
-
-            <!-- THUMBNAIL -->
-
-            <div class="form-group">
-
-                <label for="materialThumbnail">
-                    Thumbnail / Cover
-                </label>
-
-                <input
-                    type="file"
-                    id="materialThumbnail"
-                    accept="image/*"
-                >
-
-            </div>
-
-
-            <!-- ACCESS -->
-
-            <div class="form-group">
-
-                <label for="materialAccess">
-                    Access
-                </label>
-
-                <select id="materialAccess">
-
-                    <option value="free">
-                        Free
-                    </option>
-
-                    <option value="premium">
-                        Premium
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- STATUS -->
-
-            <div class="form-group">
-
-                <label for="materialStatus">
-                    Status
-                </label>
-
-                <select id="materialStatus">
-
-                    <option value="published">
-                        Published
-                    </option>
-
-                    <option value="draft">
-                        Draft
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- ACTIONS -->
-
-            <div class="form-actions">
-
-                <button
-                    type="button"
-                    class="secondary-btn"
-                    onclick="closeUploadModal()"
-                >
-                    Cancel
-                </button>
-
-
-                <button
-                    type="submit"
-                    class="primary-btn"
-                >
-                    Upload Material
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
+            <button id="openPdfModalBtn" class="action-btn" type="button">+ Upload New PDF / Book</button>
+        </header>
+
+        <!-- PDF LIST TABLE -->
+        <section class="table-card" style="margin-top: 24px; background: #1e293b; padding: 20px; border-radius: 10px;">
+            <table style="width: 100%; border-collapse: collapse; color: #f8fafc; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #334155; color: #94a3b8;">
+                        <th style="padding: 12px;">TITLE</th>
+                        <th style="padding: 12px;">CATEGORY</th>
+                        <th style="padding: 12px;">AUTHOR / SOURCE</th>
+                        <th style="padding: 12px;">FILE LINK</th>
+                        <th style="padding: 12px;">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="pdfTableBody">
+                    <tr>
+                        <td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">PDFs load ho rahe hain...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
 </div>
 
+<!-- UPLOAD MODAL -->
+<div id="pdfModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000;">
+    <div style="background: #1e293b; padding: 24px; border-radius: 10px; width: 450px; color: #f8fafc; border: 1px solid #334155;">
+        <h2 style="margin-bottom: 16px;">Add New Study PDF / Book</h2>
+        <form id="pdfForm">
+            <div style="margin-bottom: 12px;">
+                <label style="display:block; margin-bottom: 6px; font-size: 13px;">Document Title</label>
+                <input type="text" id="pdfTitle" required placeholder="e.g. Spectrum Modern History" style="width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff;">
+            </div>
 
-<!-- ================= JAVASCRIPT ================= -->
+            <div style="margin-bottom: 12px;">
+                <label style="display:block; margin-bottom: 6px; font-size: 13px;">Category</label>
+                <select id="pdfCategory" style="width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff;">
+                    <option value="UPSC GS">UPSC GS</option>
+                    <option value="NCERT Books">NCERT Books</option>
+                    <option value="Current Affairs">Current Affairs</option>
+                    <option value="Handwritten Notes">Handwritten Notes</option>
+                </select>
+            </div>
 
-<script src="./assets/js/pdfs.js"></script>
+            <div style="margin-bottom: 12px;">
+                <label style="display:block; margin-bottom: 6px; font-size: 13px;">Author / Tag</label>
+                <input type="text" id="pdfAuthor" placeholder="e.g. Rajiv Ahir / Standard Book" style="width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff;">
+            </div>
 
+            <div style="margin-bottom: 18px;">
+                <label style="display:block; margin-bottom: 6px; font-size: 13px;">Google Drive / PDF Direct URL</label>
+                <input type="url" id="pdfUrl" required placeholder="https://drive.google.com/..." style="width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff;">
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button type="button" id="closePdfModalBtn" style="padding: 8px 16px; background: #334155; border: none; border-radius: 6px; color: #fff; cursor: pointer;">Cancel</button>
+                <button type="submit" style="padding: 8px 16px; background: #2563eb; border: none; border-radius: 6px; color: #fff; cursor: pointer;">Save PDF</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="./assets/js/firebase-config.js"></script>
+
+<!-- Page Script -->
+<script src="./assets/js/uploads.js"></script>
 </body>
 </html>

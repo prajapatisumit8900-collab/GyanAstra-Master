@@ -1,107 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Students | GyanAstra Master</title>
-  <link rel="stylesheet" href="./assets/css/style.css">
-  <link rel="stylesheet" href="./assets/css/students.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Students | GyanAstra Admin</title>
+    <link rel="stylesheet" href="./assets/css/dashboard.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/students.css">
 </head>
 <body>
 
-  <div class="admin-layout">
-    <!-- Sidebar Overlay for Mobile -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-brand">
-        <span class="brand-logo">🚀</span>
-        <div class="brand-text">
-          <strong>GyanAstra</strong>
-          <span>MASTER ADMIN</span>
+<div class="admin-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <span class="brand-icon">🚀</span>
+            <div>
+                <h2>GyanAstra</h2>
+                <small>MASTER ADMIN</small>
+            </div>
         </div>
-      </div>
 
-      <nav class="admin-nav">
-        <div class="nav-title">MAIN</div>
-        <a href="./dashboard.html" class="nav-item">📊 Dashboard</a>
+        <nav class="nav-menu">
+            <span class="nav-label">MAIN</span>
+            <a href="./dashboard.html" class="nav-link">📊 Dashboard</a>
 
-        <div class="nav-title">ACADEMIC MANAGEMENT</div>
-        <a href="./courses.html" class="nav-item">📚 Courses</a>
-        <a href="./subjects.html" class="nav-item">📖 Subjects</a>
-        <a href="./chapters.html" class="nav-item">📑 Chapters</a>
-        <a href="./lessons.html" class="nav-item">🎥 Lessons & Videos</a>
-        <a href="./uploads.html" class="nav-item">📂 Study Materials (PDFs)</a>
+            <span class="nav-label">ACADEMIC CONTENT</span>
+            <a href="./courses.html" class="nav-link">📚 Courses & GS</a>
+            <a href="./subjects.html" class="nav-link">📑 Subjects</a>
+            <a href="./chapters.html" class="nav-link">📖 Chapters</a>
+            <a href="./lessons.html" class="nav-link">🎥 Video Lessons</a>
+            <a href="./pdfs.html" class="nav-link">📁 E-Library (PDFs)</a>
 
-        <div class="nav-title">USERS & SETTINGS</div>
-        <a href="./students.html" class="nav-item active">👥 Students</a>
-        <a href="./settings.html" class="nav-item">⚙️ Settings</a>
-      </nav>
-
-      <div class="sidebar-footer">
-        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
-      </div>
+            <span class="nav-label">USERS & SETTINGS</span>
+            <a href="./students.html" class="nav-link active">👥 Students</a>
+            <a href="./settings.html" class="nav-link">⚙️ Settings</a>
+        </nav>
     </aside>
 
-    <!-- Main Content Area -->
+    <!-- MAIN CONTENT -->
     <main class="main-content">
-      <!-- Topbar -->
-      <header class="topbar">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <button class="menu-btn" id="menuBtn">☰</button>
-          <div class="topbar-title">
-            <span>USER DIRECTORY</span>
-            <h1>Students</h1>
-          </div>
-        </div>
-        <div class="search-box">
-          <input type="text" id="studentSearch" placeholder="Search by name or email...">
-        </div>
-      </header>
+        <header class="topbar">
+            <div>
+                <span class="section-label">USER MANAGEMENT</span>
+                <h1>Registered Students</h1>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <input type="text" id="searchStudentInput" placeholder="Search by name/email..." style="padding: 8px 14px; background: #1e293b; border: 1px solid #334155; border-radius: 6px; color: #fff; width: 220px;">
+                <button id="refreshStudentsBtn" class="action-btn" type="button">🔄 Refresh</button>
+            </div>
+        </header>
 
-      <!-- Page Body -->
-      <div class="page">
-        <!-- Students Summary Stats -->
-        <div class="summary-cards">
-          <div class="summary-card">
-            <span>TOTAL ENROLLED</span>
-            <h3 id="totalEnrolledCount">0</h3>
-          </div>
-          <div class="summary-card">
-            <span>ACTIVE ACCOUNTS</span>
-            <h3 id="activeStudentsCount">0</h3>
-          </div>
-        </div>
-
-        <!-- Students Table -->
-        <div class="table-container">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th style="width: 60px;">#</th>
-                <th>Student Name</th>
-                <th>Email Address</th>
-                <th>Registered Date</th>
-                <th>Enrolled Courses</th>
-                <th style="width: 120px; text-align: center;">Status</th>
-              </tr>
-            </thead>
-            <tbody id="studentsTableBody">
-              <tr>
-                <td colspan="6" class="empty-state">Loading registered students...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+        <!-- STUDENTS TABLE -->
+        <section class="table-card" style="margin-top: 24px; background: #1e293b; padding: 20px; border-radius: 10px;">
+            <table style="width: 100%; border-collapse: collapse; color: #f8fafc; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #334155; color: #94a3b8;">
+                        <th style="padding: 12px;">STUDENT NAME</th>
+                        <th style="padding: 12px;">EMAIL</th>
+                        <th style="padding: 12px;">TARGET EXAM</th>
+                        <th style="padding: 12px;">JOINED DATE</th>
+                        <th style="padding: 12px;">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsTableBody">
+                    <tr>
+                        <td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Students list load ho rahi hai...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
-  </div>
+</div>
 
-  <!-- Firebase & App Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="./assets/js/firebase-config.js"></script>
-  <script src="./assets/js/students.js"></script>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="./assets/js/firebase-config.js"></script>
+
+<!-- Page Logic -->
+<script src="./assets/js/students.js"></script>
 </body>
 </html>

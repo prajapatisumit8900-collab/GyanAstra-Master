@@ -1,127 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | GyanAstra Master</title>
-  <link rel="stylesheet" href="./assets/css/style.css">
-  <link rel="stylesheet" href="./assets/css/dashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GyanAstra - Master Admin Dashboard</title>
+    <link rel="stylesheet" href="./assets/css/dashboard.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
 
-  <div class="admin-layout">
-    <!-- Sidebar Overlay for Mobile -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-brand">
-        <span class="brand-logo">🚀</span>
-        <div class="brand-text">
-          <strong>GyanAstra</strong>
-          <span>MASTER ADMIN</span>
+<div class="admin-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <span class="brand-icon">🚀</span>
+            <div>
+                <h2>GyanAstra</h2>
+                <small>MASTER ADMIN</small>
+            </div>
         </div>
-      </div>
 
-      <nav class="admin-nav">
-        <div class="nav-title">MAIN</div>
-        <a href="./dashboard.html" class="nav-item active">📊 Dashboard</a>
+        <nav class="nav-menu">
+            <span class="nav-label">MAIN</span>
+            <a href="./dashboard.html" class="nav-link active">📊 Dashboard</a>
 
-        <div class="nav-title">ACADEMIC MANAGEMENT</div>
-        <a href="./courses.html" class="nav-item">📚 Courses</a>
-        <a href="./subjects.html" class="nav-item">📖 Subjects</a>
-        <a href="./chapters.html" class="nav-item">📑 Chapters</a>
-        <a href="./lessons.html" class="nav-item">🎥 Lessons & Videos</a>
-        <a href="./uploads.html" class="nav-item">📂 Study Materials (PDFs)</a>
+            <span class="nav-label">ACADEMIC CONTENT</span>
+            <a href="./courses.html" class="nav-link">📚 Courses & GS</a>
+            <a href="./subjects.html" class="nav-link">📑 Subjects</a>
+            <a href="./chapters.html" class="nav-link">📖 Chapters</a>
+            <a href="./lessons.html" class="nav-link">🎥 Video Lessons</a>
+            <a href="./pdfs.html" class="nav-link">📁 E-Library (PDFs)</a>
 
-        <div class="nav-title">USERS & SETTINGS</div>
-        <a href="./students.html" class="nav-item">👥 Students</a>
-        <a href="./settings.html" class="nav-item">⚙️ Settings</a>
-      </nav>
+            <span class="nav-label">USERS & SETTINGS</span>
+            <a href="./students.html" class="nav-link">👥 Students</a>
+            <a href="./settings.html" class="nav-link">⚙️ Settings</a>
+        </nav>
 
-      <div class="sidebar-footer">
-        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
-      </div>
+        <div class="sidebar-bottom">
+            <button id="logoutBtn" class="logout-btn" type="button">🚪 Logout</button>
+        </div>
     </aside>
 
-    <!-- Main Workspace -->
+    <!-- MAIN DASHBOARD CONTENT -->
     <main class="main-content">
-      <!-- Topbar -->
-      <header class="topbar">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <button class="menu-btn" id="menuBtn">☰</button>
-          <div class="topbar-title">
-            <span>OVERVIEW</span>
-            <h1>Dashboard</h1>
-          </div>
-        </div>
-        <div class="admin-profile">
-          <div class="admin-avatar">A</div>
-          <div class="admin-info">
-            <strong>GyanAstra Admin</strong>
-            <span>Master Controller</span>
-          </div>
-        </div>
-      </header>
-
-      <!-- Dashboard Content -->
-      <div class="page">
-        <!-- Quick Stats Grid -->
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-header">
-              <span>TOTAL COURSES</span>
-              <div class="stat-icon icon-blue">📚</div>
+        <header class="topbar">
+            <div>
+                <span class="section-label">OVERVIEW</span>
+                <h1>Admin Dashboard</h1>
             </div>
-            <h2 id="totalCoursesCount">0</h2>
-            <p><a href="./courses.html">Manage Courses →</a></p>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-header">
-              <span>TOTAL SUBJECTS</span>
-              <div class="stat-icon icon-purple">📖</div>
+            <div class="profile-badge">
+                <div class="avatar">A</div>
+                <div>
+                    <strong>GyanAstra Admin</strong>
+                    <small>Master Controller</small>
+                </div>
             </div>
-            <h2 id="totalSubjectsCount">0</h2>
-            <p><a href="./subjects.html">Manage Subjects →</a></p>
-          </div>
+        </header>
 
-          <div class="stat-card">
-            <div class="stat-header">
-              <span>VIDEO LESSONS</span>
-              <div class="stat-icon icon-amber">🎥</div>
+        <!-- STATS CARDS -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <small>TOTAL COURSES</small>
+                    <h2 id="totalCourses">0</h2>
+                    <a href="./courses.html">Manage Courses →</a>
+                </div>
+                <div class="stat-icon">📚</div>
             </div>
-            <h2 id="totalLessonsCount">0</h2>
-            <p><a href="./lessons.html">View Lessons →</a></p>
-          </div>
 
-          <div class="stat-card">
-            <div class="stat-header">
-              <span>REGISTERED STUDENTS</span>
-              <div class="stat-icon icon-emerald">👥</div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <small>TOTAL SUBJECTS</small>
+                    <h2 id="totalSubjects">0</h2>
+                    <a href="./subjects.html">Manage Subjects →</a>
+                </div>
+                <div class="stat-icon">📑</div>
             </div>
-            <h2 id="totalStudentsCount">0</h2>
-            <p><a href="./students.html">View Students →</a></p>
-          </div>
-        </div>
 
-        <!-- Quick Action Shortcuts -->
-        <div class="section-card" style="margin-top: 24px;">
-          <h3 style="margin-bottom: 16px;">Quick Actions</h3>
-          <div class="action-buttons-wrapper">
-            <a href="./courses.html" class="primary-btn">➕ Add New Course</a>
-            <a href="./lessons.html" class="primary-btn">🎥 Add Video Lesson</a>
-            <a href="./uploads.html" class="primary-btn">📄 Upload Study PDF</a>
-          </div>
-        </div>
-      </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <small>TOTAL CHAPTERS</small>
+                    <h2 id="totalChapters">0</h2>
+                    <a href="./chapters.html">Manage Chapters →</a>
+                </div>
+                <div class="stat-icon">📖</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <small>VIDEO LESSONS</small>
+                    <h2 id="totalLessons">0</h2>
+                    <a href="./lessons.html">Manage Lessons →</a>
+                </div>
+                <div class="stat-icon">🎥</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <small>E-LIBRARY (PDFs)</small>
+                    <h2 id="totalPDFs">0</h2>
+                    <a href="./pdfs.html">Manage PDFs →</a>
+                </div>
+                <div class="stat-icon">📁</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <small>STUDENTS REGISTERED</small>
+                    <h2 id="totalStudents">0</h2>
+                    <a href="./students.html">View Students →</a>
+                </div>
+                <div class="stat-icon">👥</div>
+            </div>
+        </section>
+
+        <!-- QUICK ACTIONS -->
+        <section class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="action-buttons">
+                <a href="./courses.html" class="action-btn">+ Add New Course</a>
+                <a href="./subjects.html" class="action-btn">+ Add Subject</a>
+                <a href="./chapters.html" class="action-btn">+ Add Chapter</a>
+                <a href="./lessons.html" class="action-btn">+ Add Video Lesson</a>
+                <a href="./pdfs.html" class="action-btn">+ Upload Study PDF</a>
+            </div>
+        </section>
     </main>
-  </div>
+</div>
 
-  <!-- Firebase & Config Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="./assets/js/firebase-config.js"></script>
-  <script src="./assets/js/dashboard.js"></script>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="./assets/js/firebase-config.js"></script>
+
+<!-- Page Logic -->
+<script src="./assets/js/dashboard.js"></script>
 </body>
 </html>

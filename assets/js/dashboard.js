@@ -1,38 +1,63 @@
-// ==========================================
-// GyanAstra Master - Dashboard Script
-// ==========================================
+"use strict";
+
+/* =========================================
+   GyanAstra Admin - Dashboard Realtime Stats
+   ========================================= */
+
+// Check Auth
+const isAdminLoggedIn = localStorage.getItem("isGyanAstraAdminLoggedIn");
+if (isAdminLoggedIn !== "true") {
+    // Agar login session check lagana chahein to yahan uncomment karein:
+    // window.location.href = "./index.html";
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Login check
-  checkAdminAuth();
+    loadRealtimeStats();
 
-  // Load Real-time Counts
-  loadDashboardStats();
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+            if (confirm("Kya aap Admin panel se logout karna chahte hain?")) {
+                localStorage.removeItem("isGyanAstraAdminLoggedIn");
+                window.location.href = "./index.html";
+            }
+        });
+    }
 });
 
-async function loadDashboardStats() {
-  const coursesCountEl = document.getElementById("totalCoursesCount");
-  const subjectsCountEl = document.getElementById("totalSubjectsCount");
-  const lessonsCountEl = document.getElementById("totalLessonsCount");
-  const studentsCountEl = document.getElementById("totalStudentsCount");
+async function loadRealtimeStats() {
+    try {
+        const [
+            coursesSnap,
+            subjectsSnap,
+            chaptersSnap,
+            lessonsSnap,
+            pdfsSnap,
+            studentsSnap
+        ] = await Promise.all([
+            db.collection("courses").get().catch(() => ({ size: 0 })),
+            db.collection("subjects").get().catch(() => ({ size: 0 })),
+            db.collection("chapters").get().catch(() => ({ size: 0 })),
+            db.collection("lessons").get().catch(() => ({ size: 0 })),
+            db.collection("pdfs").get().catch(() => ({ size: 0 })),
+            db.collection("students").get().catch(() => ({ size: 0 }))
+        ]);
 
-  try {
-    // 1. Total Courses
-    const coursesSnap = await db.collection("courses").get();
-    if (coursesCountEl) coursesCountEl.textContent = coursesSnap.size;
+        const countCourses = document.getElementById("totalCourses");
+        const countSubjects = document.getElementById("totalSubjects");
+        const countChapters = document.getElementById("totalChapters");
+        const countLessons = document.getElementById("totalLessons");
+        const countPDFs = document.getElementById("totalPDFs");
+        const countStudents = document.getElementById("totalStudents");
 
-    // 2. Total Subjects
-    const subjectsSnap = await db.collection("subjects").get();
-    if (subjectsCountEl) subjectsCountEl.textContent = subjectsSnap.size;
+        if (countCourses) countCourses.textContent = coursesSnap.size || 0;
+        if (countSubjects) countSubjects.textContent = subjectsSnap.size || 0;
+        if (countChapters) countChapters.textContent = chaptersSnap.size || 0;
+        if (countLessons) countLessons.textContent = lessonsSnap.size || 0;
+        if (countPDFs) countPDFs.textContent = pdfsSnap.size || 0;
+        if (countStudents) countStudents.textContent = studentsSnap.size || 0;
 
-    // 3. Total Lessons
-    const lessonsSnap = await db.collection("lessons").get();
-    if (lessonsCountEl) lessonsCountEl.textContent = lessonsSnap.size;
-
-    // 4. Total Students
-    const studentsSnap = await db.collection("users").get();
-    if (studentsCountEl) studentsCountEl.textContent = studentsSnap.size;
-  } catch (error) {
-    console.error("Dashboard stats load karne me error:", error);
-  }
+    } catch (error) {
+        console.error("Dashboard Stats Error:", error);
+    }
 }

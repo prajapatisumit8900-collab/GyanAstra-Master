@@ -1,184 +1,133 @@
-// ==========================================
-// GyanAstra Master - Lessons & Videos Script
-// ==========================================
+"use strict";
+
+/* =========================================
+   GyanAstra Admin - Video Lessons (Firestore Live)
+   ========================================= */
+
+let chaptersMap = {};
 
 document.addEventListener("DOMContentLoaded", () => {
-  checkAdminAuth();
-
-  const openModalBtn = document.getElementById("openModalBtn");
-  const closeModalBtn = document.getElementById("closeModalBtn");
-  const cancelModalBtn = document.getElementById("cancelModalBtn");
-  const lessonForm = document.getElementById("lessonForm");
-  const lessonModal = document.getElementById("lessonModal");
-  const filterChapter = document.getElementById("filterChapter");
-
-  // Load Chapter options into dropdowns
-  loadChaptersDropdown();
-
-  // Modal Open
-  openModalBtn.addEventListener("click", () => {
-    lessonForm.reset();
-    document.getElementById("lessonId").value = "";
-    document.getElementById("modalTitle").textContent = "Add Video Lesson";
-    lessonModal.classList.add("show");
-  });
-
-  // Modal Close
-  const closeModal = () => lessonModal.classList.remove("show");
-  closeModalBtn.addEventListener("click", closeModal);
-  cancelModalBtn.addEventListener("click", closeModal);
-
-  // Form Submit (Create / Update)
-  lessonForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const lessonId = document.getElementById("lessonId").value;
-    const chapterId = document.getElementById("chapterSelect").value;
-    const order = parseInt(document.getElementById("lessonOrder").value, 10) || 1;
-    const title = document.getElementById("lessonTitle").value.trim();
-    const videoUrl = document.getElementById("videoUrl").value.trim();
-    const duration = document.getElementById("videoDuration").value.trim();
-
-    const chapterSelectEl = document.getElementById("chapterSelect");
-    const chapterName = chapterSelectEl.options[chapterSelectEl.selectedIndex].text;
-
-    const lessonData = {
-      chapterId,
-      chapterName,
-      order,
-      title,
-      videoUrl,
-      duration: duration || "N/A",
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-
-    try {
-      if (lessonId) {
-        await db.collection("lessons").doc(lessonId).update(lessonData);
-      } else {
-        lessonData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-        await db.collection("lessons").add(lessonData);
-      }
-      closeModal();
-      loadLessons(filterChapter.value);
-    } catch (error) {
-      console.error("Lesson save error:", error);
-      alert("Error saving lesson: " + error.message);
-    }
-  });
-
-  // Filter change listener
-  filterChapter.addEventListener("change", () => {
-    loadLessons(filterChapter.value);
-  });
-
-  // Initial load
-  loadLessons("all");
+    initLessonEvents();
+    loadChaptersDropdown();
+    loadLessonsTable();
 });
 
-// Load Chapter dropdowns
+function initLessonEvents() {
+    const openBtn = document.getElementById("openLessonModalBtn");
+    const closeBtn = document.getElementById("closeLessonModalBtn");
+    const modal = document.getElementById("lessonModal");
+    const form = document.getElementById("lessonForm");
+
+    if (openBtn && modal) {
+        openBtn.addEventListener("click", () => modal.style.display = "flex");
+    }
+    if (closeBtn && modal) {
+        closeBtn.addEventListener("click", () => modal.style.display = "none");
+    }
+
+    if (form) {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById("lessonTitle").value.trim();
+            const chapterId = document.getElementById("lessonChapterSelect").value;
+            const order = Number(document.getElementById("lessonOrder").value) || 1;
+            const videoUrl = document.getElementById("lessonVideoUrl").value.trim();
+
+            const selectedChapter = chaptersMap[chapterId] || {};
+            const subjectId = selectedChapter.subjectId || "";
+
+            try {
+                await db.collection("lessons").add({
+                    title: title,
+                    chapterId: chapterId,
+                    chapterName: selectedChapter.title || "Chapter",
+                    subjectId: subjectId,
+                    order: order,
+                    videoUrl: videoUrl,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                alert("✅ Video Lesson safalta se jud gaya!");
+                form.reset();
+                modal.style.display = "none";
+                loadLessonsTable();
+            } catch (err) {
+                console.error("Lesson Save Error:", err);
+                alert("Lesson add karne me error aaya.");
+            }
+        });
+    }
+}
+
 async function loadChaptersDropdown() {
-  const filterChapter = document.getElementById("filterChapter");
-  const chapterSelect = document.getElementById("chapterSelect");
+    const select = document.getElementById("lessonChapterSelect");
+    if (!select) return;
 
-  try {
-    const snap = await db.collection("chapters").orderBy("order", "asc").get();
-    snap.forEach((doc) => {
-      const data = doc.data();
-
-      // For filter toolbar
-      const opt1 = document.createElement("option");
-      opt1.value = doc.id;
-      opt1.textContent = `#${data.order || 1} ${data.title}`;
-      filterChapter.appendChild(opt1);
-
-      // For modal form
-      const opt2 = document.createElement("option");
-      opt2.value = doc.id;
-      opt2.textContent = `#${data.order || 1} ${data.title}`;
-      chapterSelect.appendChild(opt2);
-    });
-  } catch (err) {
-    console.error("Error loading chapters dropdown:", err);
-  }
-}
-
-// Load and Render Lessons Table
-async function loadLessons(chapterFilter = "all") {
-  const tbody = document.getElementById("lessonsTableBody");
-  tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Loading video lessons...</td></tr>';
-
-  try {
-    let query = db.collection("lessons");
-    if (chapterFilter !== "all") {
-      query = query.where("chapterId", "==", chapterFilter);
-    }
-
-    const snapshot = await query.get();
-
-    if (snapshot.empty) {
-      tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No lessons found for this selection.</td></tr>';
-      return;
-    }
-
-    const docs = [];
-    snapshot.forEach((doc) => docs.push({ id: doc.id, ...doc.data() }));
-    docs.sort((a, b) => (a.order || 0) - (b.order || 0));
-
-    tbody.innerHTML = "";
-    docs.forEach((data) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td><strong>#${data.order || 1}</strong></td>
-        <td><strong>${data.title}</strong></td>
-        <td>${data.chapterName || "N/A"}</td>
-        <td>
-          <a href="${data.videoUrl}" target="_blank" rel="noopener noreferrer" class="video-link-badge">
-            ▶️ Watch Link
-          </a>
-        </td>
-        <td>${data.duration || "N/A"}</td>
-        <td style="text-align: center;">
-          <button class="action-btn edit-btn" onclick="editLesson('${data.id}', '${escapeHtml(data.chapterId)}', ${data.order || 1}, '${escapeHtml(data.title)}', '${escapeHtml(data.videoUrl)}', '${escapeHtml(data.duration || "")}')">✏️</button>
-          <button class="action-btn delete-btn" onclick="deleteLesson('${data.id}')">🗑️</button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-  } catch (error) {
-    console.error("Lessons load error:", error);
-    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Failed to load lessons. Check Firestore rules.</td></tr>';
-  }
-}
-
-// Edit Lesson Trigger
-window.editLesson = (id, chapterId, order, title, videoUrl, duration) => {
-  document.getElementById("lessonId").value = id;
-  document.getElementById("chapterSelect").value = chapterId;
-  document.getElementById("lessonOrder").value = order;
-  document.getElementById("lessonTitle").value = unescapeHtml(title);
-  document.getElementById("videoUrl").value = unescapeHtml(videoUrl);
-  document.getElementById("videoDuration").value = unescapeHtml(duration);
-  document.getElementById("modalTitle").textContent = "Edit Video Lesson";
-  document.getElementById("lessonModal").classList.add("show");
-};
-
-// Delete Lesson Trigger
-window.deleteLesson = async (id) => {
-  if (confirm("Are you sure you want to delete this video lesson?")) {
     try {
-      await db.collection("lessons").doc(id).delete();
-      const filterChapter = document.getElementById("filterChapter");
-      loadLessons(filterChapter.value);
-    } catch (error) {
-      console.error("Delete error:", error);
-      alert("Failed to delete lesson: " + error.message);
-    }
-  }
-};
+        const snap = await db.collection("chapters").get();
+        select.innerHTML = '<option value="">-- Choose Chapter --</option>';
+        chaptersMap = {};
 
-function escapeHtml(str) {
-  return (str || "").replace(/'/g, "\\'").replace(/"/g, "&quot;");
+        snap.forEach((doc) => {
+            const ch = doc.data();
+            chaptersMap[doc.id] = ch;
+            const opt = document.createElement("option");
+            opt.value = doc.id;
+            opt.textContent = `${ch.title || "Untitled Chapter"}`;
+            select.appendChild(opt);
+        });
+    } catch (err) {
+        console.error("Dropdown load error:", err);
+    }
 }
-function unescapeHtml(str) {
-  return (str || "").replace(/\\'/g, "'").replace(/&quot;/g, '"');
+
+async function loadLessonsTable() {
+    const tbody = document.getElementById("lessonsTableBody");
+    if (!tbody) return;
+
+    try {
+        const snap = await db.collection("lessons").orderBy("order", "asc").get().catch(async () => {
+            return await db.collection("lessons").get();
+        });
+
+        if (snap.empty) {
+            tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Koi Video Lesson add nahi hai. Naya lesson add karein.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = "";
+        snap.forEach((doc) => {
+            const data = doc.data();
+            const tr = document.createElement("tr");
+            tr.style = "border-bottom: 1px solid #334155;";
+            tr.innerHTML = `
+                <td style="padding: 12px; color: #38bdf8; font-weight: bold;">#${data.order || 1}</td>
+                <td style="padding: 12px; font-weight: 500;">🎥 ${data.title || "Untitled"}</td>
+                <td style="padding: 12px; color: #94a3b8;">${data.chapterName || data.chapterId || "N/A"}</td>
+                <td style="padding: 12px;">
+                    <a href="${data.videoUrl}" target="_blank" style="background:#2563eb; color:#fff; padding:4px 10px; border-radius:4px; text-decoration:none; font-size:12px;">Watch Link ▶</a>
+                </td>
+                <td style="padding: 12px;">
+                    <button onclick="deleteLesson('${doc.id}')" style="background: #ef4444; border: none; padding: 4px 10px; border-radius: 4px; color: #fff; cursor: pointer;">Delete</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (err) {
+        console.error("Load Lessons Error:", err);
+        tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #ef4444;">Lessons load nahi ho paye.</td></tr>`;
+    }
+}
+
+async function deleteLesson(id) {
+    if (confirm("Kya aap is video lesson ko hatana chahte hain?")) {
+        try {
+            await db.collection("lessons").doc(id).delete();
+            loadLessonsTable();
+        } catch (err) {
+            console.error("Delete Error:", err);
+            alert("Delete nahi ho paya.");
+        }
+    }
 }

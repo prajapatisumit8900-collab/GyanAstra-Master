@@ -1,179 +1,96 @@
-// ==========================================
-// GyanAstra Master - Study Materials Script
-// ==========================================
+"use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
-  checkAdminAuth();
+    loadPdfs();
 
-  const openModalBtn = document.getElementById("openModalBtn");
-  const closeModalBtn = document.getElementById("closeModalBtn");
-  const cancelModalBtn = document.getElementById("cancelModalBtn");
-  const materialForm = document.getElementById("materialForm");
-  const materialModal = document.getElementById("materialModal");
-  const filterSubject = document.getElementById("filterSubject");
+    const openBtn = document.getElementById("openPdfModalBtn");
+    const closeBtn = document.getElementById("closePdfModalBtn");
+    const modal = document.getElementById("pdfModal");
+    const form = document.getElementById("pdfForm");
 
-  // Load Subject dropdowns
-  loadSubjectsDropdown();
-
-  // Modal Open
-  openModalBtn.addEventListener("click", () => {
-    materialForm.reset();
-    document.getElementById("materialId").value = "";
-    document.getElementById("modalTitle").textContent = "Add PDF / Study Notes";
-    materialModal.classList.add("show");
-  });
-
-  // Modal Close
-  const closeModal = () => materialModal.classList.remove("show");
-  closeModalBtn.addEventListener("click", closeModal);
-  cancelModalBtn.addEventListener("click", closeModal);
-
-  // Form Submit (Create / Update)
-  materialForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const materialId = document.getElementById("materialId").value;
-    const subjectId = document.getElementById("subjectSelect").value;
-    const title = document.getElementById("materialTitle").value.trim();
-    const fileUrl = document.getElementById("fileUrl").value.trim();
-    const fileType = document.getElementById("fileType").value;
-
-    const subjectSelectEl = document.getElementById("subjectSelect");
-    const subjectName = subjectSelectEl.options[subjectSelectEl.selectedIndex].text;
-
-    const materialData = {
-      subjectId,
-      subjectName,
-      title,
-      fileUrl,
-      fileType,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-
-    try {
-      if (materialId) {
-        await db.collection("materials").doc(materialId).update(materialData);
-      } else {
-        materialData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-        await db.collection("materials").add(materialData);
-      }
-      closeModal();
-      loadMaterials(filterSubject.value);
-    } catch (error) {
-      console.error("Material save error:", error);
-      alert("Error saving resource: " + error.message);
+    if (openBtn && modal) {
+        openBtn.addEventListener("click", () => modal.style.display = "flex");
     }
-  });
+    if (closeBtn && modal) {
+        closeBtn.addEventListener("click", () => modal.style.display = "none");
+    }
 
-  // Filter change listener
-  filterSubject.addEventListener("change", () => {
-    loadMaterials(filterSubject.value);
-  });
+    if (form) {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-  // Initial load
-  loadMaterials("all");
+            const title = document.getElementById("pdfTitle").value.trim();
+            const category = document.getElementById("pdfCategory").value;
+            const author = document.getElementById("pdfAuthor").value.trim() || "GyanAstra Team";
+            const url = document.getElementById("pdfUrl").value.trim();
+
+            try {
+                await db.collection("pdfs").add({
+                    title: title,
+                    category: category,
+                    author: author,
+                    fileUrl: url,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                alert("✅ PDF Safalta-purvak add ho gaya!");
+                form.reset();
+                modal.style.display = "none";
+                loadPdfs();
+            } catch (err) {
+                console.error("PDF Save Error:", err);
+                alert("PDF add karne me dikkat aayi.");
+            }
+        });
+    }
 });
 
-// Load Subject options
-async function loadSubjectsDropdown() {
-  const filterSubject = document.getElementById("filterSubject");
-  const subjectSelect = document.getElementById("subjectSelect");
+async function loadPdfs() {
+    const tableBody = document.getElementById("pdfTableBody");
+    if (!tableBody) return;
 
-  try {
-    const snap = await db.collection("subjects").orderBy("title", "asc").get();
-    snap.forEach((doc) => {
-      const data = doc.data();
-
-      // For filter toolbar
-      const opt1 = document.createElement("option");
-      opt1.value = doc.id;
-      opt1.textContent = data.title;
-      filterSubject.appendChild(opt1);
-
-      // For modal form
-      const opt2 = document.createElement("option");
-      opt2.value = doc.id;
-      opt2.textContent = data.title;
-      subjectSelect.appendChild(opt2);
-    });
-  } catch (err) {
-    console.error("Error loading subjects dropdown:", err);
-  }
-}
-
-// Load and Render Study Materials Table
-async function loadMaterials(subjectFilter = "all") {
-  const tbody = document.getElementById("materialsTableBody");
-  tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Loading study materials...</td></tr>';
-
-  try {
-    let query = db.collection("materials");
-    if (subjectFilter !== "all") {
-      query = query.where("subjectId", "==", subjectFilter);
-    }
-
-    const snapshot = await query.get();
-
-    if (snapshot.empty) {
-      tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No materials found for this selection.</td></tr>';
-      return;
-    }
-
-    tbody.innerHTML = "";
-    let index = 1;
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${index++}</td>
-        <td><strong>${data.title}</strong></td>
-        <td>${data.subjectName || "N/A"}</td>
-        <td><span class="badge-pdf">${data.fileType || "PDF"}</span></td>
-        <td>
-          <a href="${data.fileUrl}" target="_blank" rel="noopener noreferrer" class="pdf-link">
-            📄 Open Resource
-          </a>
-        </td>
-        <td style="text-align: center;">
-          <button class="action-btn edit-btn" onclick="editMaterial('${doc.id}', '${escapeHtml(data.subjectId)}', '${escapeHtml(data.title)}', '${escapeHtml(data.fileUrl)}', '${escapeHtml(data.fileType)}')">✏️</button>
-          <button class="action-btn delete-btn" onclick="deleteMaterial('${doc.id}')">🗑️</button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-  } catch (error) {
-    console.error("Materials load error:", error);
-    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Failed to load materials. Check Firestore rules.</td></tr>';
-  }
-}
-
-// Edit Material Trigger
-window.editMaterial = (id, subjectId, title, fileUrl, fileType) => {
-  document.getElementById("materialId").value = id;
-  document.getElementById("subjectSelect").value = subjectId;
-  document.getElementById("materialTitle").value = unescapeHtml(title);
-  document.getElementById("fileUrl").value = unescapeHtml(fileUrl);
-  document.getElementById("fileType").value = unescapeHtml(fileType);
-  document.getElementById("modalTitle").textContent = "Edit PDF / Study Resource";
-  document.getElementById("materialModal").classList.add("show");
-};
-
-// Delete Material Trigger
-window.deleteMaterial = async (id) => {
-  if (confirm("Are you sure you want to delete this resource link?")) {
     try {
-      await db.collection("materials").doc(id).delete();
-      const filterSubject = document.getElementById("filterSubject");
-      loadMaterials(filterSubject.value);
-    } catch (error) {
-      console.error("Delete error:", error);
-      alert("Failed to delete resource: " + error.message);
-    }
-  }
-};
+        const snap = await db.collection("pdfs").orderBy("createdAt", "desc").get().catch(async () => {
+            return await db.collection("pdfs").get();
+        });
 
-function escapeHtml(str) {
-  return (str || "").replace(/'/g, "\\'").replace(/"/g, "&quot;");
+        if (snap.empty) {
+            tableBody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Koi PDF upload nahi kiya gaya hai. Upar se naya PDF add karein.</td></tr>`;
+            return;
+        }
+
+        tableBody.innerHTML = "";
+        snap.forEach((doc) => {
+            const data = doc.data();
+            const tr = document.createElement("tr");
+            tr.style = "border-bottom: 1px solid #334155;";
+            tr.innerHTML = `
+                <td style="padding: 12px; font-weight: 500;">📖 ${data.title || "Untitled"}</td>
+                <td style="padding: 12px; color: #38bdf8;">${data.category || "General"}</td>
+                <td style="padding: 12px; color: #94a3b8;">${data.author || "N/A"}</td>
+                <td style="padding: 12px;">
+                    <a href="${data.fileUrl}" target="_blank" style="color: #60a5fa; text-decoration: underline;">View File ↗</a>
+                </td>
+                <td style="padding: 12px;">
+                    <button onclick="deletePdf('${doc.id}')" style="background: #ef4444; border: none; padding: 4px 10px; border-radius: 4px; color: #fff; cursor: pointer;">Delete</button>
+                </td>
+            `;
+            tableBody.appendChild(tr);
+        });
+    } catch (err) {
+        console.error("Load PDFs Error:", err);
+        tableBody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #ef4444;">PDFs load nahi ho paye.</td></tr>`;
+    }
 }
-function unescapeHtml(str) {
-  return (str || "").replace(/\\'/g, "'").replace(/&quot;/g, '"');
+
+async function deletePdf(id) {
+    if (confirm("Kya aap sach me is PDF ko delete karna chahte hain?")) {
+        try {
+            await db.collection("pdfs").doc(id).delete();
+            loadPdfs();
+        } catch (err) {
+            console.error("Delete Error:", err);
+            alert("Delete nahi ho paya.");
+        }
+    }
 }
