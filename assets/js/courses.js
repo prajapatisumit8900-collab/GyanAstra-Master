@@ -1,133 +1,114 @@
-// ==========================================
-// GyanAstra Master - Courses Management Script
-// ==========================================
+"use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
-  checkAdminAuth();
+    checkAdminAuth();
+    loadCourses();
 
-  const openModalBtn = document.getElementById("openModalBtn");
-  const closeModalBtn = document.getElementById("closeModalBtn");
-  const cancelModalBtn = document.getElementById("cancelModalBtn");
-  const courseForm = document.getElementById("courseForm");
-  const courseModal = document.getElementById("courseModal");
+    const openBtn = document.getElementById("openCourseModalBtn");
+    const closeBtn = document.getElementById("closeCourseModalBtn");
+    const modal = document.getElementById("courseModal");
+    const form = document.getElementById("courseForm");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-  // Modal Open
-  openModalBtn.addEventListener("click", () => {
-    courseForm.reset();
-    document.getElementById("courseId").value = "";
-    document.getElementById("modalTitle").textContent = "Add New Course";
-    courseModal.classList.add("show");
-  });
-
-  // Modal Close
-  const closeModal = () => courseModal.classList.remove("show");
-  closeModalBtn.addEventListener("click", closeModal);
-  cancelModalBtn.addEventListener("click", closeModal);
-
-  // Form Submit (Create / Update)
-  courseForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const courseId = document.getElementById("courseId").value;
-    const title = document.getElementById("courseTitle").value.trim();
-    const category = document.getElementById("courseCategory").value.trim();
-    const description = document.getElementById("courseDescription").value.trim();
-    const thumbnail = document.getElementById("courseThumbnail").value.trim();
-
-    const courseData = {
-      title,
-      category,
-      description,
-      thumbnail: thumbnail || "https://placehold.co/600x400?text=Course+Thumbnail",
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-
-    try {
-      if (courseId) {
-        await db.collection("courses").doc(courseId).update(courseData);
-      } else {
-        courseData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-        await db.collection("courses").add(courseData);
-      }
-      closeModal();
-      loadCourses();
-    } catch (error) {
-      console.error("Course save karne me error:", error);
-      alert("Error saving course: " + error.message);
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+            if (confirm("Logout karna chahte hain?")) logoutAdmin();
+        });
     }
-  });
 
-  loadCourses();
+    if (openBtn && modal) {
+        openBtn.addEventListener("click", () => modal.style.display = "flex");
+    }
+    if (closeBtn && modal) {
+        closeBtn.addEventListener("click", () => modal.style.display = "none");
+    }
+
+    if (form) {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById("courseTitle").value.trim();
+            const category = document.getElementById("courseCategory").value;
+            const rawThumbnail = document.getElementById("courseThumbnail").value.trim();
+            const level = document.getElementById("courseLevel").value;
+            const description = document.getElementById("courseDescription").value.trim();
+
+            // Google Drive Auto-Conversion Helper
+            const formattedThumbnail = formatMediaUrl(rawThumbnail, "image");
+
+            try {
+                await db.collection("courses").add({
+                    title: title,
+                    category: category,
+                    thumbnail: formattedThumbnail,
+                    rawThumbnail: rawThumbnail,
+                    level: level,
+                    description: description,
+                    type: "free",
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                alert("✅ Course safalta se add ho gaya!");
+                form.reset();
+                modal.style.display = "none";
+                loadCourses();
+            } catch (err) {
+                console.error("Course Save Error:", err);
+                alert("Course save nahi ho paya.");
+            }
+        });
+    }
 });
 
-// Load and Render Courses
 async function loadCourses() {
-  const grid = document.getElementById("coursesGrid");
-  grid.innerHTML = '<div class="empty-state">Loading courses...</div>';
+    const tbody = document.getElementById("courseTableBody");
+    if (!tbody) return;
 
-  try {
-    const snapshot = await db.collection("courses").orderBy("createdAt", "desc").get();
-
-    if (snapshot.empty) {
-      grid.innerHTML = '<div class="empty-state">No courses found. Click "+ Add New Course" to get started!</div>';
-      return;
-    }
-
-    grid.innerHTML = "";
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      const card = document.createElement("div");
-      card.className = "course-card";
-      card.innerHTML = `
-        <div class="course-thumb" style="background-image: url('${data.thumbnail || "https://placehold.co/600x400?text=Course"}');">
-          <span class="course-category-tag">${data.category || "General"}</span>
-        </div>
-        <div class="course-body">
-          <div>
-            <h3>${data.title}</h3>
-            <p>${data.description || "No description provided."}</p>
-          </div>
-          <div class="course-actions">
-            <button class="action-btn edit-btn" onclick="editCourse('${doc.id}', '${escapeHtml(data.title)}', '${escapeHtml(data.category)}', '${escapeHtml(data.description || "")}', '${escapeHtml(data.thumbnail || "")}')">✏️ Edit</button>
-            <button class="action-btn delete-btn" onclick="deleteCourse('${doc.id}')">🗑️ Delete</button>
-          </div>
-        </div>
-      `;
-      grid.appendChild(card);
-    });
-  } catch (error) {
-    console.error("Courses load error:", error);
-    grid.innerHTML = '<div class="empty-state">Failed to load courses. Please check Firestore permissions.</div>';
-  }
-}
-
-// Edit Trigger
-window.editCourse = (id, title, category, description, thumbnail) => {
-  document.getElementById("courseId").value = id;
-  document.getElementById("courseTitle").value = unescapeHtml(title);
-  document.getElementById("courseCategory").value = unescapeHtml(category);
-  document.getElementById("courseDescription").value = unescapeHtml(description);
-  document.getElementById("courseThumbnail").value = unescapeHtml(thumbnail);
-  document.getElementById("modalTitle").textContent = "Edit Course";
-  document.getElementById("courseModal").classList.add("show");
-};
-
-// Delete Trigger
-window.deleteCourse = async (id) => {
-  if (confirm("Are you sure you want to delete this course? All associated data should be managed carefully.")) {
     try {
-      await db.collection("courses").doc(id).delete();
-      loadCourses();
-    } catch (error) {
-      console.error("Delete error:", error);
-      alert("Failed to delete course: " + error.message);
-    }
-  }
-};
+        const snap = await db.collection("courses").get();
 
-// Helpers for escaping strings
-function escapeHtml(str) {
-  return (str || "").replace(/'/g, "\\'").replace(/"/g, "&quot;");
+        if (snap.empty) {
+            tbody.innerHTML = `<tr><td colspan="6" style="padding: 24px; text-align: center; color: var(--text-secondary);">Koi course nahi mila. Naya course jodein.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = "";
+        snap.forEach(doc => {
+            const data = doc.data();
+            const tr = document.createElement("tr");
+
+            tr.innerHTML = `
+                <td>
+                    <img src="${data.thumbnail || 'https://placehold.co/100x60?text=No+Image'}" 
+                         alt="Thumbnail"
+                         style="width: 70px; height: 44px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border);" 
+                         onerror="this.src='https://placehold.co/100x60?text=Invalid+Link';">
+                </td>
+                <td style="font-weight: 600;">${data.title || "Untitled"}</td>
+                <td style="color: var(--accent-cyan); font-weight: 500;">${data.category || "General"}</td>
+                <td><span style="background: rgba(59,130,246,0.15); color:#60a5fa; padding: 4px 8px; border-radius: 4px; font-size: 12px;">${data.level || "Beginner"}</span></td>
+                <td><span style="color: var(--success); font-weight: 600;">Active</span></td>
+                <td>
+                    <button onclick="deleteCourse('${doc.id}')" style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: var(--danger); padding: 5px 12px; border-radius: 6px; cursor: pointer;">Delete</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+    } catch (err) {
+        console.error("Load Courses Error:", err);
+        tbody.innerHTML = `<tr><td colspan="6" style="padding: 24px; text-align: center; color: var(--danger);">Data load nahi ho paya.</td></tr>`;
+    }
 }
-function unescapeHtml(str) {
-  return (str || "").replace(/\\'/g, "'").replace(/&quot;/g, '"');
+
+async function deleteCourse(id) {
+    if (confirm("Kya aap is course ko delete karna chahte hain?")) {
+        try {
+            await db.collection("courses").doc(id).delete();
+            loadCourses();
+        } catch (err) {
+            console.error("Delete Error:", err);
+            alert("Delete nahi ho paya.");
+        }
+    }
 }

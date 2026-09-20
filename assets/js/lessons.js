@@ -1,22 +1,23 @@
 "use strict";
 
-/* =========================================
-   GyanAstra Admin - Video Lessons (Firestore Live)
-   ========================================= */
-
 let chaptersMap = {};
 
 document.addEventListener("DOMContentLoaded", () => {
-    initLessonEvents();
+    checkAdminAuth();
     loadChaptersDropdown();
     loadLessonsTable();
-});
 
-function initLessonEvents() {
     const openBtn = document.getElementById("openLessonModalBtn");
     const closeBtn = document.getElementById("closeLessonModalBtn");
     const modal = document.getElementById("lessonModal");
     const form = document.getElementById("lessonForm");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+            if (confirm("Logout karna chahte hain?")) logoutAdmin();
+        });
+    }
 
     if (openBtn && modal) {
         openBtn.addEventListener("click", () => modal.style.display = "flex");
@@ -29,22 +30,29 @@ function initLessonEvents() {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            const title = document.getElementById("lessonTitle").value.trim();
             const chapterId = document.getElementById("lessonChapterSelect").value;
+            const title = document.getElementById("lessonTitle").value.trim();
             const order = Number(document.getElementById("lessonOrder").value) || 1;
-            const videoUrl = document.getElementById("lessonVideoUrl").value.trim();
+            const rawVideoUrl = document.getElementById("lessonVideoUrl").value.trim();
 
-            const selectedChapter = chaptersMap[chapterId] || {};
-            const subjectId = selectedChapter.subjectId || "";
+            const chapterInfo = chaptersMap[chapterId] || {};
+            const chapterName = chapterInfo.title || "Chapter";
+            const subjectId = chapterInfo.subjectId || "";
+            const courseId = chapterInfo.courseId || "";
+
+            // Auto-convert YouTube or Drive Link
+            const embedVideoUrl = formatMediaUrl(rawVideoUrl, "video");
 
             try {
                 await db.collection("lessons").add({
                     title: title,
                     chapterId: chapterId,
-                    chapterName: selectedChapter.title || "Chapter",
+                    chapterName: chapterName,
                     subjectId: subjectId,
+                    courseId: courseId,
                     order: order,
-                    videoUrl: videoUrl,
+                    videoUrl: embedVideoUrl,
+                    rawVideoUrl: rawVideoUrl,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
@@ -54,11 +62,11 @@ function initLessonEvents() {
                 loadLessonsTable();
             } catch (err) {
                 console.error("Lesson Save Error:", err);
-                alert("Lesson add karne me error aaya.");
+                alert("Video lesson add karne me dikkat aayi.");
             }
         });
     }
-}
+});
 
 async function loadChaptersDropdown() {
     const select = document.getElementById("lessonChapterSelect");
@@ -69,16 +77,15 @@ async function loadChaptersDropdown() {
         select.innerHTML = '<option value="">-- Choose Chapter --</option>';
         chaptersMap = {};
 
-        snap.forEach((doc) => {
-            const ch = doc.data();
-            chaptersMap[doc.id] = ch;
+        snap.forEach(doc => {
+            chaptersMap[doc.id] = doc.data();
             const opt = document.createElement("option");
             opt.value = doc.id;
-            opt.textContent = `${ch.title || "Untitled Chapter"}`;
+            opt.textContent = `${doc.data().title || "Untitled Chapter"}`;
             select.appendChild(opt);
         });
     } catch (err) {
-        console.error("Dropdown load error:", err);
+        console.error("Chapters Dropdown Error:", err);
     }
 }
 
@@ -92,36 +99,37 @@ async function loadLessonsTable() {
         });
 
         if (snap.empty) {
-            tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Koi Video Lesson add nahi hai. Naya lesson add karein.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" style="padding: 24px; text-align: center; color: var(--text-secondary);">Koi video lesson nahi mila. Naya lesson jodein.</td></tr>`;
             return;
         }
 
         tbody.innerHTML = "";
-        snap.forEach((doc) => {
+        snap.forEach(doc => {
             const data = doc.data();
             const tr = document.createElement("tr");
-            tr.style = "border-bottom: 1px solid #334155;";
+
             tr.innerHTML = `
-                <td style="padding: 12px; color: #38bdf8; font-weight: bold;">#${data.order || 1}</td>
-                <td style="padding: 12px; font-weight: 500;">🎥 ${data.title || "Untitled"}</td>
-                <td style="padding: 12px; color: #94a3b8;">${data.chapterName || data.chapterId || "N/A"}</td>
-                <td style="padding: 12px;">
-                    <a href="${data.videoUrl}" target="_blank" style="background:#2563eb; color:#fff; padding:4px 10px; border-radius:4px; text-decoration:none; font-size:12px;">Watch Link ▶</a>
+                <td style="color: var(--accent-cyan); font-weight: 700;">#${data.order || 1}</td>
+                <td style="font-weight: 600;">🎥 ${data.title || "Untitled Lesson"}</td>
+                <td style="color: var(--text-secondary);">${data.chapterName || "Attached Chapter"}</td>
+                <td>
+                    <a href="${data.videoUrl}" target="_blank" style="background: var(--gradient); color: #fff; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 600; display: inline-block;">Watch ▶</a>
                 </td>
-                <td style="padding: 12px;">
-                    <button onclick="deleteLesson('${doc.id}')" style="background: #ef4444; border: none; padding: 4px 10px; border-radius: 4px; color: #fff; cursor: pointer;">Delete</button>
+                <td>
+                    <button onclick="deleteLesson('${doc.id}')" style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: var(--danger); padding: 5px 12px; border-radius: 6px; cursor: pointer;">Delete</button>
                 </td>
             `;
             tbody.appendChild(tr);
         });
+
     } catch (err) {
         console.error("Load Lessons Error:", err);
-        tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #ef4444;">Lessons load nahi ho paye.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" style="padding: 24px; text-align: center; color: var(--danger);">Lessons load nahi ho paye.</td></tr>`;
     }
 }
 
 async function deleteLesson(id) {
-    if (confirm("Kya aap is video lesson ko hatana chahte hain?")) {
+    if (confirm("Kya aap sach me is lesson ko delete karna chahte hain?")) {
         try {
             await db.collection("lessons").doc(id).delete();
             loadLessonsTable();

@@ -1,13 +1,17 @@
 "use strict";
 
-/* =========================================
-   GyanAstra Admin - Students Management
-   ========================================= */
-
 let allStudents = [];
 
 document.addEventListener("DOMContentLoaded", () => {
+    checkAdminAuth();
     loadStudents();
+
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+            if (confirm("Logout karna chahte hain?")) logoutAdmin();
+        });
+    }
 
     const refreshBtn = document.getElementById("refreshStudentsBtn");
     if (refreshBtn) {
@@ -20,7 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const query = e.target.value.toLowerCase();
             const filtered = allStudents.filter(s => 
                 (s.name && s.name.toLowerCase().includes(query)) ||
+                (s.fullName && s.fullName.toLowerCase().includes(query)) ||
                 (s.email && s.email.toLowerCase().includes(query)) ||
+                (s.targetExam && s.targetExam.toLowerCase().includes(query)) ||
                 (s.exam && s.exam.toLowerCase().includes(query))
             );
             renderStudentsTable(filtered);
@@ -32,13 +38,13 @@ async function loadStudents() {
     const tbody = document.getElementById("studentsTableBody");
     if (!tbody) return;
 
-    tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Students load ho rahe hain...</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" style="padding: 24px; text-align: center; color: var(--text-secondary);">Students load ho rahe hain...</td></tr>`;
 
     try {
         const snap = await db.collection("students").get();
 
         if (snap.empty) {
-            tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Abhi koi student register nahi hua hai.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" style="padding: 24px; text-align: center; color: var(--text-secondary);">Koi student register nahi hua hai abhi tak.</td></tr>`;
             return;
         }
 
@@ -50,44 +56,43 @@ async function loadStudents() {
         renderStudentsTable(allStudents);
 
     } catch (err) {
-        console.error("Students load error:", err);
-        tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #ef4444;">Students load nahi ho paye.</td></tr>`;
+        console.error("Students Load Error:", err);
+        tbody.innerHTML = `<tr><td colspan="5" style="padding: 24px; text-align: center; color: var(--danger);">Students list load nahi ho payi.</td></tr>`;
     }
 }
 
-function renderStudentsTable(students) {
+function renderStudentsTable(studentsList) {
     const tbody = document.getElementById("studentsTableBody");
     if (!tbody) return;
 
-    if (!students.length) {
-        tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Koi match nahi mila.</td></tr>`;
+    if (!studentsList.length) {
+        tbody.innerHTML = `<tr><td colspan="5" style="padding: 24px; text-align: center; color: var(--text-secondary);">Koi student match nahi mila.</td></tr>`;
         return;
     }
 
     tbody.innerHTML = "";
-    students.forEach((data) => {
+    studentsList.forEach(data => {
         let dateStr = "Recent";
         if (data.createdAt && data.createdAt.toDate) {
             dateStr = data.createdAt.toDate().toLocaleDateString();
         }
 
         const tr = document.createElement("tr");
-        tr.style = "border-bottom: 1px solid #334155;";
         tr.innerHTML = `
-            <td style="padding: 12px; font-weight: bold; color: #f8fafc;">👤 ${data.name || data.fullName || "Student"}</td>
-            <td style="padding: 12px; color: #38bdf8;">${data.email || "No Email"}</td>
-            <td style="padding: 12px; color: #94a3b8;">${data.targetExam || data.exam || "UPSC / General"}</td>
-            <td style="padding: 12px; color: #64748b;">${dateStr}</td>
-            <td style="padding: 12px;">
-                <button onclick="removeStudent('${data.id}')" style="background: #ef4444; border: none; padding: 4px 10px; border-radius: 4px; color: #fff; cursor: pointer;">Delete</button>
+            <td style="font-weight: 600;">👤 ${data.name || data.fullName || "Learner"}</td>
+            <td style="color: var(--accent-cyan); font-weight: 500;">${data.email || "No Email"}</td>
+            <td><span style="background: rgba(59,130,246,0.15); color: #60a5fa; padding: 4px 8px; border-radius: 4px; font-size: 12px;">${data.targetExam || data.exam || "UPSC / General"}</span></td>
+            <td style="color: var(--text-secondary); font-size: 13px;">${dateStr}</td>
+            <td>
+                <button onclick="deleteStudentRecord('${data.id}')" style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: var(--danger); padding: 5px 12px; border-radius: 6px; cursor: pointer;">Delete</button>
             </td>
         `;
         tbody.appendChild(tr);
     });
 }
 
-async function removeStudent(id) {
-    if (confirm("Kya aap sach me is student record ko delete karna chahte hain?")) {
+async function deleteStudentRecord(id) {
+    if (confirm("Kya aap is student record ko delete karna chahte hain?")) {
         try {
             await db.collection("students").doc(id).delete();
             loadStudents();

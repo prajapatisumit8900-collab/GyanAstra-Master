@@ -1,127 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Chapters | GyanAstra Master</title>
-  <link rel="stylesheet" href="./assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/chapters.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Chapters | GyanAstra Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
 
-  <div class="admin-layout">
-    <!-- Sidebar Overlay for Mobile -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-brand">
-        <span class="brand-logo">🚀</span>
-        <div class="brand-text">
-          <strong>GyanAstra</strong>
-          <span>MASTER ADMIN</span>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">🚀</div>
+            <div>
+                <h2>GyanAstra</h2>
+                <small>MASTER ADMIN</small>
+            </div>
         </div>
-      </div>
 
-      <nav class="admin-nav">
-        <div class="nav-title">MAIN</div>
-        <a href="./dashboard.html" class="nav-item">📊 Dashboard</a>
+        <nav class="nav-menu">
+            <span class="nav-label">MAIN</span>
+            <a href="./dashboard.html" class="nav-link">📊 Dashboard</a>
 
-        <div class="nav-title">ACADEMIC MANAGEMENT</div>
-        <a href="./courses.html" class="nav-item">📚 Courses</a>
-        <a href="./subjects.html" class="nav-item">📖 Subjects</a>
-        <a href="./chapters.html" class="nav-item active">📑 Chapters</a>
-        <a href="./lessons.html" class="nav-item">🎥 Lessons & Videos</a>
-        <a href="./uploads.html" class="nav-item">📂 Study Materials (PDFs)</a>
+            <span class="nav-label">LEARNING PATHS</span>
+            <a href="./courses.html" class="nav-link">📚 Courses & GS</a>
+            <a href="./subjects.html" class="nav-link">📑 Subjects</a>
+            <a href="./chapters.html" class="nav-link active">📖 Chapters</a>
+            <a href="./lessons.html" class="nav-link">🎥 Video Lessons</a>
+            <a href="./pdfs.html" class="nav-link">📁 E-Library (PDFs)</a>
 
-        <div class="nav-title">USERS & SETTINGS</div>
-        <a href="./students.html" class="nav-item">👥 Students</a>
-        <a href="./settings.html" class="nav-item">⚙️ Settings</a>
-      </nav>
+            <span class="nav-label">SYSTEM</span>
+            <a href="./students.html" class="nav-link">👥 Students</a>
+            <a href="./settings.html" class="nav-link">⚙️ Settings</a>
+        </nav>
 
-      <div class="sidebar-footer">
-        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
-      </div>
+        <div class="logout-box">
+            <button id="logoutBtn" class="btn-logout" type="button">🚪 Logout</button>
+        </div>
     </aside>
 
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <!-- Topbar -->
-      <header class="topbar">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <button class="menu-btn" id="menuBtn">☰</button>
-          <div class="topbar-title">
-            <span>MANAGEMENT</span>
-            <h1>Chapters</h1>
-          </div>
-        </div>
-        <button class="primary-btn" id="openModalBtn">➕ Add New Chapter</button>
-      </header>
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+        <header class="topbar">
+            <div>
+                <span class="sub-header">ACADEMIC STRUCTURE</span>
+                <h1>Manage Chapters</h1>
+            </div>
+            <button id="openChapterModalBtn" class="primary-btn" type="button">➕ Add New Chapter</button>
+        </header>
 
-      <!-- Page Body -->
-      <div class="page">
-        <!-- Filter Toolbar -->
-        <div class="filter-toolbar">
-          <div class="filter-item">
-            <label for="filterSubject">Filter by Subject:</label>
-            <select id="filterSubject">
-              <option value="all">All Subjects</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Chapters List Container -->
-        <div class="chapters-container" id="chaptersContainer">
-          <div class="empty-state" id="loadingState">Loading chapters...</div>
-        </div>
-      </div>
+        <!-- CHAPTERS TABLE -->
+        <section class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ORDER</th>
+                        <th>CHAPTER TITLE</th>
+                        <th>SUBJECT</th>
+                        <th>DESCRIPTION</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="chapterTableBody">
+                    <tr>
+                        <td colspan="5" style="padding: 24px; text-align: center; color: var(--text-secondary);">Chapters load ho rahe hain...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
-  </div>
 
-  <!-- Add/Edit Chapter Modal -->
-  <div class="modal-overlay" id="chapterModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3 id="modalTitle">Add New Chapter</h3>
-        <button class="close-btn" id="closeModalBtn">&times;</button>
-      </div>
-      <form id="chapterForm">
-        <input type="hidden" id="chapterId">
+    <!-- ADD CHAPTER MODAL -->
+    <div id="chapterModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="modal-header">Add New Chapter</h3>
+            <form id="chapterForm">
+                <div class="form-group">
+                    <label>Select Parent Subject</label>
+                    <select id="chapterSubjectSelect" required>
+                        <option value="">-- Choose Subject --</option>
+                    </select>
+                </div>
 
-        <div class="form-group">
-          <label for="subjectSelect">Select Subject</label>
-          <select id="subjectSelect" required>
-            <option value="">-- Choose Subject --</option>
-          </select>
+                <div class="form-group">
+                    <label>Chapter Title</label>
+                    <input type="text" id="chapterTitle" required placeholder="e.g. Chapter 1: Revolt of 1857">
+                </div>
+
+                <div class="form-group">
+                    <label>Chapter Order / Sequence</label>
+                    <input type="number" id="chapterOrder" min="1" value="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description / Overview</label>
+                    <textarea id="chapterDescription" rows="3" placeholder="Summary or syllabus topics included..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="closeChapterModalBtn" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Chapter</button>
+                </div>
+            </form>
         </div>
-
-        <div class="form-group">
-          <label for="chapterNumber">Chapter Number / Sequence</label>
-          <input type="number" id="chapterNumber" placeholder="e.g. 1, 2, 3" min="1" required>
-        </div>
-
-        <div class="form-group">
-          <label for="chapterTitle">Chapter Title</label>
-          <input type="text" id="chapterTitle" placeholder="e.g. 1857 Revolt, Indian Preamble" required>
-        </div>
-
-        <div class="form-group">
-          <label for="chapterDescription">Description (Optional)</label>
-          <textarea id="chapterDescription" rows="2" placeholder="Brief outline of chapter topics..."></textarea>
-        </div>
-
-        <div class="modal-actions">
-          <button type="button" class="secondary-btn" id="cancelModalBtn">Cancel</button>
-          <button type="submit" class="primary-btn" id="saveChapterBtn">Save Chapter</button>
-        </div>
-      </form>
     </div>
-  </div>
 
-  <!-- Firebase & App Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="./assets/js/firebase-config.js"></script>
-  <script src="./assets/js/chapters.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="./assets/js/firebase-config.js"></script>
+
+    <!-- Page Logic -->
+    <script src="./assets/js/chapters.js"></script>
 </body>
 </html>

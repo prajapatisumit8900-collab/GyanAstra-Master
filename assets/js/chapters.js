@@ -1,181 +1,133 @@
-// ==========================================
-// GyanAstra Master - Chapters Management Script
-// ==========================================
+"use strict";
+
+let subjectsMap = {};
 
 document.addEventListener("DOMContentLoaded", () => {
-  checkAdminAuth();
+    checkAdminAuth();
+    loadSubjectsDropdown();
+    loadChaptersTable();
 
-  const openModalBtn = document.getElementById("openModalBtn");
-  const closeModalBtn = document.getElementById("closeModalBtn");
-  const cancelModalBtn = document.getElementById("cancelModalBtn");
-  const chapterForm = document.getElementById("chapterForm");
-  const chapterModal = document.getElementById("chapterModal");
-  const filterSubject = document.getElementById("filterSubject");
+    const openBtn = document.getElementById("openChapterModalBtn");
+    const closeBtn = document.getElementById("closeChapterModalBtn");
+    const modal = document.getElementById("chapterModal");
+    const form = document.getElementById("chapterForm");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-  // Load subject options for dropdowns
-  loadSubjectsDropdown();
-
-  // Modal Open
-  openModalBtn.addEventListener("click", () => {
-    chapterForm.reset();
-    document.getElementById("chapterId").value = "";
-    document.getElementById("modalTitle").textContent = "Add New Chapter";
-    chapterModal.classList.add("show");
-  });
-
-  // Modal Close
-  const closeModal = () => chapterModal.classList.remove("show");
-  closeModalBtn.addEventListener("click", closeModal);
-  cancelModalBtn.addEventListener("click", closeModal);
-
-  // Form Submit (Create / Update)
-  chapterForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const chapterId = document.getElementById("chapterId").value;
-    const subjectId = document.getElementById("subjectSelect").value;
-    const order = parseInt(document.getElementById("chapterNumber").value, 10) || 1;
-    const title = document.getElementById("chapterTitle").value.trim();
-    const description = document.getElementById("chapterDescription").value.trim();
-
-    const subjectSelectEl = document.getElementById("subjectSelect");
-    const subjectName = subjectSelectEl.options[subjectSelectEl.selectedIndex].text;
-
-    const chapterData = {
-      subjectId,
-      subjectName,
-      order,
-      title,
-      description,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-
-    try {
-      if (chapterId) {
-        await db.collection("chapters").doc(chapterId).update(chapterData);
-      } else {
-        chapterData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-        await db.collection("chapters").add(chapterData);
-      }
-      closeModal();
-      loadChapters(filterSubject.value);
-    } catch (error) {
-      console.error("Chapter save error:", error);
-      alert("Error saving chapter: " + error.message);
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+            if (confirm("Logout karna chahte hain?")) logoutAdmin();
+        });
     }
-  });
 
-  // Filter change listener
-  filterSubject.addEventListener("change", () => {
-    loadChapters(filterSubject.value);
-  });
+    if (openBtn && modal) {
+        openBtn.addEventListener("click", () => modal.style.display = "flex");
+    }
+    if (closeBtn && modal) {
+        closeBtn.addEventListener("click", () => modal.style.display = "none");
+    }
 
-  // Initial load
-  loadChapters("all");
+    if (form) {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const subjectId = document.getElementById("chapterSubjectSelect").value;
+            const title = document.getElementById("chapterTitle").value.trim();
+            const order = Number(document.getElementById("chapterOrder").value) || 1;
+            const description = document.getElementById("chapterDescription").value.trim();
+
+            const subjectInfo = subjectsMap[subjectId] || {};
+            const subjectName = subjectInfo.title || subjectInfo.name || "Subject";
+            const courseId = subjectInfo.courseId || "";
+
+            try {
+                await db.collection("chapters").add({
+                    title: title,
+                    subjectId: subjectId,
+                    subjectName: subjectName,
+                    courseId: courseId,
+                    order: order,
+                    description: description,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                alert("✅ Chapter safalta se add ho gaya!");
+                form.reset();
+                modal.style.display = "none";
+                loadChaptersTable();
+            } catch (err) {
+                console.error("Chapter Save Error:", err);
+                alert("Chapter add karne me error aaya.");
+            }
+        });
+    }
 });
 
-// Load Subject dropdowns
 async function loadSubjectsDropdown() {
-  const filterSubject = document.getElementById("filterSubject");
-  const subjectSelect = document.getElementById("subjectSelect");
+    const select = document.getElementById("chapterSubjectSelect");
+    if (!select) return;
 
-  try {
-    const snap = await db.collection("subjects").orderBy("title", "asc").get();
-    snap.forEach((doc) => {
-      const data = doc.data();
-
-      // For filter toolbar
-      const opt1 = document.createElement("option");
-      opt1.value = doc.id;
-      opt1.textContent = data.title;
-      filterSubject.appendChild(opt1);
-
-      // For modal form
-      const opt2 = document.createElement("option");
-      opt2.value = doc.id;
-      opt2.textContent = data.title;
-      subjectSelect.appendChild(opt2);
-    });
-  } catch (err) {
-    console.error("Error loading subjects dropdown:", err);
-  }
-}
-
-// Load and Render Chapters
-async function loadChapters(subjectFilter = "all") {
-  const container = document.getElementById("chaptersContainer");
-  container.innerHTML = '<div class="empty-state">Loading chapters...</div>';
-
-  try {
-    let query = db.collection("chapters");
-    if (subjectFilter !== "all") {
-      query = query.where("subjectId", "==", subjectFilter);
-    }
-
-    const snapshot = await query.get();
-
-    if (snapshot.empty) {
-      container.innerHTML = '<div class="empty-state">No chapters found for this selection.</div>';
-      return;
-    }
-
-    // Sort chapters by order ascending
-    const docs = [];
-    snapshot.forEach((doc) => docs.push({ id: doc.id, ...doc.data() }));
-    docs.sort((a, b) => (a.order || 0) - (b.order || 0));
-
-    container.innerHTML = "";
-    docs.forEach((data) => {
-      const card = document.createElement("div");
-      card.className = "chapter-item-card";
-      card.innerHTML = `
-        <div class="chapter-left">
-          <div class="chapter-badge">#${data.order || 1}</div>
-          <div class="chapter-meta">
-            <h4>${data.title}</h4>
-            <p>Subject: ${data.subjectName || "N/A"} ${data.description ? "• " + data.description : ""}</p>
-          </div>
-        </div>
-        <div class="chapter-actions">
-          <button class="action-btn edit-btn" onclick="editChapter('${data.id}', '${escapeHtml(data.subjectId)}', ${data.order || 1}, '${escapeHtml(data.title)}', '${escapeHtml(data.description || "")}')">✏️ Edit</button>
-          <button class="action-btn delete-btn" onclick="deleteChapter('${data.id}')">🗑️ Delete</button>
-        </div>
-      `;
-      container.appendChild(card);
-    });
-  } catch (error) {
-    console.error("Chapters load error:", error);
-    container.innerHTML = '<div class="empty-state">Failed to load chapters. Check Firestore rules.</div>';
-  }
-}
-
-// Edit Chapter Trigger
-window.editChapter = (id, subjectId, order, title, description) => {
-  document.getElementById("chapterId").value = id;
-  document.getElementById("subjectSelect").value = subjectId;
-  document.getElementById("chapterNumber").value = order;
-  document.getElementById("chapterTitle").value = unescapeHtml(title);
-  document.getElementById("chapterDescription").value = unescapeHtml(description);
-  document.getElementById("modalTitle").textContent = "Edit Chapter";
-  document.getElementById("chapterModal").classList.add("show");
-};
-
-// Delete Chapter Trigger
-window.deleteChapter = async (id) => {
-  if (confirm("Are you sure you want to delete this chapter?")) {
     try {
-      await db.collection("chapters").doc(id).delete();
-      const filterSubject = document.getElementById("filterSubject");
-      loadChapters(filterSubject.value);
-    } catch (error) {
-      console.error("Delete error:", error);
-      alert("Failed to delete chapter: " + error.message);
-    }
-  }
-};
+        const snap = await db.collection("subjects").get();
+        select.innerHTML = '<option value="">-- Choose Subject --</option>';
+        subjectsMap = {};
 
-function escapeHtml(str) {
-  return (str || "").replace(/'/g, "\\'").replace(/"/g, "&quot;");
+        snap.forEach(doc => {
+            subjectsMap[doc.id] = doc.data();
+            const opt = document.createElement("option");
+            opt.value = doc.id;
+            opt.textContent = `${doc.data().name || doc.data().title || "Untitled Subject"}`;
+            select.appendChild(opt);
+        });
+    } catch (err) {
+        console.error("Subjects Dropdown Error:", err);
+    }
 }
-function unescapeHtml(str) {
-  return (str || "").replace(/\\'/g, "'").replace(/&quot;/g, '"');
+
+async function loadChaptersTable() {
+    const tbody = document.getElementById("chapterTableBody");
+    if (!tbody) return;
+
+    try {
+        const snap = await db.collection("chapters").orderBy("order", "asc").get().catch(async () => {
+            return await db.collection("chapters").get();
+        });
+
+        if (snap.empty) {
+            tbody.innerHTML = `<tr><td colspan="5" style="padding: 24px; text-align: center; color: var(--text-secondary);">Koi chapter nahi mila. Naya chapter jodein.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = "";
+        snap.forEach(doc => {
+            const data = doc.data();
+            const tr = document.createElement("tr");
+
+            tr.innerHTML = `
+                <td style="color: var(--accent-cyan); font-weight: 700;">#${data.order || 1}</td>
+                <td style="font-weight: 600;">📖 ${data.title || "Untitled Chapter"}</td>
+                <td style="color: var(--text-secondary);">${data.subjectName || "Attached Subject"}</td>
+                <td style="color: var(--text-secondary); font-size: 13px;">${data.description || "N/A"}</td>
+                <td>
+                    <button onclick="deleteChapter('${doc.id}')" style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: var(--danger); padding: 5px 12px; border-radius: 6px; cursor: pointer;">Delete</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+    } catch (err) {
+        console.error("Load Chapters Error:", err);
+        tbody.innerHTML = `<tr><td colspan="5" style="padding: 24px; text-align: center; color: var(--danger);">Chapters load nahi ho paye.</td></tr>`;
+    }
+}
+
+async function deleteChapter(id) {
+    if (confirm("Kya aap sach me is chapter ko delete karna chahte hain?")) {
+        try {
+            await db.collection("chapters").doc(id).delete();
+            loadChaptersTable();
+        } catch (err) {
+            console.error("Delete Error:", err);
+            alert("Delete nahi ho paya.");
+        }
+    }
 }

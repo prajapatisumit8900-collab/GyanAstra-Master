@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Library & PDFs | GyanAstra Admin</title>
-    <link rel="stylesheet" href="./assets/css/dashboard.css">
+    <title>E-Library & PDFs | GyanAstra Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/uploads.css">
 </head>
 <body>
 
-<div class="admin-container">
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="brand">
-            <span class="brand-icon">🚀</span>
+            <div class="brand-icon">🚀</div>
             <div>
                 <h2>GyanAstra</h2>
                 <small>MASTER ADMIN</small>
@@ -25,95 +23,100 @@
             <span class="nav-label">MAIN</span>
             <a href="./dashboard.html" class="nav-link">📊 Dashboard</a>
 
-            <span class="nav-label">ACADEMIC CONTENT</span>
+            <span class="nav-label">LEARNING PATHS</span>
             <a href="./courses.html" class="nav-link">📚 Courses & GS</a>
             <a href="./subjects.html" class="nav-link">📑 Subjects</a>
             <a href="./chapters.html" class="nav-link">📖 Chapters</a>
             <a href="./lessons.html" class="nav-link">🎥 Video Lessons</a>
             <a href="./pdfs.html" class="nav-link active">📁 E-Library (PDFs)</a>
 
-            <span class="nav-label">USERS & SETTINGS</span>
+            <span class="nav-label">SYSTEM</span>
             <a href="./students.html" class="nav-link">👥 Students</a>
             <a href="./settings.html" class="nav-link">⚙️ Settings</a>
         </nav>
+
+        <div class="logout-box">
+            <button id="logoutBtn" class="btn-logout" type="button">🚪 Logout</button>
+        </div>
     </aside>
 
     <!-- MAIN CONTENT -->
-    <main class="main-content">
+    <main class="main-wrapper">
         <header class="topbar">
             <div>
-                <span class="section-label">E-LIBRARY MANAGEMENT</span>
-                <h1>Study Materials & PDFs</h1>
+                <span class="sub-header">E-LIBRARY CONTROLLER</span>
+                <h1>Study Materials & Books</h1>
             </div>
-            <button id="openPdfModalBtn" class="action-btn" type="button">+ Upload New PDF / Book</button>
+            <button id="openPdfModalBtn" class="primary-btn" type="button">➕ Upload PDF / Book</button>
         </header>
 
-        <!-- PDF LIST TABLE -->
-        <section class="table-card" style="margin-top: 24px; background: #1e293b; padding: 20px; border-radius: 10px;">
-            <table style="width: 100%; border-collapse: collapse; color: #f8fafc; text-align: left;">
+        <!-- PDFS TABLE -->
+        <section class="table-card">
+            <table>
                 <thead>
-                    <tr style="border-bottom: 1px solid #334155; color: #94a3b8;">
-                        <th style="padding: 12px;">TITLE</th>
-                        <th style="padding: 12px;">CATEGORY</th>
-                        <th style="padding: 12px;">AUTHOR / SOURCE</th>
-                        <th style="padding: 12px;">FILE LINK</th>
-                        <th style="padding: 12px;">ACTION</th>
+                    <tr>
+                        <th>DOCUMENT TITLE</th>
+                        <th>CATEGORY / TAG</th>
+                        <th>AUTHOR / SOURCE</th>
+                        <th>LINK</th>
+                        <th>ACTION</th>
                     </tr>
                 </thead>
                 <tbody id="pdfTableBody">
                     <tr>
-                        <td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">PDFs load ho rahe hain...</td>
+                        <td colspan="5" style="padding: 24px; text-align: center; color: var(--text-secondary);">PDFs load ho rahe hain...</td>
                     </tr>
                 </tbody>
             </table>
         </section>
     </main>
-</div>
 
-<!-- UPLOAD MODAL -->
-<div id="pdfModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000;">
-    <div style="background: #1e293b; padding: 24px; border-radius: 10px; width: 450px; color: #f8fafc; border: 1px solid #334155;">
-        <h2 style="margin-bottom: 16px;">Add New Study PDF / Book</h2>
-        <form id="pdfForm">
-            <div style="margin-bottom: 12px;">
-                <label style="display:block; margin-bottom: 6px; font-size: 13px;">Document Title</label>
-                <input type="text" id="pdfTitle" required placeholder="e.g. Spectrum Modern History" style="width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff;">
-            </div>
+    <!-- ADD PDF MODAL -->
+    <div id="pdfModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="modal-header">Add New Study Material / PDF</h3>
+            <form id="pdfForm">
+                <div class="form-group">
+                    <label>Document / Book Title</label>
+                    <input type="text" id="pdfTitle" required placeholder="e.g. Modern Indian History - Spectrum">
+                </div>
 
-            <div style="margin-bottom: 12px;">
-                <label style="display:block; margin-bottom: 6px; font-size: 13px;">Category</label>
-                <select id="pdfCategory" style="width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff;">
-                    <option value="UPSC GS">UPSC GS</option>
-                    <option value="NCERT Books">NCERT Books</option>
-                    <option value="Current Affairs">Current Affairs</option>
-                    <option value="Handwritten Notes">Handwritten Notes</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label>E-Library Category</label>
+                    <select id="pdfCategory" required>
+                        <option value="UPSC GS Standard Books">UPSC GS Standard Books</option>
+                        <option value="NCERT Textbooks">NCERT Textbooks</option>
+                        <option value="Current Affairs Magazines">Current Affairs Magazines</option>
+                        <option value="Handwritten Class Notes">Handwritten Class Notes</option>
+                        <option value="Previous Year Papers (PYQ)">Previous Year Papers (PYQ)</option>
+                    </select>
+                </div>
 
-            <div style="margin-bottom: 12px;">
-                <label style="display:block; margin-bottom: 6px; font-size: 13px;">Author / Tag</label>
-                <input type="text" id="pdfAuthor" placeholder="e.g. Rajiv Ahir / Standard Book" style="width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff;">
-            </div>
+                <div class="form-group">
+                    <label>Author / Publisher / Notes By</label>
+                    <input type="text" id="pdfAuthor" placeholder="e.g. Rajiv Ahir / GyanAstra Team">
+                </div>
 
-            <div style="margin-bottom: 18px;">
-                <label style="display:block; margin-bottom: 6px; font-size: 13px;">Google Drive / PDF Direct URL</label>
-                <input type="url" id="pdfUrl" required placeholder="https://drive.google.com/..." style="width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff;">
-            </div>
+                <div class="form-group">
+                    <label>Google Drive PDF Link / Direct URL</label>
+                    <input type="url" id="pdfUrl" required placeholder="https://drive.google.com/file/d/...">
+                    <small style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; display: block;">Drive shareable link dalein, taaki user online preview aur download dono kar sake.</small>
+                </div>
 
-            <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                <button type="button" id="closePdfModalBtn" style="padding: 8px 16px; background: #334155; border: none; border-radius: 6px; color: #fff; cursor: pointer;">Cancel</button>
-                <button type="submit" style="padding: 8px 16px; background: #2563eb; border: none; border-radius: 6px; color: #fff; cursor: pointer;">Save PDF</button>
-            </div>
-        </form>
+                <div class="modal-actions">
+                    <button type="button" id="closePdfModalBtn" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Document</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="./assets/js/firebase-config.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="./assets/js/firebase-config.js"></script>
 
-<!-- Page Script -->
-<script src="./assets/js/uploads.js"></script>
+    <!-- Page Logic -->
+    <script src="./assets/js/uploads.js"></script>
 </body>
 </html>

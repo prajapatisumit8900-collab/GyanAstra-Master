@@ -1,120 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Subjects | GyanAstra Master</title>
-  <link rel="stylesheet" href="./assets/css/style.css">
-  <link rel="stylesheet" href="./assets/css/subjects.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Subjects | GyanAstra Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
 
-  <div class="admin-layout">
-    <!-- Sidebar Overlay for Mobile -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-brand">
-        <span class="brand-logo">🚀</span>
-        <div class="brand-text">
-          <strong>GyanAstra</strong>
-          <span>MASTER ADMIN</span>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">🚀</div>
+            <div>
+                <h2>GyanAstra</h2>
+                <small>MASTER ADMIN</small>
+            </div>
         </div>
-      </div>
 
-      <nav class="admin-nav">
-        <div class="nav-title">MAIN</div>
-        <a href="./dashboard.html" class="nav-item">📊 Dashboard</a>
+        <nav class="nav-menu">
+            <span class="nav-label">MAIN</span>
+            <a href="./dashboard.html" class="nav-link">📊 Dashboard</a>
 
-        <div class="nav-title">ACADEMIC MANAGEMENT</div>
-        <a href="./courses.html" class="nav-item">📚 Courses</a>
-        <a href="./subjects.html" class="nav-item active">📖 Subjects</a>
-        <a href="./chapters.html" class="nav-item">📑 Chapters</a>
-        <a href="./lessons.html" class="nav-item">🎥 Lessons & Videos</a>
-        <a href="./uploads.html" class="nav-item">📂 Study Materials (PDFs)</a>
+            <span class="nav-label">LEARNING PATHS</span>
+            <a href="./courses.html" class="nav-link">📚 Courses & GS</a>
+            <a href="./subjects.html" class="nav-link active">📑 Subjects</a>
+            <a href="./chapters.html" class="nav-link">📖 Chapters</a>
+            <a href="./lessons.html" class="nav-link">🎥 Video Lessons</a>
+            <a href="./pdfs.html" class="nav-link">📁 E-Library (PDFs)</a>
 
-        <div class="nav-title">USERS & SETTINGS</div>
-        <a href="./students.html" class="nav-item">👥 Students</a>
-        <a href="./settings.html" class="nav-item">⚙️ Settings</a>
-      </nav>
+            <span class="nav-label">SYSTEM</span>
+            <a href="./students.html" class="nav-link">👥 Students</a>
+            <a href="./settings.html" class="nav-link">⚙️ Settings</a>
+        </nav>
 
-      <div class="sidebar-footer">
-        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
-      </div>
+        <div class="logout-box">
+            <button id="logoutBtn" class="btn-logout" type="button">🚪 Logout</button>
+        </div>
     </aside>
 
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <!-- Topbar -->
-      <header class="topbar">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <button class="menu-btn" id="menuBtn">☰</button>
-          <div class="topbar-title">
-            <span>MANAGEMENT</span>
-            <h1>Subjects</h1>
-          </div>
-        </div>
-        <button class="primary-btn" id="openModalBtn">➕ Add New Subject</button>
-      </header>
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+        <header class="topbar">
+            <div>
+                <span class="sub-header">ACADEMIC CONTENT</span>
+                <h1>Manage Subjects</h1>
+            </div>
+            <button id="openSubjectModalBtn" class="primary-btn" type="button">➕ Add New Subject</button>
+        </header>
 
-      <!-- Page Body -->
-      <div class="page">
-        <!-- Filter Toolbar -->
-        <div class="filter-toolbar">
-          <label for="filterCourse">Filter by Course:</label>
-          <select id="filterCourse">
-            <option value="all">All Courses</option>
-          </select>
-        </div>
-
-        <!-- Subjects Grid -->
-        <div class="subjects-grid" id="subjectsGrid">
-          <div class="empty-state" id="loadingState">Loading subjects...</div>
-        </div>
-      </div>
+        <!-- SUBJECTS TABLE -->
+        <section class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>THUMBNAIL</th>
+                        <th>SUBJECT NAME</th>
+                        <th>ATTACHED COURSE</th>
+                        <th>DESCRIPTION</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="subjectTableBody">
+                    <tr>
+                        <td colspan="5" style="padding: 24px; text-align: center; color: var(--text-secondary);">Subjects load ho rahe hain...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
-  </div>
 
-  <!-- Add/Edit Subject Modal -->
-  <div class="modal-overlay" id="subjectModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3 id="modalTitle">Add New Subject</h3>
-        <button class="close-btn" id="closeModalBtn">&times;</button>
-      </div>
-      <form id="subjectForm">
-        <input type="hidden" id="subjectId">
+    <!-- ADD SUBJECT MODAL -->
+    <div id="subjectModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="modal-header">Add New Subject</h3>
+            <form id="subjectForm">
+                <div class="form-group">
+                    <label>Select Parent Course</label>
+                    <select id="subjectCourseSelect" required>
+                        <option value="">-- Choose Course --</option>
+                    </select>
+                </div>
 
-        <div class="form-group">
-          <label for="courseSelect">Select Course</label>
-          <select id="courseSelect" required>
-            <option value="">-- Choose Course --</option>
-          </select>
+                <div class="form-group">
+                    <label>Subject Name</label>
+                    <input type="text" id="subjectName" required placeholder="e.g. Modern Indian History">
+                </div>
+
+                <div class="form-group">
+                    <label>Google Drive Thumbnail Link</label>
+                    <input type="url" id="subjectThumbnail" placeholder="https://drive.google.com/file/d/...">
+                    <small style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; display: block;">Drive image link paste karein, system direct load kar dega.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="subjectDescription" rows="3" placeholder="Subject details and coverage..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="closeSubjectModalBtn" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Subject</button>
+                </div>
+            </form>
         </div>
-
-        <div class="form-group">
-          <label for="subjectTitle">Subject Name</label>
-          <input type="text" id="subjectTitle" placeholder="e.g. Modern Indian History, Indian Polity" required>
-        </div>
-
-        <div class="form-group">
-          <label for="subjectIcon">Icon / Emoji</label>
-          <input type="text" id="subjectIcon" placeholder="e.g. 📜, ⚖️, 🔬" value="📖">
-        </div>
-
-        <div class="modal-actions">
-          <button type="button" class="secondary-btn" id="cancelModalBtn">Cancel</button>
-          <button type="submit" class="primary-btn" id="saveSubjectBtn">Save Subject</button>
-        </div>
-      </form>
     </div>
-  </div>
 
-  <!-- Firebase & App Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="./assets/js/firebase-config.js"></script>
-  <script src="./assets/js/subjects.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="./assets/js/firebase-config.js"></script>
+
+    <!-- Page Logic -->
+    <script src="./assets/js/subjects.js"></script>
 </body>
 </html>

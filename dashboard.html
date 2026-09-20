@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GyanAstra - Master Admin Dashboard</title>
-    <link rel="stylesheet" href="./assets/css/dashboard.css">
+    <title>Dashboard | GyanAstra Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
 
-<div class="admin-container">
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="brand">
-            <span class="brand-icon">🚀</span>
+            <div class="brand-icon">🚀</div>
             <div>
                 <h2>GyanAstra</h2>
                 <small>MASTER ADMIN</small>
@@ -24,116 +23,109 @@
             <span class="nav-label">MAIN</span>
             <a href="./dashboard.html" class="nav-link active">📊 Dashboard</a>
 
-            <span class="nav-label">ACADEMIC CONTENT</span>
+            <span class="nav-label">LEARNING PATHS</span>
             <a href="./courses.html" class="nav-link">📚 Courses & GS</a>
             <a href="./subjects.html" class="nav-link">📑 Subjects</a>
             <a href="./chapters.html" class="nav-link">📖 Chapters</a>
             <a href="./lessons.html" class="nav-link">🎥 Video Lessons</a>
             <a href="./pdfs.html" class="nav-link">📁 E-Library (PDFs)</a>
 
-            <span class="nav-label">USERS & SETTINGS</span>
+            <span class="nav-label">SYSTEM</span>
             <a href="./students.html" class="nav-link">👥 Students</a>
             <a href="./settings.html" class="nav-link">⚙️ Settings</a>
         </nav>
 
-        <div class="sidebar-bottom">
-            <button id="logoutBtn" class="logout-btn" type="button">🚪 Logout</button>
+        <div class="logout-box">
+            <button id="logoutBtn" class="btn-logout" type="button">🚪 Logout</button>
         </div>
     </aside>
 
-    <!-- MAIN DASHBOARD CONTENT -->
-    <main class="main-content">
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-wrapper">
         <header class="topbar">
             <div>
-                <span class="section-label">OVERVIEW</span>
-                <h1>Admin Dashboard</h1>
+                <span class="sub-header">OVERVIEW</span>
+                <h1>Master Dashboard</h1>
             </div>
-            <div class="profile-badge">
-                <div class="avatar">A</div>
-                <div>
-                    <strong>GyanAstra Admin</strong>
-                    <small>Master Controller</small>
-                </div>
-            </div>
+            <a href="./courses.html" class="primary-btn">➕ Create Content</a>
         </header>
 
         <!-- STATS CARDS -->
-        <section class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-info">
-                    <small>TOTAL COURSES</small>
-                    <h2 id="totalCourses">0</h2>
-                    <a href="./courses.html">Manage Courses →</a>
+        <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 30px;">
+            <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <small style="color: var(--text-secondary); font-size: 11px; font-weight: 700;">TOTAL COURSES</small>
+                    <h2 id="totalCourses" style="font-size: 26px; margin: 4px 0;">0</h2>
+                    <a href="./courses.html" style="color: var(--accent-cyan); font-size: 12px; text-decoration: none; font-weight: 600;">Manage Courses →</a>
                 </div>
-                <div class="stat-icon">📚</div>
+                <div style="font-size: 28px;">📚</div>
             </div>
 
-            <div class="stat-card">
-                <div class="stat-info">
-                    <small>TOTAL SUBJECTS</small>
-                    <h2 id="totalSubjects">0</h2>
-                    <a href="./subjects.html">Manage Subjects →</a>
+            <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <small style="color: var(--text-secondary); font-size: 11px; font-weight: 700;">TOTAL SUBJECTS</small>
+                    <h2 id="totalSubjects" style="font-size: 26px; margin: 4px 0;">0</h2>
+                    <a href="./subjects.html" style="color: var(--accent-cyan); font-size: 12px; text-decoration: none; font-weight: 600;">Manage Subjects →</a>
                 </div>
-                <div class="stat-icon">📑</div>
+                <div style="font-size: 28px;">📑</div>
             </div>
 
-            <div class="stat-card">
-                <div class="stat-info">
-                    <small>TOTAL CHAPTERS</small>
-                    <h2 id="totalChapters">0</h2>
-                    <a href="./chapters.html">Manage Chapters →</a>
+            <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <small style="color: var(--text-secondary); font-size: 11px; font-weight: 700;">CHAPTERS</small>
+                    <h2 id="totalChapters" style="font-size: 26px; margin: 4px 0;">0</h2>
+                    <a href="./chapters.html" style="color: var(--accent-cyan); font-size: 12px; text-decoration: none; font-weight: 600;">Manage Chapters →</a>
                 </div>
-                <div class="stat-icon">📖</div>
+                <div style="font-size: 28px;">📖</div>
             </div>
 
-            <div class="stat-card">
-                <div class="stat-info">
-                    <small>VIDEO LESSONS</small>
-                    <h2 id="totalLessons">0</h2>
-                    <a href="./lessons.html">Manage Lessons →</a>
+            <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <small style="color: var(--text-secondary); font-size: 11px; font-weight: 700;">VIDEO LESSONS</small>
+                    <h2 id="totalLessons" style="font-size: 26px; margin: 4px 0;">0</h2>
+                    <a href="./lessons.html" style="color: var(--accent-cyan); font-size: 12px; text-decoration: none; font-weight: 600;">View Lessons →</a>
                 </div>
-                <div class="stat-icon">🎥</div>
+                <div style="font-size: 28px;">🎥</div>
             </div>
 
-            <div class="stat-card">
-                <div class="stat-info">
-                    <small>E-LIBRARY (PDFs)</small>
-                    <h2 id="totalPDFs">0</h2>
-                    <a href="./pdfs.html">Manage PDFs →</a>
+            <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <small style="color: var(--text-secondary); font-size: 11px; font-weight: 700;">E-LIBRARY (PDFs)</small>
+                    <h2 id="totalPDFs" style="font-size: 26px; margin: 4px 0;">0</h2>
+                    <a href="./pdfs.html" style="color: var(--accent-cyan); font-size: 12px; text-decoration: none; font-weight: 600;">Manage PDFs →</a>
                 </div>
-                <div class="stat-icon">📁</div>
+                <div style="font-size: 28px;">📁</div>
             </div>
 
-            <div class="stat-card">
-                <div class="stat-info">
-                    <small>STUDENTS REGISTERED</small>
-                    <h2 id="totalStudents">0</h2>
-                    <a href="./students.html">View Students →</a>
+            <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <small style="color: var(--text-secondary); font-size: 11px; font-weight: 700;">STUDENTS</small>
+                    <h2 id="totalStudents" style="font-size: 26px; margin: 4px 0;">0</h2>
+                    <a href="./students.html" style="color: var(--accent-cyan); font-size: 12px; text-decoration: none; font-weight: 600;">View Students →</a>
                 </div>
-                <div class="stat-icon">👥</div>
+                <div style="font-size: 28px;">👥</div>
             </div>
         </section>
 
-        <!-- QUICK ACTIONS -->
-        <section class="quick-actions">
-            <h3>Quick Actions</h3>
-            <div class="action-buttons">
-                <a href="./courses.html" class="action-btn">+ Add New Course</a>
-                <a href="./subjects.html" class="action-btn">+ Add Subject</a>
-                <a href="./chapters.html" class="action-btn">+ Add Chapter</a>
-                <a href="./lessons.html" class="action-btn">+ Add Video Lesson</a>
-                <a href="./pdfs.html" class="action-btn">+ Upload Study PDF</a>
+        <!-- QUICK ACTIONS PANEL -->
+        <section style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 24px;">
+            <h3 style="margin-bottom: 16px; font-size: 16px;">⚡ Quick Management Actions</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                <a href="./courses.html" class="primary-btn" style="background: #1E293B; box-shadow: none; border: 1px solid var(--border);">+ New Course</a>
+                <a href="./subjects.html" class="primary-btn" style="background: #1E293B; box-shadow: none; border: 1px solid var(--border);">+ New Subject</a>
+                <a href="./chapters.html" class="primary-btn" style="background: #1E293B; box-shadow: none; border: 1px solid var(--border);">+ New Chapter</a>
+                <a href="./lessons.html" class="primary-btn" style="background: #1E293B; box-shadow: none; border: 1px solid var(--border);">+ New Video Lesson</a>
+                <a href="./pdfs.html" class="primary-btn" style="background: #1E293B; box-shadow: none; border: 1px solid var(--border);">+ Upload PDF / Book</a>
             </div>
         </section>
     </main>
-</div>
 
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="./assets/js/firebase-config.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="./assets/js/firebase-config.js"></script>
 
-<!-- Page Logic -->
-<script src="./assets/js/dashboard.js"></script>
+    <!-- Page Logic -->
+    <script src="./assets/js/dashboard.js"></script>
 </body>
 </html>

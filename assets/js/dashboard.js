@@ -1,31 +1,20 @@
 "use strict";
 
-/* =========================================
-   GyanAstra Admin - Dashboard Realtime Stats
-   ========================================= */
-
-// Check Auth
-const isAdminLoggedIn = localStorage.getItem("isGyanAstraAdminLoggedIn");
-if (isAdminLoggedIn !== "true") {
-    // Agar login session check lagana chahein to yahan uncomment karein:
-    // window.location.href = "./index.html";
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-    loadRealtimeStats();
+    checkAdminAuth();
+    loadDashboardStats();
 
     const logoutBtn = document.getElementById("logoutBtn");
     if (logoutBtn) {
         logoutBtn.addEventListener("click", () => {
             if (confirm("Kya aap Admin panel se logout karna chahte hain?")) {
-                localStorage.removeItem("isGyanAstraAdminLoggedIn");
-                window.location.href = "./index.html";
+                logoutAdmin();
             }
         });
     }
 });
 
-async function loadRealtimeStats() {
+async function loadDashboardStats() {
     try {
         const [
             coursesSnap,
@@ -43,21 +32,21 @@ async function loadRealtimeStats() {
             db.collection("students").get().catch(() => ({ size: 0 }))
         ]);
 
-        const countCourses = document.getElementById("totalCourses");
-        const countSubjects = document.getElementById("totalSubjects");
-        const countChapters = document.getElementById("totalChapters");
-        const countLessons = document.getElementById("totalLessons");
-        const countPDFs = document.getElementById("totalPDFs");
-        const countStudents = document.getElementById("totalStudents");
+        const totalCourses = document.getElementById("totalCourses");
+        const totalSubjects = document.getElementById("totalSubjects");
+        const totalChapters = document.getElementById("totalChapters");
+        const totalLessons = document.getElementById("totalLessons");
+        const totalPDFs = document.getElementById("totalPDFs");
+        const totalStudents = document.getElementById("totalStudents");
 
-        if (countCourses) countCourses.textContent = coursesSnap.size || 0;
-        if (countSubjects) countSubjects.textContent = subjectsSnap.size || 0;
-        if (countChapters) countChapters.textContent = chaptersSnap.size || 0;
-        if (countLessons) countLessons.textContent = lessonsSnap.size || 0;
-        if (countPDFs) countPDFs.textContent = pdfsSnap.size || 0;
-        if (countStudents) countStudents.textContent = studentsSnap.size || 0;
+        if (totalCourses) totalCourses.textContent = coursesSnap.size || 0;
+        if (totalSubjects) totalSubjects.textContent = subjectsSnap.size || 0;
+        if (totalChapters) totalChapters.textContent = chaptersSnap.size || 0;
+        if (totalLessons) totalLessons.textContent = lessonsSnap.size || 0;
+        if (totalPDFs) totalPDFs.textContent = pdfsSnap.size || 0;
+        if (totalStudents) totalStudents.textContent = studentsSnap.size || 0;
 
-    } catch (error) {
-        console.error("Dashboard Stats Error:", error);
+    } catch (err) {
+        console.error("Dashboard Stats Error:", err);
     }
 }

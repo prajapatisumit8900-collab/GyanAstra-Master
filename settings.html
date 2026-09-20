@@ -1,113 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Settings | GyanAstra Master</title>
-  <link rel="stylesheet" href="./assets/css/style.css">
-  <link rel="stylesheet" href="./assets/css/settings.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Settings | GyanAstra Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
 
-  <div class="admin-layout">
-    <!-- Sidebar Overlay for Mobile -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-brand">
-        <span class="brand-logo">🚀</span>
-        <div class="brand-text">
-          <strong>GyanAstra</strong>
-          <span>MASTER ADMIN</span>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">🚀</div>
+            <div>
+                <h2>GyanAstra</h2>
+                <small>MASTER ADMIN</small>
+            </div>
         </div>
-      </div>
 
-      <nav class="admin-nav">
-        <div class="nav-title">MAIN</div>
-        <a href="./dashboard.html" class="nav-item">📊 Dashboard</a>
+        <nav class="nav-menu">
+            <span class="nav-label">MAIN</span>
+            <a href="./dashboard.html" class="nav-link">📊 Dashboard</a>
 
-        <div class="nav-title">ACADEMIC MANAGEMENT</div>
-        <a href="./courses.html" class="nav-item">📚 Courses</a>
-        <a href="./subjects.html" class="nav-item">📖 Subjects</a>
-        <a href="./chapters.html" class="nav-item">📑 Chapters</a>
-        <a href="./lessons.html" class="nav-item">🎥 Lessons & Videos</a>
-        <a href="./uploads.html" class="nav-item">📂 Study Materials (PDFs)</a>
+            <span class="nav-label">LEARNING PATHS</span>
+            <a href="./courses.html" class="nav-link">📚 Courses & GS</a>
+            <a href="./subjects.html" class="nav-link">📑 Subjects</a>
+            <a href="./chapters.html" class="nav-link">📖 Chapters</a>
+            <a href="./lessons.html" class="nav-link">🎥 Video Lessons</a>
+            <a href="./pdfs.html" class="nav-link">📁 E-Library (PDFs)</a>
 
-        <div class="nav-title">USERS & SETTINGS</div>
-        <a href="./students.html" class="nav-item">👥 Students</a>
-        <a href="./settings.html" class="nav-item active">⚙️ Settings</a>
-      </nav>
+            <span class="nav-label">SYSTEM</span>
+            <a href="./students.html" class="nav-link">👥 Students</a>
+            <a href="./settings.html" class="nav-link active">⚙️ Settings</a>
+        </nav>
 
-      <div class="sidebar-footer">
-        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
-      </div>
+        <div class="logout-box">
+            <button id="logoutBtn" class="btn-logout" type="button">🚪 Logout</button>
+        </div>
     </aside>
 
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <!-- Topbar -->
-      <header class="topbar">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <button class="menu-btn" id="menuBtn">☰</button>
-          <div class="topbar-title">
-            <span>PREFERENCES</span>
-            <h1>Settings</h1>
-          </div>
-        </div>
-      </header>
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+        <header class="topbar">
+            <div>
+                <span class="sub-header">CONFIGURATION</span>
+                <h1>Platform & Admin Settings</h1>
+            </div>
+        </header>
 
-      <!-- Page Body -->
-      <div class="page">
-        <div class="settings-grid">
-          <!-- Admin Credentials Card -->
-          <div class="settings-card">
-            <div class="settings-card-header">
-              <h3>Admin Credentials</h3>
-              <p>View current master login details</p>
-            </div>
-            <div class="info-row">
-              <span class="label">Admin Email:</span>
-              <span class="val">admin@gyanastra.com</span>
-            </div>
-            <div class="info-row">
-              <span class="label">Default Password:</span>
-              <span class="val">admin123</span>
-            </div>
-            <div class="info-row">
-              <span class="label">Role:</span>
-              <span class="badge">Master Super Admin</span>
-            </div>
-          </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px;">
+            <!-- PLATFORM SETTINGS -->
+            <section class="table-card" style="padding: 24px;">
+                <h3 style="margin-bottom: 18px; font-size: 16px;">🌐 Platform Branding & Notice</h3>
+                <form id="platformSettingsForm">
+                    <div class="form-group">
+                        <label>Portal Title</label>
+                        <input type="text" id="portalTitle" placeholder="GyanAstra">
+                    </div>
 
-          <!-- Firebase & Database Health Card -->
-          <div class="settings-card">
-            <div class="settings-card-header">
-              <h3>Database Connection</h3>
-              <p>Firebase Firestore synchronization status</p>
-            </div>
-            <div class="info-row">
-              <span class="label">Project ID:</span>
-              <span class="val">gyanastra-30557</span>
-            </div>
-            <div class="info-row">
-              <span class="label">Database Status:</span>
-              <span class="badge success" id="dbStatusBadge">Connected</span>
-            </div>
-            <div class="info-row">
-              <span class="label">Hosting:</span>
-              <span class="val">GitHub Pages (Frontend)</span>
-            </div>
-          </div>
+                    <div class="form-group">
+                        <label>Support Email</label>
+                        <input type="email" id="supportEmail" placeholder="contact@gyanastra.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Home Screen Announcement Notice</label>
+                        <textarea id="portalNotice" rows="3" placeholder="Important announcement for learners..."></textarea>
+                    </div>
+
+                    <button type="submit" class="primary-btn">Save Platform Settings</button>
+                </form>
+            </section>
+
+            <!-- SECURITY / PASSWORD SETTINGS -->
+            <section class="table-card" style="padding: 24px;">
+                <h3 style="margin-bottom: 18px; font-size: 16px;">🔒 Admin Security</h3>
+                <form id="adminSecurityForm">
+                    <div class="form-group">
+                        <label>Current Admin Key / Passcode</label>
+                        <input type="password" id="currentPasscode" required placeholder="••••••••">
+                    </div>
+
+                    <div class="form-group">
+                        <label>New Passcode</label>
+                        <input type="password" id="newPasscode" required placeholder="Minimum 6 characters">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirm New Passcode</label>
+                        <input type="password" id="confirmPasscode" required placeholder="Confirm new passcode">
+                    </div>
+
+                    <button type="submit" class="primary-btn" style="background: #2563eb;">Update Passcode</button>
+                </form>
+            </section>
         </div>
-      </div>
     </main>
-  </div>
 
-  <!-- Firebase & App Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="./assets/js/firebase-config.js"></script>
-  <script src="./assets/js/settings.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="./assets/js/firebase-config.js"></script>
+
+    <!-- Page Logic -->
+    <script src="./assets/js/settings.js"></script>
 </body>
 </html>

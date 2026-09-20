@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registered Students | GyanAstra Admin</title>
-    <link rel="stylesheet" href="./assets/css/dashboard.css">
+    <title>Registered Students | GyanAstra Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/students.css">
 </head>
 <body>
 
-<div class="admin-container">
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="brand">
-            <span class="brand-icon">🚀</span>
+            <div class="brand-icon">🚀</div>
             <div>
                 <h2>GyanAstra</h2>
                 <small>MASTER ADMIN</small>
@@ -25,60 +23,63 @@
             <span class="nav-label">MAIN</span>
             <a href="./dashboard.html" class="nav-link">📊 Dashboard</a>
 
-            <span class="nav-label">ACADEMIC CONTENT</span>
+            <span class="nav-label">LEARNING PATHS</span>
             <a href="./courses.html" class="nav-link">📚 Courses & GS</a>
             <a href="./subjects.html" class="nav-link">📑 Subjects</a>
             <a href="./chapters.html" class="nav-link">📖 Chapters</a>
             <a href="./lessons.html" class="nav-link">🎥 Video Lessons</a>
             <a href="./pdfs.html" class="nav-link">📁 E-Library (PDFs)</a>
 
-            <span class="nav-label">USERS & SETTINGS</span>
+            <span class="nav-label">SYSTEM</span>
             <a href="./students.html" class="nav-link active">👥 Students</a>
             <a href="./settings.html" class="nav-link">⚙️ Settings</a>
         </nav>
+
+        <div class="logout-box">
+            <button id="logoutBtn" class="btn-logout" type="button">🚪 Logout</button>
+        </div>
     </aside>
 
     <!-- MAIN CONTENT -->
-    <main class="main-content">
+    <main class="main-wrapper">
         <header class="topbar">
             <div>
-                <span class="section-label">USER MANAGEMENT</span>
+                <span class="sub-header">USER MANAGEMENT</span>
                 <h1>Registered Students</h1>
             </div>
             <div style="display: flex; gap: 12px; align-items: center;">
-                <input type="text" id="searchStudentInput" placeholder="Search by name/email..." style="padding: 8px 14px; background: #1e293b; border: 1px solid #334155; border-radius: 6px; color: #fff; width: 220px;">
-                <button id="refreshStudentsBtn" class="action-btn" type="button">🔄 Refresh</button>
+                <input type="text" id="searchStudentInput" placeholder="Search by name, email..." style="padding: 10px 14px; background: #0B0F19; border: 1px solid var(--border); border-radius: 8px; color: #fff; width: 240px; font-size: 14px; outline: none;">
+                <button id="refreshStudentsBtn" class="primary-btn" type="button" style="background: #1E293B; box-shadow: none; border: 1px solid var(--border);">🔄 Refresh</button>
             </div>
         </header>
 
         <!-- STUDENTS TABLE -->
-        <section class="table-card" style="margin-top: 24px; background: #1e293b; padding: 20px; border-radius: 10px;">
-            <table style="width: 100%; border-collapse: collapse; color: #f8fafc; text-align: left;">
+        <section class="table-card">
+            <table>
                 <thead>
-                    <tr style="border-bottom: 1px solid #334155; color: #94a3b8;">
-                        <th style="padding: 12px;">STUDENT NAME</th>
-                        <th style="padding: 12px;">EMAIL</th>
-                        <th style="padding: 12px;">TARGET EXAM</th>
-                        <th style="padding: 12px;">JOINED DATE</th>
-                        <th style="padding: 12px;">ACTION</th>
+                    <tr>
+                        <th>STUDENT NAME</th>
+                        <th>EMAIL ADDRESS</th>
+                        <th>TARGET EXAM</th>
+                        <th>JOINED DATE</th>
+                        <th>ACTION</th>
                     </tr>
                 </thead>
                 <tbody id="studentsTableBody">
                     <tr>
-                        <td colspan="5" style="padding: 20px; text-align: center; color: #94a3b8;">Students list load ho rahi hai...</td>
+                        <td colspan="5" style="padding: 24px; text-align: center; color: var(--text-secondary);">Students list load ho rahi hai...</td>
                     </tr>
                 </tbody>
             </table>
         </section>
     </main>
-</div>
 
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="./assets/js/firebase-config.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="./assets/js/firebase-config.js"></script>
 
-<!-- Page Logic -->
-<script src="./assets/js/students.js"></script>
+    <!-- Page Logic -->
+    <script src="./assets/js/students.js"></script>
 </body>
 </html>

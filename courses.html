@@ -1,115 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Courses | GyanAstra Master</title>
-  <link rel="stylesheet" href="./assets/css/style.css">
-  <link rel="stylesheet" href="./assets/css/courses.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses & GS Paths | GyanAstra Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
 
-  <div class="admin-layout">
-    <!-- Sidebar Overlay for Mobile -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-brand">
-        <span class="brand-logo">🚀</span>
-        <div class="brand-text">
-          <strong>GyanAstra</strong>
-          <span>MASTER ADMIN</span>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">🚀</div>
+            <div>
+                <h2>GyanAstra</h2>
+                <small>MASTER ADMIN</small>
+            </div>
         </div>
-      </div>
 
-      <nav class="admin-nav">
-        <div class="nav-title">MAIN</div>
-        <a href="./dashboard.html" class="nav-item">📊 Dashboard</a>
+        <nav class="nav-menu">
+            <span class="nav-label">MAIN</span>
+            <a href="./dashboard.html" class="nav-link">📊 Dashboard</a>
 
-        <div class="nav-title">ACADEMIC MANAGEMENT</div>
-        <a href="./courses.html" class="nav-item active">📚 Courses</a>
-        <a href="./subjects.html" class="nav-item">📖 Subjects</a>
-        <a href="./chapters.html" class="nav-item">📑 Chapters</a>
-        <a href="./lessons.html" class="nav-item">🎥 Lessons & Videos</a>
-        <a href="./uploads.html" class="nav-item">📂 Study Materials (PDFs)</a>
+            <span class="nav-label">LEARNING PATHS</span>
+            <a href="./courses.html" class="nav-link active">📚 Courses & GS</a>
+            <a href="./subjects.html" class="nav-link">📑 Subjects</a>
+            <a href="./chapters.html" class="nav-link">📖 Chapters</a>
+            <a href="./lessons.html" class="nav-link">🎥 Video Lessons</a>
+            <a href="./pdfs.html" class="nav-link">📁 E-Library (PDFs)</a>
 
-        <div class="nav-title">USERS & SETTINGS</div>
-        <a href="./students.html" class="nav-item">👥 Students</a>
-        <a href="./settings.html" class="nav-item">⚙️ Settings</a>
-      </nav>
+            <span class="nav-label">SYSTEM</span>
+            <a href="./students.html" class="nav-link">👥 Students</a>
+            <a href="./settings.html" class="nav-link">⚙️ Settings</a>
+        </nav>
 
-      <div class="sidebar-footer">
-        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
-      </div>
+        <div class="logout-box">
+            <button id="logoutBtn" class="btn-logout" type="button">🚪 Logout</button>
+        </div>
     </aside>
 
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <!-- Topbar -->
-      <header class="topbar">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <button class="menu-btn" id="menuBtn">☰</button>
-          <div class="topbar-title">
-            <span>MANAGEMENT</span>
-            <h1>Courses</h1>
-          </div>
-        </div>
-        <button class="primary-btn" id="openModalBtn">➕ Add New Course</button>
-      </header>
+    <!-- MAIN WRAPPER -->
+    <main class="main-wrapper">
+        <header class="topbar">
+            <div>
+                <span class="sub-header">ACADEMIC CONTENT</span>
+                <h1>Courses & Learning Paths</h1>
+            </div>
+            <button id="openCourseModalBtn" class="primary-btn" type="button">➕ Add New Course</button>
+        </header>
 
-      <!-- Page Body -->
-      <div class="page">
-        <!-- Courses List Grid -->
-        <div class="courses-grid" id="coursesGrid">
-          <div class="empty-state" id="loadingState">Loading courses...</div>
-        </div>
-      </div>
+        <!-- COURSES TABLE -->
+        <section class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>THUMBNAIL</th>
+                        <th>COURSE TITLE</th>
+                        <th>CATEGORY / MODULE</th>
+                        <th>LEVEL</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="courseTableBody">
+                    <tr>
+                        <td colspan="6" style="padding: 24px; text-align: center; color: var(--text-secondary);">Courses load ho rahe hain...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
-  </div>
 
-  <!-- Add/Edit Course Modal Dialog -->
-  <div class="modal-overlay" id="courseModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3 id="modalTitle">Add New Course</h3>
-        <button class="close-btn" id="closeModalBtn">&times;</button>
-      </div>
-      <form id="courseForm">
-        <input type="hidden" id="courseId">
+    <!-- ADD COURSE MODAL -->
+    <div id="courseModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="modal-header">Add New Course</h3>
+            <form id="courseForm">
+                <div class="form-group">
+                    <label>Course Title</label>
+                    <input type="text" id="courseTitle" required placeholder="e.g. UPSC Prelims Foundation">
+                </div>
 
-        <div class="form-group">
-          <label for="courseTitle">Course Name / Title</label>
-          <input type="text" id="courseTitle" placeholder="e.g. UPSC Prelims Foundation" required>
+                <div class="form-group">
+                    <label>User Path / Category</label>
+                    <select id="courseCategory" required>
+                        <option value="UPSC Foundation">UPSC Foundation</option>
+                        <option value="General Studies">General Studies (GS)</option>
+                        <option value="Optional Subjects">Optional Subjects</option>
+                        <option value="Current Affairs">Current Affairs</option>
+                        <option value="NCERT Special">NCERT Special</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Google Drive Thumbnail Link</label>
+                    <input type="url" id="courseThumbnail" placeholder="https://drive.google.com/file/d/..." required>
+                    <small style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; display: block;">Drive share link paste karein, system direct image me badal dega.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Course Level</label>
+                    <select id="courseLevel">
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="courseDescription" rows="3" placeholder="Course details and syllabus overview..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="closeCourseModalBtn" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Course</button>
+                </div>
+            </form>
         </div>
-
-        <div class="form-group">
-          <label for="courseCategory">Category</label>
-          <input type="text" id="courseCategory" placeholder="e.g. Civil Services / SSC / Railway" required>
-        </div>
-
-        <div class="form-group">
-          <label for="courseDescription">Description</label>
-          <textarea id="courseDescription" rows="3" placeholder="Brief outline of the course..."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="courseThumbnail">Thumbnail Image URL</label>
-          <input type="url" id="courseThumbnail" placeholder="https://example.com/image.jpg">
-        </div>
-
-        <div class="modal-actions">
-          <button type="button" class="secondary-btn" id="cancelModalBtn">Cancel</button>
-          <button type="submit" class="primary-btn" id="saveCourseBtn">Save Course</button>
-        </div>
-      </form>
     </div>
-  </div>
 
-  <!-- Firebase & App Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="./assets/js/firebase-config.js"></script>
-  <script src="./assets/js/courses.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="./assets/js/firebase-config.js"></script>
+
+    <!-- Page Logic -->
+    <script src="./assets/js/courses.js"></script>
 </body>
 </html>
